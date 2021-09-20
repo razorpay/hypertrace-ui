@@ -13,65 +13,68 @@ import { ApiTraceDetails, ApiTraceDetailService } from './api-trace-detail.servi
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SubscriptionLifecycle, ApiTraceDetailService],
   template: `
-    <div class="trace-detail" *htLoadAsync="this.traceDetails$ as traceDetails">
-      <div class="header">
-        <div class="back">
-          <ht-icon
-            (click)="this.onClickBack()"
-            icon="${IconType.ArrowLeft}"
-            size="${IconSize.Small}"
-            class="arrow"
-          ></ht-icon>
-          <ht-label (click)="this.onClickBack()" label="Back" class="label"></ht-label>
-        </div>
+    <div class="trace-detail">
+      <div *htLoadAsync="this.traceDetails$ as traceDetails">
+        <div class="header">
+          <div class="back">
+            <ht-icon
+              (click)="this.onClickBack()"
+              icon="${IconType.ArrowLeft}"
+              size="${IconSize.Small}"
+              class="arrow"
+            ></ht-icon>
+            <ht-label (click)="this.onClickBack()" label="Back" class="label"></ht-label>
+          </div>
 
-        <ht-label [label]="traceDetails.titleString" class="title"></ht-label>
+          <ht-label [label]="traceDetails.titleString" class="title"></ht-label>
 
-        <div class="summary-row">
-          <ht-summary-value
-            class="summary-value"
-            icon="${IconType.Time}"
-            [value]="traceDetails.timeString"
-          ></ht-summary-value>
-
-          <ht-explore-filter-link
-            class="filter-link"
-            [paramsOrUrl]="getExplorerNavigationParams | htMemoize: traceDetails | async"
-            htTooltip="See traces in Explorer"
-          >
+          <div class="summary-row">
             <ht-summary-value
               class="summary-value"
-              icon="${IconType.TraceId}"
-              label="Trace ID"
-              [value]="traceDetails.traceId"
+              icon="${IconType.Time}"
+              [value]="traceDetails.timeString"
             ></ht-summary-value>
-          </ht-explore-filter-link>
 
-          <div class="separation"></div>
+            <ht-explore-filter-link
+              class="filter-link"
+              [paramsOrUrl]="getExplorerNavigationParams | htMemoize: traceDetails | async"
+              htTooltip="See traces in Explorer"
+            >
+              <ht-summary-value
+                class="summary-value"
+                icon="${IconType.TraceId}"
+                label="Trace ID"
+                [value]="traceDetails.traceId"
+              ></ht-summary-value>
+            </ht-explore-filter-link>
 
-          <ht-copy-shareable-link-to-clipboard class="share"></ht-copy-shareable-link-to-clipboard>
+            <div class="separation"></div>
 
-          <ht-button
-            class="full-trace-button"
-            role="${ButtonRole.Tertiary}"
-            display="${ButtonStyle.Bordered}"
-            label="See Full Trace"
-            (click)="this.navigateToFullTrace(traceDetails.traceId, traceDetails.startTime)"
-          ></ht-button>
+            <ht-copy-shareable-link-to-clipboard class="share"></ht-copy-shareable-link-to-clipboard>
+
+            <ht-button
+              class="full-trace-button"
+              role="${ButtonRole.Tertiary}"
+              display="${ButtonStyle.Bordered}"
+              label="See Full Trace"
+              (click)="this.navigateToFullTrace(traceDetails.traceId, traceDetails.startTime)"
+            ></ht-button>
+          </div>
+        </div>
+
+        <ht-navigable-tab-group class="tabs">
+          <ht-navigable-tab path="sequence"> Sequence </ht-navigable-tab>
+          <ng-container *ngIf="this.logEvents$ | async as logEvents">
+            <ht-navigable-tab path="logs" [labelTag]="logEvents.length"> Logs </ht-navigable-tab>
+          </ng-container>
+        </ht-navigable-tab-group>
+
+        <div class="scrollable-container">
+          <router-outlet></router-outlet>
         </div>
       </div>
-
-      <ht-navigable-tab-group class="tabs">
-        <ht-navigable-tab path="sequence"> Sequence </ht-navigable-tab>
-        <ng-container *ngIf="this.logEvents$ | async as logEvents">
-          <ht-navigable-tab path="logs" [labelTag]="logEvents.length"> Logs </ht-navigable-tab>
-        </ng-container>
-      </ht-navigable-tab-group>
-
-      <div class="scrollable-container">
-        <router-outlet></router-outlet>
-      </div>
     </div>
+</div>
   `
 })
 export class ApiTraceDetailPageComponent {

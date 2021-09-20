@@ -1,4 +1,4 @@
-import { Spectator, createComponentFactory, mockProvider } from '@ngneat/spectator';
+import { createComponentFactory, mockProvider } from '@ngneat/spectator';
 import { LoadAsyncModule } from '@hypertrace/components';
 import { MemoizeModule, NavigationService } from '@hypertrace/common';
 
@@ -26,7 +26,6 @@ describe('Trace Details Page Component', () => {
     startTime: 'string | number'
   };
 
-  let spectator: Spectator<ApiTraceDetailPageComponent>;
   const createComponent = createComponentFactory<ApiTraceDetailPageComponent>({
     component: ApiTraceDetailPageComponent,
     shallow: true,
@@ -42,9 +41,9 @@ describe('Trace Details Page Component', () => {
     declarations: [MockComponent(ExploreFilterLinkComponent)]
   });
 
-  beforeEach(() => (spectator = createComponent()));
-
   it('renders component', () => {
-    expect(spectator.query('label')).toHaveClass('label');
+    const spectator = createComponent();
+
+    expect(spectator.query('div')).toHaveClass('trace-detail');
   });
 });

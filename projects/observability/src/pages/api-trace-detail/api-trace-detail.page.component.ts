@@ -74,7 +74,6 @@ import { ApiTraceDetails, ApiTraceDetailService } from './api-trace-detail.servi
         </div>
       </div>
     </div>
-</div>
   `
 })
 export class ApiTraceDetailPageComponent {

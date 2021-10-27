@@ -1,8 +1,8 @@
 import { Renderer2 } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { DomElementMeasurerService, selector } from '@hypertrace/common';
-import { createHostFactory, mockProvider } from '@ngneat/spectator/jest';
 import { PopoverService } from '@hypertrace/components';
+import { createHostFactory, mockProvider } from '@ngneat/spectator/jest';
 import { LegendPosition } from '../legend/legend.component';
 import { ChartTooltipBuilderService } from '../utils/chart-tooltip/chart-tooltip-builder.service';
 import { CartesianChartComponent } from './cartesian-chart.component';

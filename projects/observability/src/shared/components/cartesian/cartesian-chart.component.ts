@@ -11,8 +11,8 @@ import {
   TemplateRef,
   ViewChild
 } from '@angular/core';
+import { IconType } from '@hypertrace/assets-library';
 import { DateCoercer, DateFormatter, TimeRange } from '@hypertrace/common';
-import { defaults } from 'lodash-es';
 import {
   PopoverBackdrop,
   PopoverPositionType,
@@ -20,6 +20,8 @@ import {
   PopoverRelativePositionLocation,
   PopoverService
 } from '@hypertrace/components';
+import { defaults } from 'lodash-es';
+import { ContextMenu } from '../../dashboard/widgets/charts/cartesian-widget/interactions/cartesian-explorer-context-menu/cartesian-explorer-context-menu.component';
 import { IntervalValue } from '../interval-select/interval-select.component';
 import { LegendPosition } from '../legend/legend.component';
 import { ChartTooltipBuilderService } from '../utils/chart-tooltip/chart-tooltip-builder.service';
@@ -29,8 +31,6 @@ import { Axis, AxisLocation, AxisType, Band, CartesianChart, RenderingStrategy, 
 import { ChartBuilderService } from './chart-builder.service';
 import { ChartEvent } from './chart-interactivty';
 import { defaultXDataAccessor, defaultYDataAccessor } from './d3/scale/default-data-accessors';
-import { ContextMenu } from '../../dashboard/widgets/charts/cartesian-widget/interactions/cartesian-explorer-context-menu/cartesian-explorer-context-menu.component';
-import { IconType } from '../../../../../assets-library/src/public-api';
 
 @Component({
   selector: 'ht-cartesian-chart',
@@ -226,7 +226,7 @@ export class CartesianChartComponent<TData> implements OnChanges, OnDestroy {
     return xAsDate ? this.dateFormatter.format(xAsDate) : String(xValue);
   }
 
-  private showContextMenu() {
+  private showContextMenu(): void {
     this.popover = this.popoverService.drawPopover({
       componentOrTemplate: this.contextMenuTemplate,
       data: this.contextMenuTemplate,

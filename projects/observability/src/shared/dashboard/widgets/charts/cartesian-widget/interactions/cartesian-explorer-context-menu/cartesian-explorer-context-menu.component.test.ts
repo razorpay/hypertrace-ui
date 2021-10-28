@@ -1,10 +1,9 @@
 import { fakeAsync } from '@angular/core/testing';
-import { createHostFactory, Spectator } from '@ngneat/spectator/jest';
+import { createHostFactory, Spectator, mockProvider } from '@ngneat/spectator/jest';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IconLibraryTestingModule, IconType } from '@hypertrace/assets-library';
 import { PopoverService } from '@hypertrace/components';
-import { mockProvider } from '@ngneat/spectator';
 import { CartesianExplorerContextMenuComponent } from './cartesian-explorer-context-menu.component';
 import { CartesianExplorerContextMenuModule } from './cartesian-explorer-context-menu.module';
 

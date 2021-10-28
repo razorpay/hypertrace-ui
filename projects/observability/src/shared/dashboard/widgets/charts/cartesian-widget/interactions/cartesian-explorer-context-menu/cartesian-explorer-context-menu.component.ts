@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { ButtonStyle } from '@hypertrace/components';
 
 @Component({
-  selector: 'ht-context-menu',
+  selector: 'ht-cartesian-explorer-context-menu',
   styleUrls: ['./cartesian-explorer-context-menu.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

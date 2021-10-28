@@ -36,7 +36,13 @@ import { defaultXDataAccessor, defaultYDataAccessor } from './d3/scale/default-d
   selector: 'ht-cartesian-chart',
   styleUrls: ['./cartesian-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<div #chartContainer class="fill-container" (htLayoutChange)="this.redraw()"></div>`
+  template: `<div #chartContainer class="fill-container" (htLayoutChange)="this.redraw()"></div>
+    <ng-template #contextMenuTemplate>
+      <ht-cartesian-explorer-context-menu
+        [menus]="menus"
+        (menuSelect)="contextMenuSelectHandler($event)"
+      ></ht-cartesian-explorer-context-menu>
+    </ng-template> `
 })
 export class CartesianChartComponent<TData> implements OnChanges, OnDestroy {
   @Input()
@@ -127,8 +133,11 @@ export class CartesianChartComponent<TData> implements OnChanges, OnDestroy {
       )
       .withEventListener(ChartEvent.Select, selectedData => {
         this.selectedData = selectedData;
-        this.showContextMenu();
-        // this.selectionChange.emit(selectedData);
+        if (this.legend === LegendPosition.Bottom) {
+          this.selectionChange.emit(this.selectedData);
+        } else {
+          this.showContextMenu();
+        }
       });
 
     if (this.bands) {

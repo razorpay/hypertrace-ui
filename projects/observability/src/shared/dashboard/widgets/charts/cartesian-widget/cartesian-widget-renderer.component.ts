@@ -57,6 +57,8 @@ export class CartesianWidgetRendererComponent<TSeriesInterval> extends Interacti
   }
 
   public onSelectionChange<TData>(data: MouseLocationData<TData, Series<TData> | Band<TData>>[]): void {
+    console.log('🚀 ~ file: cartesian-widget-renderer.component.ts ~ line 60 ~ data', data);
+
     this.model.selectionHandler?.execute(data);
   }
 

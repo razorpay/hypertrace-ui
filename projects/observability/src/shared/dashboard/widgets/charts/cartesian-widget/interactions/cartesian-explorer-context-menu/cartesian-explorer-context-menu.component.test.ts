@@ -1,5 +1,5 @@
 import { fakeAsync } from '@angular/core/testing';
-import { createHostFactory, Spectator, mockProvider } from '@ngneat/spectator/jest';
+import { createHostFactory, mockProvider, Spectator } from '@ngneat/spectator/jest';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IconLibraryTestingModule, IconType } from '@hypertrace/assets-library';

@@ -94,6 +94,10 @@ export class CartesianChartComponent<TData> implements OnChanges, OnDestroy {
           this.convertToDefaultTooltipRenderData(data)
         )
       );
+    console.log(
+      '🚀 ~ file: cartesian-chart.component.ts ~ line 97 ~ CartesianChartComponent<TData> ~ ngOnChanges ~ this.chart',
+      this.chart
+    );
 
     if (this.bands) {
       this.chart.withBands(...this.bands);

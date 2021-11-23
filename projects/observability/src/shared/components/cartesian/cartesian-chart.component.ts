@@ -21,6 +21,7 @@ import { MouseLocationData } from '../utils/mouse-tracking/mouse-tracking';
 import { Axis, AxisLocation, AxisType, Band, CartesianChart, RenderingStrategy, Series } from './chart';
 import { ChartBuilderService } from './chart-builder.service';
 import { CartesianSelectedData, ChartEvent } from './chart-interactivty';
+
 import { defaultXDataAccessor, defaultYDataAccessor } from './d3/scale/default-data-accessors';
 
 @Component({
@@ -69,6 +70,7 @@ export class CartesianChartComponent<TData> implements OnChanges, OnDestroy {
   @Output()
   public readonly selectionChange: EventEmitter<CartesianSelectedData<TData>> = new EventEmitter();
 
+
   @ViewChild('chartContainer', { static: true })
   public readonly container!: ElementRef;
 
@@ -102,6 +104,7 @@ export class CartesianChartComponent<TData> implements OnChanges, OnDestroy {
       .withEventListener(ChartEvent.Select, selectedData => {
         this.selectionChange.emit(selectedData as CartesianSelectedData<TData>);
       });
+
 
     if (this.bands) {
       this.chart.withBands(...this.bands);

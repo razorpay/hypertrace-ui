@@ -8,6 +8,7 @@ import { NEVER, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { CartesianSelectedData } from '../../../../../public-api';
 import { Band, Series } from '../../../../components/cartesian/chart';
+import { ChartSelect } from '../../../../components/cartesian/chart-interactivty';
 import { IntervalValue } from '../../../../components/interval-select/interval-select.component';
 import { CartesianDataFetcher, CartesianResult, CartesianWidgetModel } from './cartesian-widget.model';
 

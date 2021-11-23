@@ -44,7 +44,6 @@ export class CartesianExplorerSelectionHandlerModel<TData> implements Interactio
         selectionData.timeRange.endTime
       );
     }
-
     return of();
   }
 

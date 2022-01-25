@@ -339,7 +339,11 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                       }
                     }
                   }
-                ]
+                ],
+                'selection-handler': {
+                  type: 'cartesian-explorer-selection-handler',
+                  'show-context-menu': true
+                }
               },
               {
                 type: 'cartesian-widget',
@@ -433,7 +437,11 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                       }
                     }
                   }
-                ]
+                ],
+                'selection-handler': {
+                  type: 'cartesian-explorer-selection-handler',
+                  'show-context-menu': true
+                }
               },
               {
                 type: 'cartesian-widget',
@@ -527,7 +535,11 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                       }
                     }
                   }
-                ]
+                ],
+                'selection-handler': {
+                  type: 'cartesian-explorer-selection-handler',
+                  'show-context-menu': true
+                }
               }
             ]
           },
@@ -536,7 +548,7 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
             title: 'Dependency Graph',
             data: {
               type: 'topology-data-source',
-              'downstream-entities': ['API', 'BACKEND'],
+              'downstream-entities': ['SERVICE', 'BACKEND'],
               entity: 'SERVICE',
               'node-metrics': {
                 type: 'topology-metrics',

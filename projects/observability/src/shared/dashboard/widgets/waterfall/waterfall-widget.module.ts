@@ -5,6 +5,7 @@ import {
   ButtonModule,
   IconModule,
   LabelModule,
+  LinkModule,
   LoadAsyncModule,
   OverlayModule,
   SummaryValueModule,
@@ -37,7 +38,8 @@ import { WaterfallChartModule } from './waterfall/waterfall-chart.module';
     ButtonModule,
     IconModule,
     SummaryValueModule,
-    WaterfallChartModule
+    WaterfallChartModule,
+    LinkModule
   ]
 })
 export class WaterfallWidgetModule {}

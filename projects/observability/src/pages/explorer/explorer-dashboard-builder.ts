@@ -62,7 +62,11 @@ export class ExplorerDashboardBuilder {
         type: 'cartesian-widget',
         'selectable-interval': false,
         'series-from-data': true,
-        'legend-position': LegendPosition.Bottom
+        'legend-position': LegendPosition.Bottom,
+        'selection-handler': {
+          type: 'cartesian-explorer-selection-handler',
+          'show-context-menu': false
+        }
       },
       onReady: dashboard => {
         dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationCartesianDataSourceModel);
@@ -338,7 +342,7 @@ export class ExplorerDashboardBuilder {
             type: 'table-widget-column',
             title: 'Entry Span ID',
             width: '1',
-            visible: false,
+            visible: true,
             value: {
               type: 'attribute-specification',
               attribute: 'apiTraceId'
@@ -364,7 +368,7 @@ export class ExplorerDashboardBuilder {
             type: 'table-widget-column',
             title: 'Trace ID',
             width: '1',
-            visible: false,
+            visible: true,
             value: {
               type: 'attribute-specification',
               attribute: 'traceId'

@@ -94,3 +94,13 @@ export const enum TimePickerIconSize {
   Small = 'small',
   Regular = 'regular'
 }
+
+export const enum TimePickerDisplayMode {
+  MenuWithBorder = 'with-border',
+  MenuWithBackground = 'with-background'
+}
+
+export const enum TimePickerIconSize {
+  Small = 'small',
+  Regular = 'regular'
+}

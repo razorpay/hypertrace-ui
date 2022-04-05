@@ -14,5 +14,6 @@ export class UserTelemetryOrchestrationService {
      * To Identify user or keep it anonymous, please call this.userTelemetryService.identify()
      * to identify the user.
      */
+    this.userTelemetryService.identify({});
   }
 }

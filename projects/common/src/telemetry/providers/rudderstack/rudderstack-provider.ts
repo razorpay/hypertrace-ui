@@ -11,7 +11,16 @@ export interface RudderStackConfig extends TelemetryProviderConfig {
 @Injectable({ providedIn: 'root' })
 export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackConfig> {
   public initialize(config: RudderStackConfig): void {
-    load(config.writeKey, config.orgId, { configUrl: config.orgId });
+    try {
+      load(config.writeKey, config.orgId, { configUrl: config.orgId });
+    } catch (error) {
+      /**
+       * Fail silently
+       */
+
+      // tslint:disable-next-line: no-console
+      console.error('Failed to load Rudderstack', error);
+    }
   }
 
   public identify(userTraits: UserTraits): void {

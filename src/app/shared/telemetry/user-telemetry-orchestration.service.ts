@@ -9,7 +9,7 @@ export class UserTelemetryOrchestrationService {
 
   public initialize(): void {
     this.userTelemetryService.initialize();
-
+    this.userTelemetryService.identify({});
     /**
      * To Identify user or keep it anonymous, please call this.userTelemetryService.identify()
      * to identify the user.

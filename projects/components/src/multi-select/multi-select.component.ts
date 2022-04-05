@@ -339,11 +339,6 @@ interface TriggerValues {
   overflowLabel?: string;
 }
 
-interface TriggerValues {
-  label: string | undefined;
-  selectedItemsCount: number;
-}
-
 export const enum TriggerLabelDisplayMode {
   // These may be used as css classes
   Placeholder = 'placeholder-mode',

@@ -12,7 +12,7 @@ export class UserTelemetryOrchestrationService {
   public constructor(private readonly userTelemetryService: UserTelemetryService) {}
 
   public initialize(): void {
-    if (window.ENABLE_ANALYTICS) {
+    if (window.ENABLE_ANALYTICS === 'true') {
       this.userTelemetryService.initialize();
 
       /**

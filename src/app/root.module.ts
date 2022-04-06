@@ -10,10 +10,11 @@ import { RootComponent } from './root.component';
 import { RootRoutingModule } from './routes/root-routing.module';
 import { NavigationModule } from './shared/navigation/navigation.module';
 
-type CustomWindow = Window &
+export type CustomWindow = Window &
   typeof globalThis & {
     RUDDERSTACK_HT_DATAPLANE_URL?: string;
     RUDDERSTACK_HT_WRITE_KEY?: string;
+    ENABLE_ANALYTICS?: 'true' | 'false';
   };
 
 declare const window: CustomWindow;

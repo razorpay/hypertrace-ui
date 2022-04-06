@@ -3,6 +3,7 @@ COPY dist/hypertrace-ui /usr/share/nginx/html
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY copy-secrets.sh /usr/share/nginx/html
 RUN chmod a+w /var/cache/nginx /var/run
+RUN chmod +x /usr/share/nginx/html/copy-secrets.sh
 EXPOSE 2020
 HEALTHCHECK --interval=1s --retries=5 --timeout=1s CMD wget -qO- http://localhost:2020/graphql?query={__schema{queryType{name}}} &> /dev/null || exit 1
 ENTRYPOINT copy-secrets.sh

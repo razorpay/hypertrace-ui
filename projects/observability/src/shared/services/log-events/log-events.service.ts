@@ -63,8 +63,10 @@ export class LogEventsService {
 
   public mapLogEvents(trace: Trace): LogEvent[] {
     return (trace.spans ?? [])
-      .map((span: Span) =>
-        (span.logEvents as Dictionary<LogEvent[]>).results.map(logEvent => ({
+      .map((span: Span) => {
+        const logEvents = (span.logEvents as Dictionary<LogEvent[]>) || {};
+        const results = logEvents.results || [];
+        return results.map(logEvent => ({
           ...logEvent,
           $$spanName: {
             serviceName: trace[traceTypeKey] === ObservabilityTraceType.Api ? span.displayEntityName : span.serviceName,
@@ -72,8 +74,8 @@ export class LogEventsService {
             apiName: span.displaySpanName
           },
           spanStartTime: span.startTime as number
-        }))
-      )
+        }));
+      })
       .flat();
   }
 }

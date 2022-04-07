@@ -65,9 +65,9 @@ export class LogEventsService {
     return (trace.spans ?? [])
       .map((span: Span) => {
         const logEvents = (span.logEvents as Dictionary<LogEvent[]>) ?? {};
-        const results = logEvents.results ?? [];
+        logEvents.results = logEvents.results ?? [];
 
-        return results.map(logEvent => ({
+        return logEvents.results.map(logEvent => ({
           ...logEvent,
           $$spanName: {
             serviceName: trace[traceTypeKey] === ObservabilityTraceType.Api ? span.displayEntityName : span.serviceName,

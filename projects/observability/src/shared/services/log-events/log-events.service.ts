@@ -64,8 +64,8 @@ export class LogEventsService {
   public mapLogEvents(trace: Trace): LogEvent[] {
     return (trace.spans ?? [])
       .map((span: Span) => {
-        const logEvents = (span.logEvents as Dictionary<LogEvent[]>) || {};
-        const results = logEvents.results || [];
+        const logEvents = (span.logEvents as Dictionary<LogEvent[]>) ?? {};
+        const results = logEvents.results ?? [];
         return results.map(logEvent => ({
           ...logEvent,
           $$spanName: {

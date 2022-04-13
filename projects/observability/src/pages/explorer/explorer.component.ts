@@ -210,6 +210,15 @@ export class ExplorerComponent {
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 
+  public onClickSaveQuery() {
+    const savedFilters = JSON.parse(this.localStorage.get('savedFilters') ?? '');
+    // todo: don't save query if already saved
+    savedFilters.push(this.filters);
+    console.log({ savedFilters, currentQuery: this.filters });
+    this.localStorage.set('savedFilters', JSON.stringify(savedFilters));
+    this.notificationService.createSuccessToast('Query Saved Successfully!');
+  }
+
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {
     this.explorerDashboardBuilder.updateForRequest(newRequest);
     this.updateUrlWithVisualizationData(newRequest);

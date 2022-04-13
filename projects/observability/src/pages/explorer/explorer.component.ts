@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { IconType } from '@hypertrace/assets-library';
 import {
   assertUnreachable,
+  LocalStorage,
   NavigationService,
   PreferenceService,
   QueryParamObject,
   TimeDuration,
   TimeDurationService
 } from '@hypertrace/common';
-import { Filter, ToggleItem } from '@hypertrace/components';
+import { ButtonSize, Filter, NotificationService, ToggleItem } from '@hypertrace/components';
 import { isEmpty, isNil } from 'lodash-es';
 import { concat, EMPTY, Observable, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -54,6 +56,17 @@ import {
         [syncWithUrl]="true"
         (filtersChange)="this.onFiltersUpdated($event)"
       ></ht-filter-bar>
+
+      <ht-button
+        class="explorer-save-button"
+        icon="${IconType.Save}"
+        label="Save Query"
+        size="${ButtonSize.Small}"
+        (click)="onClickSaveQuery()"
+        [disabled]="filters.length < 1"
+        role="tertiary"
+      ></ht-button>
+
       <div class="explorer-content">
         <ht-panel
           *htLetAsync="this.visualizationExpanded$ as visualizationExpanded"
@@ -148,8 +161,10 @@ export class ExplorerComponent {
   private readonly contextChangeSubject: Subject<ExplorerGeneratedDashboardContext> = new Subject();
 
   public constructor(
+    private readonly localStorage: LocalStorage,
     private readonly metadataService: MetadataService,
     private readonly navigationService: NavigationService,
+    private readonly notificationService: NotificationService,
     private readonly timeDurationService: TimeDurationService,
     private readonly preferenceService: PreferenceService,
     @Inject(EXPLORER_DASHBOARD_BUILDER_FACTORY) explorerDashboardBuilderFactory: ExplorerDashboardBuilderFactory,
@@ -168,6 +183,15 @@ export class ExplorerComponent {
       this.initialState$.pipe(map(value => value.contextToggle.value.dashboardContext)),
       this.contextChangeSubject
     );
+  }
+
+  public onClickSaveQuery() {
+    const savedFilters = JSON.parse(this.localStorage.get('savedFilters') ?? '');
+    // todo: don't save query if already saved
+    savedFilters.push(this.filters);
+    console.log({ savedFilters, currentQuery: this.filters });
+    this.localStorage.set('savedFilters', JSON.stringify(savedFilters));
+    this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {

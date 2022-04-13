@@ -24,7 +24,7 @@
 
   .explorer-filter-bar {
     flex: 0;
-    padding: 0 24px 8px;
+    padding: 0 24px;
   }
 
   .panel-title {
@@ -52,5 +52,12 @@
     .label {
       @include body-1-medium;
     }
+  }
+
+  .explorer-save-button {
+    align-self: flex-end;
+    margin-right: 24px;
+
+    border-radius: 6px;
   }
 }

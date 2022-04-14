@@ -185,11 +185,11 @@ export class ExplorerComponent {
     );
   }
 
-  public onClickSaveQuery() {
+  public onClickSaveQuery(): void {
     const savedFilters = JSON.parse(this.localStorage.get('savedFilters') ?? '');
-    // todo: don't save query if already saved
+    // Todo: don't save query if already saved
     savedFilters.push(this.filters);
-    console.log({ savedFilters, currentQuery: this.filters });
+    // Console.log({ savedFilters, currentQuery: this.filters });
     this.localStorage.set('savedFilters', JSON.stringify(savedFilters));
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }

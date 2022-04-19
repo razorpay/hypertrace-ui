@@ -211,11 +211,9 @@ export class ExplorerComponent {
   }
 
   public onClickSaveQuery(): void {
-    const savedFilters = JSON.parse(this.localStorage.get('savedFilters') ?? '');
-    // Todo: don't save query if already saved
-    savedFilters.push(this.filters);
-    // Console.log({ savedFilters, currentQuery: this.filters });
-    this.localStorage.set('savedFilters', JSON.stringify(savedFilters));
+    const savedFilters = JSON.parse(this.localStorage.get('preference.savedFilters')?.split('.')[1] ?? '[]');
+    savedFilters.push(this.filters.map(filter => filter.urlString));
+    this.preferenceService.set('savedFilters', savedFilters);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 

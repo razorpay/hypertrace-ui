@@ -2,7 +2,10 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { IconType } from '@hypertrace/assets-library';
 import {
+  ApplicationFeature,
   assertUnreachable,
+  FeatureState,
+  FeatureStateResolver,
   LocalStorage,
   NavigationService,
   PreferenceService,
@@ -61,10 +64,11 @@ import {
         class="explorer-save-button"
         icon="${IconType.Save}"
         label="Save Query"
-        size="${ButtonSize.Small}"
-        (click)="onClickSaveQuery()"
-        [disabled]="filters.length < 1"
         role="tertiary"
+        size="${ButtonSize.Small}"
+        [disabled]="filters.length < 1"
+        (click)="onClickSaveQuery()"
+        *ngIf="enableSavedQueries"
       ></ht-button>
 
       <div class="explorer-content">
@@ -136,6 +140,7 @@ export class ExplorerComponent {
   public readonly initialState$: Observable<InitialExplorerState>;
   public readonly currentContext$: Observable<ExplorerGeneratedDashboardContext>;
   public attributes$: Observable<AttributeMetadata[]> = EMPTY;
+  public enableSavedQueries: boolean = false;
 
   public readonly contextItems: ContextToggleItem[] = [
     {
@@ -161,6 +166,7 @@ export class ExplorerComponent {
   private readonly contextChangeSubject: Subject<ExplorerGeneratedDashboardContext> = new Subject();
 
   public constructor(
+    private readonly featureStateResolver: FeatureStateResolver,
     private readonly localStorage: LocalStorage,
     private readonly metadataService: MetadataService,
     private readonly navigationService: NavigationService,
@@ -183,6 +189,9 @@ export class ExplorerComponent {
       this.initialState$.pipe(map(value => value.contextToggle.value.dashboardContext)),
       this.contextChangeSubject
     );
+    this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
+      this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
+    });
   }
 
   public onClickSaveQuery(): void {

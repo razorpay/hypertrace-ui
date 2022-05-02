@@ -210,13 +210,6 @@ export class ExplorerComponent {
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 
-  public onClickSaveQuery(): void {
-    const savedFilters = JSON.parse(this.localStorage.get('preference.savedFilters')?.split('.')[1] ?? '[]');
-    savedFilters.push(this.filters.map(filter => filter.urlString));
-    this.preferenceService.set('savedFilters', savedFilters);
-    this.notificationService.createSuccessToast('Query Saved Successfully!');
-  }
-
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {
     this.explorerDashboardBuilder.updateForRequest(newRequest);
     this.updateUrlWithVisualizationData(newRequest);

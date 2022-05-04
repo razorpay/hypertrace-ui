@@ -6,7 +6,6 @@ import {
   assertUnreachable,
   FeatureState,
   FeatureStateResolver,
-  LocalStorage,
   NavigationService,
   PreferenceService,
   QueryParamObject,
@@ -58,6 +57,7 @@ import {
         [attributes]="this.attributes$ | async"
         [syncWithUrl]="true"
         (filtersChange)="this.onFiltersUpdated($event)"
+        [style.padding-bottom]="enableSavedQueries ? '0' : '8px'"
       ></ht-filter-bar>
 
       <ht-button
@@ -135,6 +135,7 @@ export class ExplorerComponent {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
+  private savedQueries: string[][] = [];
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly initialState$: Observable<InitialExplorerState>;
@@ -167,7 +168,6 @@ export class ExplorerComponent {
 
   public constructor(
     private readonly featureStateResolver: FeatureStateResolver,
-    private readonly localStorage: LocalStorage,
     private readonly metadataService: MetadataService,
     private readonly navigationService: NavigationService,
     private readonly notificationService: NotificationService,
@@ -195,9 +195,12 @@ export class ExplorerComponent {
   }
 
   public onClickSaveQuery(): void {
-    const savedFilters = JSON.parse(this.localStorage.get('preference.savedFilters')?.split('.')[1] ?? '[]');
-    savedFilters.push(this.filters.map(filter => filter.urlString));
-    this.preferenceService.set('savedFilters', savedFilters);
+    this.preferenceService.get('savedQueries', []).subscribe(filters => {
+      this.savedQueries = filters as string[][];
+    });
+
+    this.savedQueries.push(this.filters.map(filter => filter.urlString));
+    this.preferenceService.set('savedQueries', this.savedQueries);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 

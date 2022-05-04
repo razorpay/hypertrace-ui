@@ -71,6 +71,7 @@ import {
         [attributes]="this.attributes$ | async"
         [syncWithUrl]="true"
         (filtersChange)="this.onFiltersUpdated($event)"
+        [style.padding-bottom]="enableSavedQueries ? '0' : '8px'"
       ></ht-filter-bar>
 
       <div class="explorer-content">

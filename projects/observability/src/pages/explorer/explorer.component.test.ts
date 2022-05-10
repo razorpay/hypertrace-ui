@@ -115,6 +115,9 @@ describe('Explorer component', () => {
       mockProvider(NotificationService, {
         createSuccessToast: jest.fn()
       }),
+      mockProvider(NotificationService, {
+        createSuccessToast: jest.fn()
+      }),
       ...getMockFlexLayoutProviders()
     ]
   });

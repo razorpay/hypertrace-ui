@@ -20,6 +20,7 @@ import {
   FilterBarComponent,
   FilterBuilderLookupService,
   FilterOperator,
+  NotificationService,
   ToggleGroupComponent
 } from '@hypertrace/components';
 import { GraphQlRequestService } from '@hypertrace/graphql-client';
@@ -109,6 +110,9 @@ describe('Explorer component', () => {
       },
       mockProvider(PreferenceService, {
         get: jest.fn().mockReturnValue(of(true))
+      }),
+      mockProvider(NotificationService, {
+        createSuccessToast: jest.fn()
       }),
       ...getMockFlexLayoutProviders()
     ]
@@ -411,5 +415,28 @@ describe('Explorer component', () => {
     expect(spectator.query(ExploreQueryIntervalEditorComponent)?.interval).toEqual(
       new TimeDuration(30, TimeUnit.Second)
     );
+  }));
+
+  test('shows notification when a query is saved successfully', fakeAsync(() => {
+    init();
+    const notificationServiceSpy = spyOn(spectator.inject(NotificationService), 'createSuccessToast');
+
+    /* These selectors should work but don't
+    const saveQueryButton = spectator.query(byText('Save Query'));
+    const saveQueryButton = spectator.query('.explorer-save-button');
+    */
+
+    const saveQueryButton = spectator.query('ht-button');
+
+    expect(saveQueryButton).toExist();
+
+    /* This doesn't give the rendered element, prints a weird object
+    console.log(spectator.element);
+    */
+
+    spectator.click(saveQueryButton as HTMLElement);
+
+    // Below test should pass but doesn't
+    expect(notificationServiceSpy).toHaveBeenCalled();
   }));
 });

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IconLibraryTestingModule } from '@hypertrace/assets-library';
 import {
   DEFAULT_COLOR_PALETTE,
+  FeatureState,
   FeatureStateResolver,
   LayoutChangeService,
   NavigationService,
@@ -88,7 +89,7 @@ describe('Explorer component', () => {
         query: jest.fn().mockReturnValueOnce(of(mockAttributes)).mockReturnValue(EMPTY)
       }),
       mockProvider(FeatureStateResolver, {
-        getFeatureState: jest.fn().mockReturnValue(of(true))
+        getFeatureState: jest.fn().mockReturnValue(of(FeatureState.Enabled))
       }),
       mockProvider(TimeRangeService, {
         getCurrentTimeRange: () => testTimeRange,
@@ -109,7 +110,7 @@ describe('Explorer component', () => {
         }
       },
       mockProvider(PreferenceService, {
-        get: jest.fn().mockReturnValue(of(true))
+        get: jest.fn().mockReturnValue(of([]))
       }),
       mockProvider(NotificationService, {
         createSuccessToast: jest.fn()
@@ -421,22 +422,10 @@ describe('Explorer component', () => {
     init();
     const notificationServiceSpy = spyOn(spectator.inject(NotificationService), 'createSuccessToast');
 
-    /* These selectors should work but don't
-    const saveQueryButton = spectator.query(byText('Save Query'));
     const saveQueryButton = spectator.query('.explorer-save-button');
-    */
-
-    const saveQueryButton = spectator.query('ht-button');
-
     expect(saveQueryButton).toExist();
 
-    /* This doesn't give the rendered element, prints a weird object
-    console.log(spectator.element);
-    */
-
     spectator.click(saveQueryButton as HTMLElement);
-
-    // Below test should pass but doesn't
-    expect(notificationServiceSpy).toHaveBeenCalled();
+    expect(notificationServiceSpy).toHaveBeenCalledWith('Query Saved Successfully!');
   }));
 });

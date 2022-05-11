@@ -45,31 +45,33 @@ import {
   template: `
     <div class="explorer" *htLetAsync="this.initialState$ as initialState">
       <ht-page-header class="explorer-header"></ht-page-header>
-      <ht-toggle-group
-        class="explorer-data-toggle"
-        [items]="this.contextItems"
-        [activeItem]="initialState.contextToggle"
-        (activeItemChange)="this.onContextUpdated($event.value)"
-      ></ht-toggle-group>
+
+      <div class="explorer-toggle-container">
+        <ht-toggle-group
+          class="explorer-data-toggle"
+          [items]="this.contextItems"
+          [activeItem]="initialState.contextToggle"
+          (activeItemChange)="this.onContextUpdated($event.value)"
+        ></ht-toggle-group>
+
+        <ht-button
+          class="explorer-save-button"
+          icon="${IconType.Save}"
+          label="Save Query"
+          role="tertiary"
+          size="${ButtonSize.Small}"
+          [disabled]="filters.length < 1"
+          (click)="onClickSaveQuery()"
+          *ngIf="enableSavedQueries"
+        ></ht-button>
+      </div>
 
       <ht-filter-bar
         class="explorer-filter-bar"
         [attributes]="this.attributes$ | async"
         [syncWithUrl]="true"
         (filtersChange)="this.onFiltersUpdated($event)"
-        [style.padding-bottom]="enableSavedQueries ? '0' : '8px'"
       ></ht-filter-bar>
-
-      <ht-button
-        class="explorer-save-button"
-        icon="${IconType.Save}"
-        label="Save Query"
-        role="tertiary"
-        size="${ButtonSize.Small}"
-        [disabled]="filters.length < 1"
-        (click)="onClickSaveQuery()"
-        *ngIf="enableSavedQueries"
-      ></ht-button>
 
       <div class="explorer-content">
         <ht-panel
@@ -135,7 +137,7 @@ export class ExplorerComponent {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
-  private savedQueries: string[][] = [];
+  private savedQueries: SavedQuery[] = [];
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly initialState$: Observable<InitialExplorerState>;
@@ -195,11 +197,15 @@ export class ExplorerComponent {
   }
 
   public onClickSaveQuery(): void {
-    this.preferenceService.get('savedQueries', []).subscribe(filters => {
-      this.savedQueries = filters as string[][];
+    this.preferenceService.get('savedQueries', []).subscribe(queries => {
+      this.savedQueries = queries as SavedQuery[];
     });
 
-    this.savedQueries.push(this.filters.map(filter => filter.urlString));
+    const currentScope =
+      this.filters[0].metadata.scope === SPAN_SCOPE ? ScopeQueryParam.Spans : ScopeQueryParam.EndpointTraces;
+    const currentFilters = this.filters.map(filter => filter.urlString);
+
+    this.savedQueries.push({ scope: currentScope, filters: currentFilters });
     this.preferenceService.set('savedQueries', this.savedQueries);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
@@ -372,4 +378,9 @@ const enum ExplorerQueryParam {
   OtherGroup = 'other',
   GroupLimit = 'limit',
   Series = 'series'
+}
+
+export interface SavedQuery {
+  scope: ScopeQueryParam;
+  filters: string[];
 }

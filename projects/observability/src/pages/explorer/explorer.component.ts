@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { IconType } from '@hypertrace/assets-library';
 import {
@@ -14,7 +14,7 @@ import {
 } from '@hypertrace/common';
 import { ButtonSize, Filter, NotificationService, ToggleItem } from '@hypertrace/components';
 import { isEmpty, isNil } from 'lodash-es';
-import { concat, EMPTY, Observable, Subject } from 'rxjs';
+import { concat, EMPTY, Observable, Subject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CartesianSeriesVisualizationType } from '../../shared/components/cartesian/chart';
 import {
@@ -133,10 +133,11 @@ import {
     </div>
   `
 })
-export class ExplorerComponent {
+export class ExplorerComponent implements OnDestroy {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
+  private readonly subscriptions: Subscription = new Subscription();
   private savedQueries: SavedQuery[] = [];
   private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
@@ -195,10 +196,16 @@ export class ExplorerComponent {
     this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
       this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
     });
-    this.preferenceService.get('savedQueries', []).subscribe(queries => {
-      this.savedQueries = queries as SavedQuery[];
-    });
+    this.subscriptions.add(
+      this.preferenceService.get('savedQueries', []).subscribe(queries => {
+        this.savedQueries = queries as SavedQuery[];
+      })
+    );
     this.currentContext$.subscribe(value => (this.currentContext = value));
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public onClickSaveQuery(): void {
@@ -383,4 +390,5 @@ const enum ExplorerQueryParam {
 export interface SavedQuery {
   scope: ScopeQueryParam;
   filterUrlStrings: string[];
+  labels: string[];
 }

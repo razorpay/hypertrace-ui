@@ -202,7 +202,7 @@ export class ExplorerComponent {
     });
 
     const currentScope =
-      this.filters[0].metadata.scope === SPAN_SCOPE ? ScopeQueryParam.Spans : ScopeQueryParam.EndpointTraces;
+      this.filters[0]?.metadata.scope === SPAN_SCOPE ? ScopeQueryParam.Spans : ScopeQueryParam.EndpointTraces;
     const currentFilters = this.filters.map(filter => filter.urlString);
 
     this.savedQueries.push({ scope: currentScope, filters: currentFilters });

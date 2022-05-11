@@ -79,6 +79,12 @@ export class NavigationComponent {
       label: 'Explorer',
       icon: IconType.Search,
       matchPaths: ['explorer']
+    },
+    {
+      type: NavItemType.Link,
+      label: 'Saved Queries',
+      icon: IconType.Save,
+      matchPaths: ['saved-queries']
     }
   ];
 

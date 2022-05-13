@@ -29,13 +29,11 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
   public identify(): void {
     this.http.get<UserTraits>('/user-info').subscribe(
       (data: UserTraits) => {
-        // tslint:disable-next-line: no-console
-        console.log('user data here ', data);
         identify(data.email, { email: data.email, name: data.name });
       },
-      () => {
+      error => {
         // tslint:disable-next-line: no-console
-        console.error('something went wrong in identify');
+        console.error('something went wrong in identify ', error);
       }
     );
   }

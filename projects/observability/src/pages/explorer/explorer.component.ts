@@ -138,6 +138,7 @@ export class ExplorerComponent {
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
   private savedQueries: SavedQuery[] = [];
+  private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly initialState$: Observable<InitialExplorerState>;
@@ -197,12 +198,11 @@ export class ExplorerComponent {
     this.preferenceService.get('savedQueries', []).subscribe(queries => {
       this.savedQueries = queries as SavedQuery[];
     });
+    this.currentContext$.subscribe(value => (this.currentContext = value));
   }
 
   public onClickSaveQuery(): void {
-    const currentScope = this.getQueryParamFromContext(
-      this.filters[0]?.metadata.scope as ExplorerGeneratedDashboardContext
-    );
+    const currentScope = this.getQueryParamFromContext(this.currentContext);
     const currentFilters = this.filters.map(filter => filter.urlString);
 
     const newSavedQueries = [...this.savedQueries, { scope: currentScope, filters: currentFilters }];

@@ -194,19 +194,19 @@ export class ExplorerComponent {
     this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
       this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
     });
-  }
-
-  public onClickSaveQuery(): void {
     this.preferenceService.get('savedQueries', []).subscribe(queries => {
       this.savedQueries = queries as SavedQuery[];
     });
+  }
 
-    const currentScope =
-      this.filters[0]?.metadata.scope === SPAN_SCOPE ? ScopeQueryParam.Spans : ScopeQueryParam.EndpointTraces;
+  public onClickSaveQuery(): void {
+    const currentScope = this.getQueryParamFromContext(
+      this.filters[0]?.metadata.scope as ExplorerGeneratedDashboardContext
+    );
     const currentFilters = this.filters.map(filter => filter.urlString);
 
-    this.savedQueries.push({ scope: currentScope, filters: currentFilters });
-    this.preferenceService.set('savedQueries', this.savedQueries);
+    const newSavedQueries = [...this.savedQueries, { scope: currentScope, filters: currentFilters }];
+    this.preferenceService.set('savedQueries', newSavedQueries);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 
@@ -227,7 +227,7 @@ export class ExplorerComponent {
     switch (context) {
       case ObservabilityTraceType.Api:
         return ScopeQueryParam.EndpointTraces;
-      case 'SPAN':
+      case SPAN_SCOPE:
         return ScopeQueryParam.Spans;
       default:
         return assertUnreachable(context);

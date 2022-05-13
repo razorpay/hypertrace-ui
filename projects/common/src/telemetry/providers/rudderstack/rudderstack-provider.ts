@@ -26,12 +26,12 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
     }
   }
 
-  public identify(userTraits: UserTraits): void {
+  public identify(): void {
     this.http.get<UserTraits>('/user-info').subscribe(
       (data: UserTraits) => {
         // tslint:disable-next-line: no-console
         console.log('user data here ', data);
-        identify(userTraits.email, { email: userTraits.email, name: userTraits.name });
+        identify(data.email, { email: data.email, name: data.name });
       },
       () => {
         // tslint:disable-next-line: no-console

@@ -44,7 +44,8 @@ export class SavedQueriesComponent implements OnDestroy {
       queryParams: {
         filter: query.filters,
         scope: query.scope
-      }
+      },
+      replaceCurrentHistory: true
     });
   }
 }

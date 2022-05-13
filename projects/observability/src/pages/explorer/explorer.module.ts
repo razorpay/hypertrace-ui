@@ -4,6 +4,7 @@ import {
   ButtonModule,
   FilterBarModule,
   LetAsyncModule,
+  ModalModule,
   NotificationModule,
   PageHeaderModule,
   PanelModule,
@@ -25,7 +26,8 @@ import { ExplorerComponent } from './explorer.component';
     PanelModule,
     PageHeaderModule,
     ToggleGroupModule,
-    LetAsyncModule
+    LetAsyncModule,
+    ModalModule
   ],
   declarations: [ExplorerComponent]
 })

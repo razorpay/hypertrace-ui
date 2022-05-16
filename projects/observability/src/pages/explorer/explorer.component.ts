@@ -1,14 +1,18 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { IconType } from '@hypertrace/assets-library';
 import {
+  ApplicationFeature,
   assertUnreachable,
+  FeatureState,
+  FeatureStateResolver,
   NavigationService,
   PreferenceService,
   QueryParamObject,
   TimeDuration,
   TimeDurationService
 } from '@hypertrace/common';
-import { Filter, ToggleItem } from '@hypertrace/components';
+import { ButtonSize, Filter, NotificationService, ToggleItem } from '@hypertrace/components';
 import { isEmpty, isNil } from 'lodash-es';
 import { concat, EMPTY, Observable, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -41,12 +45,26 @@ import {
   template: `
     <div class="explorer" *htLetAsync="this.initialState$ as initialState">
       <ht-page-header class="explorer-header"></ht-page-header>
-      <ht-toggle-group
-        class="explorer-data-toggle"
-        [items]="this.contextItems"
-        [activeItem]="initialState.contextToggle"
-        (activeItemChange)="this.onContextUpdated($event.value)"
-      ></ht-toggle-group>
+
+      <div class="explorer-toggle-container">
+        <ht-toggle-group
+          class="explorer-data-toggle"
+          [items]="this.contextItems"
+          [activeItem]="initialState.contextToggle"
+          (activeItemChange)="this.onContextUpdated($event.value)"
+        ></ht-toggle-group>
+
+        <ht-button
+          class="explorer-save-button"
+          icon="${IconType.Save}"
+          label="Save Query"
+          role="tertiary"
+          size="${ButtonSize.Small}"
+          [disabled]="filters.length < 1"
+          (click)="onClickSaveQuery()"
+          *ngIf="enableSavedQueries"
+        ></ht-button>
+      </div>
 
       <ht-filter-bar
         class="explorer-filter-bar"
@@ -54,6 +72,7 @@ import {
         [syncWithUrl]="true"
         (filtersChange)="this.onFiltersUpdated($event)"
       ></ht-filter-bar>
+
       <div class="explorer-content">
         <ht-panel
           *htLetAsync="this.visualizationExpanded$ as visualizationExpanded"
@@ -118,11 +137,14 @@ export class ExplorerComponent {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
+  private savedQueries: SavedQuery[] = [];
+  private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly initialState$: Observable<InitialExplorerState>;
   public readonly currentContext$: Observable<ExplorerGeneratedDashboardContext>;
   public attributes$: Observable<AttributeMetadata[]> = EMPTY;
+  public enableSavedQueries: boolean = false;
 
   public readonly contextItems: ContextToggleItem[] = [
     {
@@ -148,8 +170,10 @@ export class ExplorerComponent {
   private readonly contextChangeSubject: Subject<ExplorerGeneratedDashboardContext> = new Subject();
 
   public constructor(
+    private readonly featureStateResolver: FeatureStateResolver,
     private readonly metadataService: MetadataService,
     private readonly navigationService: NavigationService,
+    private readonly notificationService: NotificationService,
     private readonly timeDurationService: TimeDurationService,
     private readonly preferenceService: PreferenceService,
     @Inject(EXPLORER_DASHBOARD_BUILDER_FACTORY) explorerDashboardBuilderFactory: ExplorerDashboardBuilderFactory,
@@ -168,6 +192,22 @@ export class ExplorerComponent {
       this.initialState$.pipe(map(value => value.contextToggle.value.dashboardContext)),
       this.contextChangeSubject
     );
+    this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
+      this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
+    });
+    this.preferenceService.get('savedQueries', []).subscribe(queries => {
+      this.savedQueries = queries as SavedQuery[];
+    });
+    this.currentContext$.subscribe(value => (this.currentContext = value));
+  }
+
+  public onClickSaveQuery(): void {
+    const currentScope = this.getQueryParamFromContext(this.currentContext);
+    const currentFilterUrlStrings = this.filters.map(filter => filter.urlString);
+
+    const newSavedQueries = [...this.savedQueries, { scope: currentScope, filterUrlStrings: currentFilterUrlStrings }];
+    this.preferenceService.set('savedQueries', newSavedQueries);
+    this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
 
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {
@@ -187,7 +227,7 @@ export class ExplorerComponent {
     switch (context) {
       case ObservabilityTraceType.Api:
         return ScopeQueryParam.EndpointTraces;
-      case 'SPAN':
+      case SPAN_SCOPE:
         return ScopeQueryParam.Spans;
       default:
         return assertUnreachable(context);
@@ -338,4 +378,9 @@ const enum ExplorerQueryParam {
   OtherGroup = 'other',
   GroupLimit = 'limit',
   Series = 'series'
+}
+
+export interface SavedQuery {
+  scope: ScopeQueryParam;
+  filterUrlStrings: string[];
 }

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IconLibraryTestingModule } from '@hypertrace/assets-library';
 import {
   DEFAULT_COLOR_PALETTE,
+  FeatureState,
   FeatureStateResolver,
   LayoutChangeService,
   NavigationService,
@@ -20,6 +21,7 @@ import {
   FilterBarComponent,
   FilterBuilderLookupService,
   FilterOperator,
+  NotificationService,
   ToggleGroupComponent
 } from '@hypertrace/components';
 import { GraphQlRequestService } from '@hypertrace/graphql-client';
@@ -87,7 +89,7 @@ describe('Explorer component', () => {
         query: jest.fn().mockReturnValueOnce(of(mockAttributes)).mockReturnValue(EMPTY)
       }),
       mockProvider(FeatureStateResolver, {
-        getFeatureState: jest.fn().mockReturnValue(of(true))
+        getFeatureState: jest.fn().mockReturnValue(of(FeatureState.Enabled))
       }),
       mockProvider(TimeRangeService, {
         getCurrentTimeRange: () => testTimeRange,
@@ -108,7 +110,10 @@ describe('Explorer component', () => {
         }
       },
       mockProvider(PreferenceService, {
-        get: jest.fn().mockReturnValue(of(true))
+        get: jest.fn().mockReturnValue(of([]))
+      }),
+      mockProvider(NotificationService, {
+        createSuccessToast: jest.fn()
       }),
       ...getMockFlexLayoutProviders()
     ]
@@ -411,5 +416,16 @@ describe('Explorer component', () => {
     expect(spectator.query(ExploreQueryIntervalEditorComponent)?.interval).toEqual(
       new TimeDuration(30, TimeUnit.Second)
     );
+  }));
+
+  test('shows notification when a query is saved successfully', fakeAsync(() => {
+    init();
+    const notificationServiceSpy = spyOn(spectator.inject(NotificationService), 'createSuccessToast');
+
+    const saveQueryButton = spectator.query('.explorer-save-button');
+    expect(saveQueryButton).toExist();
+
+    spectator.click(saveQueryButton as HTMLElement);
+    expect(notificationServiceSpy).toHaveBeenCalledWith('Query Saved Successfully!');
   }));
 });

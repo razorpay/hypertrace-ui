@@ -203,9 +203,9 @@ export class ExplorerComponent {
 
   public onClickSaveQuery(): void {
     const currentScope = this.getQueryParamFromContext(this.currentContext);
-    const currentFilters = this.filters.map(filter => filter.urlString);
+    const currentFilterUrlStrings = this.filters.map(filter => filter.urlString);
 
-    const newSavedQueries = [...this.savedQueries, { scope: currentScope, filters: currentFilters }];
+    const newSavedQueries = [...this.savedQueries, { scope: currentScope, filterUrlStrings: currentFilterUrlStrings }];
     this.preferenceService.set('savedQueries', newSavedQueries);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
@@ -382,5 +382,5 @@ const enum ExplorerQueryParam {
 
 export interface SavedQuery {
   scope: ScopeQueryParam;
-  filters: string[];
+  filterUrlStrings: string[];
 }

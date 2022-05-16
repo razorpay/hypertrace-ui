@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { isEmpty, isNil } from 'lodash-es';
-import { BehaviorSubject, concat, EMPTY, Observable, Subscription } from 'rxjs';
+import { concat, EMPTY, Observable, Subject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { IconType } from '@hypertrace/assets-library';
@@ -141,6 +141,7 @@ export class ExplorerComponent implements OnDestroy {
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
   private readonly subscriptions: Subscription = new Subscription();
   private savedQueries: SavedQuery[] = [];
+  private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly initialState$: Observable<InitialExplorerState>;
@@ -169,9 +170,7 @@ export class ExplorerComponent implements OnDestroy {
   public visualizationExpanded$: Observable<boolean>;
   public resultsExpanded$: Observable<boolean>;
 
-  private readonly contextChangeSubject: BehaviorSubject<ExplorerGeneratedDashboardContext> = new BehaviorSubject<ExplorerGeneratedDashboardContext>(
-    ObservabilityTraceType.Api
-  );
+  private readonly contextChangeSubject: Subject<ExplorerGeneratedDashboardContext> = new Subject();
 
   public constructor(
     private readonly featureStateResolver: FeatureStateResolver,
@@ -196,14 +195,18 @@ export class ExplorerComponent implements OnDestroy {
       this.initialState$.pipe(map(value => value.contextToggle.value.dashboardContext)),
       this.contextChangeSubject
     );
-    this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
-      this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
-    });
+
+    this.subscriptions.add(
+      this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
+        this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
+      })
+    );
     this.subscriptions.add(
       this.preferenceService.get('savedQueries', []).subscribe(queries => {
         this.savedQueries = queries as SavedQuery[];
       })
     );
+    this.subscriptions.add(this.currentContext$.subscribe(value => (this.currentContext = value)));
   }
 
   public ngOnDestroy(): void {
@@ -211,7 +214,7 @@ export class ExplorerComponent implements OnDestroy {
   }
 
   public onClickSaveQuery(): void {
-    const currentScope = this.getQueryParamFromContext(this.contextChangeSubject.getValue());
+    const currentScope = this.getQueryParamFromContext(this.currentContext);
     const currentFilterUrlStrings = this.filters.map(filter => filter.urlString);
     const currentFilterUserStrings = this.filters.map(filter => filter.userString);
 

@@ -12,7 +12,7 @@ import { SavedQuery } from '../explorer/explorer.component';
       <ht-page-header class="explorer-header"></ht-page-header>
       <div class="query-list-container">
         <a *ngFor="let query of savedQueries" (click)="onClick(query)">
-          <span *ngFor="let label of query.labels">{{ label }}</span>
+          <span *ngFor="let label of query.filterUserStrings">{{ label }}</span>
         </a>
       </div>
     </div>
@@ -42,7 +42,7 @@ export class SavedQueriesComponent implements OnDestroy {
       navType: NavigationParamsType.InApp,
       path: ['/explorer'],
       queryParams: {
-        filter: query.filters,
+        filter: query.filterUrlStrings,
         scope: query.scope
       },
       replaceCurrentHistory: true

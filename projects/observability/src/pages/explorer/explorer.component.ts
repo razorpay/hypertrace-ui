@@ -1,33 +1,23 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { isEmpty, isNil } from 'lodash-es';
+import { concat, EMPTY, Observable, Subject, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+
 import { IconType } from '@hypertrace/assets-library';
 import {
   ApplicationFeature,
   assertUnreachable,
   FeatureState,
   FeatureStateResolver,
-  LayoutChangeService,
   NavigationService,
   PreferenceService,
   QueryParamObject,
   TimeDuration,
   TimeDurationService
 } from '@hypertrace/common';
-import {
-  ButtonRole,
-  ButtonSize,
-  ButtonStyle,
-  Filter,
-  ModalService,
-  ModalSize,
-  NotificationService,
-  PopoverService,
-  ToggleItem
-} from '@hypertrace/components';
-import { isEmpty, isNil } from 'lodash-es';
-import { concat, EMPTY, Observable, Subject, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { SavedQueriesComponent } from '../../public-api';
+import { ButtonRole, ButtonSize, Filter, NotificationService, ToggleItem } from '@hypertrace/components';
+
 import { CartesianSeriesVisualizationType } from '../../shared/components/cartesian/chart';
 import {
   ExploreRequestState,
@@ -51,18 +41,6 @@ import {
   EXPLORER_DASHBOARD_BUILDER_FACTORY
 } from './explorer-dashboard-builder';
 
-// @Component({
-//   // tslint:disable-next-line:component-selector
-//   selector: 'test-modal-content',
-//   changeDetection: ChangeDetectionStrategy.OnPush,
-//   template: `
-//     <div class="test-modal-content">Test Component Content Data</div>
-//     <button class="test-close-button">Close</button>
-//   `
-// })
-// class TestComponent {}
-
-// tslint:disable-next-line: max-classes-per-file
 @Component({
   styleUrls: ['./explorer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,28 +56,16 @@ import {
           (activeItemChange)="this.onContextUpdated($event.value)"
         ></ht-toggle-group>
 
-        <div class="explorer-save-button-group">
-          <ht-button
-            class="explorer-view-queries-button"
-            label="View Saved Queries"
-            role="${ButtonRole.Primary}"
-            size="${ButtonSize.Small}"
-            display="${ButtonStyle.PlainText}"
-            (click)="onClickViewQueries()"
-            *ngIf="enableSavedQueries"
-          ></ht-button>
-
-          <ht-button
-            class="explorer-save-button"
-            icon="${IconType.Save}"
-            label="Save Query"
-            role="tertiary"
-            size="${ButtonSize.Small}"
-            [disabled]="filters.length < 1"
-            (click)="onClickSaveQuery()"
-            *ngIf="enableSavedQueries"
-          ></ht-button>
-        </div>
+        <ht-button
+          class="explorer-save-button"
+          icon="${IconType.Save}"
+          label="Save Query"
+          role="${ButtonRole.Tertiary}"
+          size="${ButtonSize.Small}"
+          [disabled]="filters.length < 1"
+          (click)="onClickSaveQuery()"
+          *ngIf="enableSavedQueries"
+        ></ht-button>
       </div>
 
       <ht-filter-bar
@@ -167,8 +133,7 @@ import {
         </ht-panel>
       </div>
     </div>
-  `,
-  providers: [LayoutChangeService, PopoverService, ModalService]
+  `
 })
 export class ExplorerComponent implements OnDestroy {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
@@ -214,7 +179,6 @@ export class ExplorerComponent implements OnDestroy {
     private readonly notificationService: NotificationService,
     private readonly timeDurationService: TimeDurationService,
     private readonly preferenceService: PreferenceService,
-    private readonly modalService: ModalService,
     @Inject(EXPLORER_DASHBOARD_BUILDER_FACTORY) explorerDashboardBuilderFactory: ExplorerDashboardBuilderFactory,
     activatedRoute: ActivatedRoute
   ) {
@@ -244,16 +208,6 @@ export class ExplorerComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  public onClickViewQueries(): void {
-    this.modalService.createModal({
-      content: SavedQueriesComponent,
-      size: ModalSize.MediumWide,
-      showControls: true,
-      title: 'Saved Queries'
-      // data: this.availableColumns ?? []
-    });
   }
 
   public onClickSaveQuery(): void {

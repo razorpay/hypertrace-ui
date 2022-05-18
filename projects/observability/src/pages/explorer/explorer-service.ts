@@ -49,4 +49,4 @@ export class ExplorerService {
   }
 }
 
-type DrilldownFilter = Omit<Filter, 'metadata' | 'userString' | 'urlString'>;
+export type DrilldownFilter = Omit<Filter, 'metadata' | 'userString' | 'urlString'>;

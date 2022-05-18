@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { NavigationParamsType, NavigationService, PreferenceService } from '@hypertrace/common';
+import { NavigationService, PreferenceService } from '@hypertrace/common';
+import { DrilldownFilter, ExplorerService } from '../explorer/explorer-service';
 import { SavedQuery } from '../explorer/explorer.component';
 
 @Component({
@@ -12,7 +13,7 @@ import { SavedQuery } from '../explorer/explorer.component';
       <ht-page-header class="explorer-header"></ht-page-header>
       <div class="query-list-container">
         <a *ngFor="let query of savedQueries" (click)="onClick(query)">
-          <span *ngFor="let label of query.filterUserStrings">{{ label }}</span>
+          <span *ngFor="let filter of query.filters">{{ filter.userString }}</span>
         </a>
       </div>
       <p class="not-found-text" *ngIf="savedQueries.length === 0">
@@ -27,7 +28,8 @@ export class SavedQueriesComponent implements OnDestroy {
 
   public constructor(
     private readonly navigationService: NavigationService,
-    private readonly preferenceService: PreferenceService
+    private readonly preferenceService: PreferenceService,
+    private readonly explorerService: ExplorerService
   ) {
     this.subscriptions.add(
       this.preferenceService.get('savedQueries', []).subscribe(queries => {
@@ -41,14 +43,10 @@ export class SavedQueriesComponent implements OnDestroy {
   }
 
   public onClick(query: SavedQuery): void {
-    this.navigationService.navigate({
-      navType: NavigationParamsType.InApp,
-      path: ['/explorer'],
-      queryParams: {
-        filter: query.filterUrlStrings,
-        scope: query.scope
-      },
-      replaceCurrentHistory: true
-    });
+    this.subscriptions.add(
+      this.explorerService
+        .buildNavParamsWithFilters(query.scopeQueryParam, query.filters as DrilldownFilter[])
+        .subscribe(navParams => this.navigationService.navigate(navParams))
+    );
   }
 }

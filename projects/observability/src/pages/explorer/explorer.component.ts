@@ -215,13 +215,8 @@ export class ExplorerComponent implements OnDestroy {
 
   public onClickSaveQuery(): void {
     const currentScope = this.getQueryParamFromContext(this.currentContext);
-    const currentFilterUrlStrings = this.filters.map(filter => filter.urlString);
-    const currentFilterUserStrings = this.filters.map(filter => filter.userString);
 
-    const newSavedQueries = [
-      ...this.savedQueries,
-      { scope: currentScope, filterUrlStrings: currentFilterUrlStrings, filterUserStrings: currentFilterUserStrings }
-    ];
+    const newSavedQueries = [...this.savedQueries, { scopeQueryParam: currentScope, filters: this.filters }];
     this.preferenceService.set('savedQueries', newSavedQueries);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
@@ -397,7 +392,6 @@ const enum ExplorerQueryParam {
 }
 
 export interface SavedQuery {
-  scope: ScopeQueryParam;
-  filterUrlStrings: string[];
-  filterUserStrings: string[];
+  scopeQueryParam: ScopeQueryParam;
+  filters: Filter[];
 }

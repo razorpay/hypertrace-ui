@@ -1,4 +1,5 @@
 @import 'color-palette';
+@import 'font';
 @import 'mixins';
 
 .saved-queries {
@@ -31,5 +32,10 @@
       border-radius: 6px;
       padding: 0 12px;
     }
+  }
+
+  .not-found-text {
+    @include body-1-medium();
+    padding-left: 24px;
   }
 }

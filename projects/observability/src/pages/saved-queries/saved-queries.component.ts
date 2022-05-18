@@ -15,6 +15,9 @@ import { SavedQuery } from '../explorer/explorer.component';
           <span *ngFor="let label of query.filterUserStrings">{{ label }}</span>
         </a>
       </div>
+      <p class="not-found-text" *ngIf="savedQueries.length === 0">
+        You haven't saved any queries! Go to Explorer page to save a query.
+      </p>
     </div>
   `
 })

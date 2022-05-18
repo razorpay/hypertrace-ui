@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+
 import { IconType } from '@hypertrace/assets-library';
-import { PreferenceService, TimeRangeService } from '@hypertrace/common';
+import {
+  ApplicationFeature,
+  FeatureState,
+  FeatureStateResolver,
+  PreferenceService,
+  TimeRangeService
+} from '@hypertrace/common';
 import {
   NavigationListComponentService,
   NavigationListService,
@@ -10,7 +18,6 @@ import {
   NavItemType
 } from '@hypertrace/components';
 import { ObservabilityIconType } from '@hypertrace/observability';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ht-navigation',
@@ -28,8 +35,9 @@ import { Observable } from 'rxjs';
     </div>
   `
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnDestroy {
   private static readonly COLLAPSED_PREFERENCE: string = 'app-navigation.collapsed';
+  private readonly subscriptions: Subscription = new Subscription();
 
   public navItems$?: Observable<NavItemConfig[]>;
 
@@ -79,22 +87,30 @@ export class NavigationComponent {
       label: 'Explorer',
       icon: IconType.Search,
       matchPaths: ['explorer']
-    },
-    {
-      type: NavItemType.Link,
-      label: 'Saved Queries',
-      icon: IconType.Save,
-      matchPaths: ['saved-queries']
     }
   ];
 
   public constructor(
+    private readonly featureStateResolver: FeatureStateResolver,
     private readonly navigationListService: NavigationListService,
     private readonly preferenceService: PreferenceService,
     private readonly navListComponentService: NavigationListComponentService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly timeRangeService: TimeRangeService
   ) {
+    this.subscriptions.add(
+      this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
+        if (featureState === FeatureState.Enabled) {
+          this.navItemDefinitions.push({
+            type: NavItemType.Link,
+            label: 'Saved Queries',
+            icon: IconType.Save,
+            matchPaths: ['saved-queries']
+          });
+        }
+      })
+    );
+
     const navItems = this.navItemDefinitions.map(definition =>
       this.navigationListService.decorateNavItem(definition, this.activatedRoute)
     );
@@ -103,6 +119,10 @@ export class NavigationComponent {
     this.navItems$ = this.navListComponentService.resolveNavItemConfigTimeRanges(navItems);
 
     this.isCollapsed$ = this.preferenceService.get(NavigationComponent.COLLAPSED_PREFERENCE, false);
+  }
+
+  public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   public updateDefaultTimeRangeIfUnset(activeItem: NavItemLinkConfig): void {

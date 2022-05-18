@@ -7,5 +7,4 @@ export interface FilterAttribute {
   type: FilterAttributeType;
   onlySupportsAggregation?: boolean;
   onlySupportsGrouping?: boolean;
-  scope?: string;
 }

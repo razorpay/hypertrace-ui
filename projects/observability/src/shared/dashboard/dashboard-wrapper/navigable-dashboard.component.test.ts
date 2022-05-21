@@ -1,3 +1,4 @@
+import { CustomDashboardService } from './../../../pages/custom-dashboards/custom-dashboard.service';
 import {
   Filter,
   FilterAttributeType,
@@ -25,7 +26,8 @@ describe('Navigable dashboard component', () => {
     providers: [
       mockProvider(MetadataService, {
         getFilterAttributes: () => of([])
-      })
+      }),
+      mockProvider(CustomDashboardService)
     ],
     template: `
       <ht-navigable-dashboard

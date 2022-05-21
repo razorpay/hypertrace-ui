@@ -1,3 +1,4 @@
+import { CustomDashboardService } from './../custom-dashboards/custom-dashboard.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Provider } from '@angular/core';
 import { fakeAsync } from '@angular/core/testing';
@@ -110,6 +111,7 @@ describe('Explorer component', () => {
       mockProvider(PreferenceService, {
         get: jest.fn().mockReturnValue(of(true))
       }),
+      mockProvider(CustomDashboardService),
       ...getMockFlexLayoutProviders()
     ]
   });

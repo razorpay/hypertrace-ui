@@ -52,6 +52,9 @@ export class NavigableDashboardComponent implements OnChanges {
   @Input()
   public padding?: number;
 
+  @Input()
+  public customJson?: boolean = false;
+
   @Output()
   public readonly dashboardReady: EventEmitter<Dashboard> = new EventEmitter();
 
@@ -74,7 +77,9 @@ export class NavigableDashboardComponent implements OnChanges {
     if (changeObject.navLocation) {
       const persistedDashboard$ =
         this.navLocation !== undefined && this.navLocation !== null
-          ? this.dashboardPersistenceService.getForLocation(this.navLocation)
+          ? this.customJson
+            ? this.dashboardPersistenceService.getForLocation(this.navLocation)
+            : this.dashboardPersistenceService.getDefaultForLocation(this.navLocation)
           : EMPTY;
 
       this.dashboardJson$ = persistedDashboard$.pipe(

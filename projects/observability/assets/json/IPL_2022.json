@@ -1,0 +1,135 @@
+{
+  "location": "IPL_2022",
+  "json": {
+    "type": "container-widget",
+    "layout": {
+      "type": "custom-container-layout",
+      "enable-style": false,
+      "column-dimensions": [
+        {
+          "type": "dimension-model",
+          "dimension": 1,
+          "unit": "FR"
+        },
+        {
+          "type": "dimension-model",
+          "dimension": 1,
+          "unit": "FR"
+        },
+        {
+          "type": "dimension-model",
+          "dimension": 1,
+          "unit": "FR"
+        }
+      ],
+      "row-dimensions": [
+        {
+          "type": "dimension-model",
+          "dimension": 28,
+          "unit": "PX"
+        },
+        {
+          "type": "dimension-model",
+          "dimension": 28,
+          "unit": "PX"
+        },
+        {
+          "type": "dimension-model",
+          "dimension": 1,
+          "unit": "FR"
+        }
+      ],
+      "cell-spans": [
+        {
+          "type": "cell-span-model",
+          "col-start": 0,
+          "col-end": 3,
+          "row-start": 0,
+          "row-end": 1
+        },
+        {
+          "type": "cell-span-model",
+          "col-start": 0,
+          "col-end": 3,
+          "row-start": 1,
+          "row-end": 2
+        },
+        {
+          "type": "cell-span-model",
+          "col-start": 0,
+          "col-end": 3,
+          "row-start": 2,
+          "row-end": 3
+        }
+      ]
+    },
+    "children": [
+      {
+        "type": "greeting-label-widget",
+        "suffix-label": ", today's IPL Report"
+      },
+      {
+        "type": "text-widget",
+        "text": "Top Merchants"
+      },
+      {
+        "type": "table-widget",
+        "id": "custom-dashboard.traces-table",
+        "mode": "flat",
+        "style": "embedded",
+        "columns": [
+          {
+            "type": "table-widget-column",
+            "title": "Merchant ID",
+            "display": "Metric",
+            "value": {
+              "type": "explore-selection",
+              "metric": {
+                "key": "tags",
+                "subpath": "merchant"
+              }
+            }
+          },
+          {
+            "type": "table-widget-column",
+            "title": "Calls",
+            "display": "Metric",
+            "value": {
+              "type": "explore-selection",
+              "metric": "calls",
+              "aggregation": "count"
+            },
+            "sort": "DESC"
+          }
+        ],
+        "data": {
+          "type": "explore-table-data-source",
+          "context": "API_TRACE",
+          "limit": 5,
+          "interval": {
+            "type": "time-duration",
+            "unit": "m",
+            "value": 15
+          },
+          "filters": [
+            {
+              "type": "graphql-key-value-filter",
+              "key": {
+                "key": "tags",
+                "subpath": "merchant"
+              },
+              "operator": "NOT_EQUALS",
+              "value": ""
+            }
+          ],
+          "group-by": [
+            {
+              "key": "tags",
+              "subpath": "merchant"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

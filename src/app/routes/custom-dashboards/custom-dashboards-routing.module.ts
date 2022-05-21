@@ -1,10 +1,10 @@
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { HtRoute } from '@hypertrace/common';
 import {
+  CustomDashboardComponent,
   CustomDashboardListComponent,
   CustomDashboardListModule,
-  CustomDashboardComponent,
   CustomDashboardModule,
   CustomDashboardService
 } from '@hypertrace/observability';

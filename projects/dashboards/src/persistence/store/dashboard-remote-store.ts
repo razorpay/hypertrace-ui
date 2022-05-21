@@ -1,8 +1,11 @@
 /* tslint:disable:no-console */
 import { Injectable } from '@angular/core';
-import { CustomDashboardService } from '@hypertrace/observability';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+// TODO: fix import
+/* tslint:disable:import-blacklist */
+import { CustomDashboardService } from '../../../../observability/src/pages/custom-dashboards/custom-dashboard.service';
+
 import {
   DashboardCreationData,
   DashboardStore,

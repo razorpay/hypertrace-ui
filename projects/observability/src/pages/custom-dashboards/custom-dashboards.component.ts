@@ -1,7 +1,7 @@
-import { catchError } from 'rxjs/operators';
-import { Observable, EMPTY, of } from 'rxjs';
-import { CustomDashboardService, DashboardListItem } from './custom-dashboard.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { EMPTY, Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { CustomDashboardService, DashboardListItem } from './custom-dashboard.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,9 +17,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   `
 })
 export class CustomDashboardListComponent implements OnInit {
-  dashboards$: Observable<DashboardListItem[]> = of([]);
-  constructor(private readonly customDashboardService: CustomDashboardService) {}
-  ngOnInit(): void {
+  public dashboards$: Observable<DashboardListItem[]> = of([]);
+  public constructor(private readonly customDashboardService: CustomDashboardService) {}
+  public ngOnInit(): void {
     this.dashboards$ = this.customDashboardService.fetchDashboards().pipe(catchError(() => EMPTY));
   }
 }

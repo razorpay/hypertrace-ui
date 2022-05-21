@@ -1,4 +1,3 @@
-import { CustomDashboardService } from './../custom-dashboards/custom-dashboard.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Provider } from '@angular/core';
 import { fakeAsync } from '@angular/core/testing';
@@ -45,6 +44,7 @@ import { EXPLORE_GQL_REQUEST } from '../../shared/graphql/request/handlers/explo
 import { SPANS_GQL_REQUEST } from '../../shared/graphql/request/handlers/spans/spans-graphql-query-handler.service';
 import { TRACES_GQL_REQUEST } from '../../shared/graphql/request/handlers/traces/traces-graphql-query-handler.service';
 import { MetadataService } from '../../shared/services/metadata/metadata.service';
+import { CustomDashboardService } from './../custom-dashboards/custom-dashboard.service';
 import { ExplorerDashboardBuilder } from './explorer-dashboard-builder';
 import { ExplorerComponent } from './explorer.component';
 import { ExplorerModule } from './explorer.module';

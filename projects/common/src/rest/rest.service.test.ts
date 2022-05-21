@@ -1,9 +1,9 @@
-import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { inject } from '@angular/core/testing';
-import { RestClientService, REST_OPTIONS } from './rest.service';
 import { Injector } from '@angular/core';
+import { inject } from '@angular/core/testing';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { of } from 'rxjs';
+import { RestClientService, REST_OPTIONS } from './rest.service';
 
 describe('RestClientService testing', () => {
   let spectator: SpectatorService<RestClientService>;
@@ -41,6 +41,7 @@ describe('RestClientService testing', () => {
       })
     );
     getMock.mockClear();
+
     return getMock;
   };
 
@@ -51,6 +52,7 @@ describe('RestClientService testing', () => {
       })
     );
     postMock.mockClear();
+
     return postMock;
   };
 
@@ -61,6 +63,7 @@ describe('RestClientService testing', () => {
       })
     );
     putMock.mockClear();
+
     return putMock;
   };
 
@@ -71,6 +74,7 @@ describe('RestClientService testing', () => {
       })
     );
     deleteMock.mockClear();
+
     return deleteMock;
   };
 
@@ -85,13 +89,11 @@ describe('RestClientService testing', () => {
   it('can test RestClient.post', () => {
     const postFnMock = mockPostMethod();
     spectator.service
-      .Post(
-        '/test',
-        {},
-        {
-          body: 'test data'
+      .Post('/test', {
+        body: {
+          title: 'Title'
         }
-      )
+      })
       .subscribe();
     expect(postFnMock).toHaveBeenCalled();
   });
@@ -99,15 +101,11 @@ describe('RestClientService testing', () => {
   it('can test RestClient.Put', () => {
     const putFnMock = mockPutMethod();
     spectator.service
-      .Put(
-        '/test',
-        {},
-        {
-          body: {
-            title: 'New Title'
-          }
+      .Put('/test', {
+        body: {
+          title: 'New Title'
         }
-      )
+      })
       .subscribe();
 
     expect(putFnMock).toHaveBeenCalled();

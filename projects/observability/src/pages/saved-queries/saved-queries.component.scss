@@ -3,25 +3,24 @@
 @import 'mixins';
 
 .saved-queries {
+  height: 100%;
+  overflow: auto;
+
   .query-list-container {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-
+    gap: 10px;
     padding: 24px;
   }
 
   a {
     @include raised-shadow-hover();
 
-    display: flex;
-    gap: 4px;
-    align-items: center;
-
     min-height: 36px;
-    padding: 0 1px 0 8px;
-    border: 1px solid $color-border;
+    padding: 8px 10px;
+    border: 1px solid $gray-3;
     border-radius: 6px;
+    background-color: $gray-1;
 
     &:hover {
       cursor: pointer;
@@ -29,9 +28,35 @@
 
     span {
       background-color: $gray-2;
-      border-radius: 6px;
-      padding: 0 12px;
+      border-radius: 4px;
+      padding: 0 10px;
     }
+  }
+
+  .name-container {
+    display: flex;
+    justify-content: space-between;
+    height: 22px;
+    line-height: normal;
+    margin-bottom: 2px;
+  }
+
+  .query-name {
+    @include body-1-medium();
+    line-height: normal;
+    padding-left: 2px;
+    margin: 0;
+  }
+
+  .scope {
+    @include subtitle-3;
+    line-height: normal;
+    margin: 0;
+  }
+
+  .filters-container {
+    display: flex;
+    gap: 4px;
   }
 
   .not-found-text {

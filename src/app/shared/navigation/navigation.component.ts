@@ -101,12 +101,9 @@ export class NavigationComponent implements OnDestroy {
     this.subscriptions.add(
       this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
         if (featureState === FeatureState.Enabled) {
-          this.navItemDefinitions.push({
-            type: NavItemType.Link,
-            label: 'Saved Queries',
-            icon: IconType.Save,
-            matchPaths: ['saved-queries']
-          });
+          this.navItemDefinitions.push(
+            this.navigationListService.getNavItemDefinitionForFeature(ApplicationFeature.SavedQueries)
+          );
         }
       })
     );

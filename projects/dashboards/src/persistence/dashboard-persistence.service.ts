@@ -81,3 +81,5 @@ export class DashboardPersistenceService {
     return locationKey;
   }
 }
+
+export * from './store/dashboard-store';

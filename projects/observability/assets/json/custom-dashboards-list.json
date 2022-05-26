@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "tags": "custom dashboards tags"
+  },
+  "data": [
+    {
+      "display": "IPL 2022",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Top IPs by Traffic",
+      "link": "TOP_IPS_BY_TRAFFIC"
+    },
+    {
+      "display": "Gateway Dashboards",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Redis Monitoring",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Redis Monitoring",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Redis Monitoring",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Redis Monitoring",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Redis Monitoring",
+      "link": "IPL_2022"
+    },
+    {
+      "display": "Redis Monitoring",
+      "link": "IPL_2022"
+    }
+  ]
+}

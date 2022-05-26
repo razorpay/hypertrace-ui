@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { EMPTY, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { CustomDashboardService, DashboardListItem } from './custom-dashboard.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { CustomDashboardService, DashboardListItem } from './custom-dashboard.se
   template: `
     <div class="custom-dashboards">
       <div class="dashboard-list" *htLoadAsync="this.dashboards$ as dashboards">
-        <ht-link class="dashboard" *ngFor="let dashboard of dashboards" [paramsOrUrl]="dashboard.link">
+        <ht-link class="dashboard" *ngFor="let dashboard of dashboards.data" [paramsOrUrl]="dashboard.link">
           <h4>{{ dashboard.display }}</h4>
         </ht-link>
       </div>
@@ -20,6 +19,6 @@ export class CustomDashboardListComponent implements OnInit {
   public dashboards$: Observable<DashboardListItem[]> = of([]);
   public constructor(private readonly customDashboardService: CustomDashboardService) {}
   public ngOnInit(): void {
-    this.dashboards$ = this.customDashboardService.fetchDashboards().pipe(catchError(() => EMPTY));
+    this.dashboards$ = this.customDashboardService.fetchDashboards();
   }
 }

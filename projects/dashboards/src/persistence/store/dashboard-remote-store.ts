@@ -20,12 +20,8 @@ import {
 export class DashboardRemoteStore implements DashboardStore {
   public constructor(private readonly customDashboardService: CustomDashboardService) {}
   public read(id: string): Observable<PersistedDashboard> {
-    return this.customDashboardService.fetchDashboard(`/${id}.json`).pipe(
-      catchError(() => {
-        console.log('Failed');
-
-        return throwError(`Provided ID does not exist: ${id}`);
-      }),
+    return this.customDashboardService.fetchDashboardConfigById(`/${id}.json`).pipe(
+      catchError(() => throwError(`Provided ID does not exist: ${id}`)),
       map(
         /* tslint:disable:object-literal-shorthand */
         (data): PersistedDashboard => ({

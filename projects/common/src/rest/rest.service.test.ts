@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
-import { inject } from '@angular/core/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
-import { RestClientService, REST_OPTIONS } from './rest.service';
+import { RestClientService, REST_URI } from './rest.service';
 
 describe('RestClientService testing', () => {
   let spectator: SpectatorService<RestClientService>;
@@ -11,7 +10,7 @@ describe('RestClientService testing', () => {
     service: RestClientService,
     providers: [
       {
-        provide: REST_OPTIONS,
+        provide: REST_URI,
         useValue: {
           uri: '/'
         }
@@ -80,16 +79,16 @@ describe('RestClientService testing', () => {
 
   beforeEach(() => (spectator = createService()));
 
-  it('can test RestClient.Get', inject([REST_OPTIONS], () => {
+  it('can test RestClient.Get', () => {
     const getFnMock = mockGetMethod();
-    spectator.service.Get('/test').subscribe();
+    spectator.service.get('/test').subscribe();
     expect(getFnMock).toHaveBeenCalled();
-  }));
+  });
 
   it('can test RestClient.post', () => {
     const postFnMock = mockPostMethod();
     spectator.service
-      .Post('/test', {
+      .post('/test', {
         body: {
           title: 'Title'
         }
@@ -101,7 +100,7 @@ describe('RestClientService testing', () => {
   it('can test RestClient.Put', () => {
     const putFnMock = mockPutMethod();
     spectator.service
-      .Put('/test', {
+      .put('/test', {
         body: {
           title: 'New Title'
         }
@@ -114,7 +113,7 @@ describe('RestClientService testing', () => {
   it('can test RestClient.Delete', () => {
     const deleteFnMock = mockDeleteMethod();
     spectator.service
-      .Delete('/test', {
+      .delete('/test', {
         body: {
           title: 'New Title'
         }

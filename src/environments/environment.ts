@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   graphqlUri: 'http://localhost:2020/graphql',
-  restUri: 'http://localhost:4200/assets/json',
+  restUri: '/assets/json',
   appTitle: 'Hypertrace'
 };
 

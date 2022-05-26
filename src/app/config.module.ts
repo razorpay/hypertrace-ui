@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ALTERNATE_COLOR_PALETTES, APP_TITLE, DEFAULT_COLOR_PALETTE, REST_OPTIONS } from '@hypertrace/common';
+import { ALTERNATE_COLOR_PALETTES, APP_TITLE, DEFAULT_COLOR_PALETTE, REST_URI } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';
 import { environment } from '../environments/environment';
@@ -17,7 +17,7 @@ import { FeatureResolverModule } from './shared/feature-resolver/feature-resolve
       }
     },
     {
-      provide: REST_OPTIONS,
+      provide: REST_URI,
       useValue: {
         uri: environment.restUri
       }

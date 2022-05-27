@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { forkJoinSafeEmpty, NavigationParams, NavigationParamsType } from '@hypertrace/common';
-import { Filter, FilterBuilderLookupService } from '@hypertrace/components';
+import { isEqual } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { forkJoinSafeEmpty, NavigationParams, NavigationParamsType } from '@hypertrace/common';
+import { Filter, FilterBuilderLookupService } from '@hypertrace/components';
+import { SavedQuery } from '../../public-api';
 import { toFilterAttributeType } from '../../shared/graphql/model/metadata/attribute-metadata';
 import { ObservabilityTraceType } from '../../shared/graphql/model/schema/observability-traces';
 import { SPAN_SCOPE } from '../../shared/graphql/model/schema/span';
@@ -46,6 +49,16 @@ export class ExplorerService {
         }
       }))
     );
+  }
+
+  public isDuplicateQuery(currentQuery: SavedQuery, savedQueries: SavedQuery[]): boolean {
+    for (const savedQuery of savedQueries) {
+      if (isEqual(currentQuery, savedQuery)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 

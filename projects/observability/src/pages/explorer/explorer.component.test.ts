@@ -47,6 +47,7 @@ import { SPANS_GQL_REQUEST } from '../../shared/graphql/request/handlers/spans/s
 import { TRACES_GQL_REQUEST } from '../../shared/graphql/request/handlers/traces/traces-graphql-query-handler.service';
 import { MetadataService } from '../../shared/services/metadata/metadata.service';
 import { ExplorerDashboardBuilder } from './explorer-dashboard-builder';
+import { ExplorerService } from './explorer-service';
 import { ExplorerComponent } from './explorer.component';
 import { ExplorerModule } from './explorer.module';
 
@@ -114,6 +115,9 @@ describe('Explorer component', () => {
       }),
       mockProvider(NotificationService, {
         createSuccessToast: jest.fn()
+      }),
+      mockProvider(ExplorerService, {
+        isDuplicateQuery: jest.fn().mockReturnValue(false)
       }),
       ...getMockFlexLayoutProviders()
     ]

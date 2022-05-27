@@ -40,6 +40,7 @@ import {
   ExplorerGeneratedDashboardContext,
   EXPLORER_DASHBOARD_BUILDER_FACTORY
 } from './explorer-dashboard-builder';
+import { ExplorerService } from './explorer-service';
 
 @Component({
   styleUrls: ['./explorer.component.scss'],
@@ -174,6 +175,7 @@ export class ExplorerComponent implements OnDestroy {
 
   public constructor(
     private readonly featureStateResolver: FeatureStateResolver,
+    private readonly explorerService: ExplorerService,
     private readonly metadataService: MetadataService,
     private readonly navigationService: NavigationService,
     private readonly notificationService: NotificationService,
@@ -215,10 +217,23 @@ export class ExplorerComponent implements OnDestroy {
 
   public onClickSaveQuery(): void {
     const currentScope = this.getQueryParamFromContext(this.currentContext);
+    const cleanedFilters = [];
 
-    const newSavedQueries = [...this.savedQueries, { scopeQueryParam: currentScope, filters: this.filters }];
-    this.preferenceService.set('savedQueries', newSavedQueries);
-    this.notificationService.createSuccessToast('Query Saved Successfully!');
+    // Remove the undefined subpath field for correct object comparison
+    for (const filter of this.filters) {
+      delete filter.subpath;
+      cleanedFilters.push(filter);
+    }
+
+    const currentQuery = { scopeQueryParam: currentScope, filters: cleanedFilters };
+
+    if (this.explorerService.isDuplicateQuery(currentQuery, this.savedQueries)) {
+      this.notificationService.createInfoToast('This query is saved already!');
+    } else {
+      const newSavedQueries = [...this.savedQueries, currentQuery];
+      this.preferenceService.set('savedQueries', newSavedQueries);
+      this.notificationService.createSuccessToast('Query Saved Successfully!');
+    }
   }
 
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {

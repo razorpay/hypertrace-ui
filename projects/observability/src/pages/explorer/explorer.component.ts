@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { isEmpty, isNil } from 'lodash-es';
-import { concat, EMPTY, Observable, Subject, Subscription } from 'rxjs';
+import { concat, EMPTY, Observable, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { IconType } from '@hypertrace/assets-library';
@@ -13,6 +13,7 @@ import {
   NavigationService,
   PreferenceService,
   QueryParamObject,
+  SubscriptionLifecycle,
   TimeDuration,
   TimeDurationService
 } from '@hypertrace/common';
@@ -44,6 +45,7 @@ import {
 @Component({
   styleUrls: ['./explorer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SubscriptionLifecycle],
   template: `
     <div class="explorer" *htLetAsync="this.initialState$ as initialState">
       <ht-page-header class="explorer-header"></ht-page-header>
@@ -135,11 +137,10 @@ import {
     </div>
   `
 })
-export class ExplorerComponent implements OnDestroy {
+export class ExplorerComponent {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
-  private readonly subscriptions: Subscription = new Subscription();
   private savedQueries: SavedQuery[] = [];
   private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
@@ -179,6 +180,7 @@ export class ExplorerComponent implements OnDestroy {
     private readonly notificationService: NotificationService,
     private readonly timeDurationService: TimeDurationService,
     private readonly preferenceService: PreferenceService,
+    private readonly subscriptionLifecycle: SubscriptionLifecycle,
     @Inject(EXPLORER_DASHBOARD_BUILDER_FACTORY) explorerDashboardBuilderFactory: ExplorerDashboardBuilderFactory,
     activatedRoute: ActivatedRoute
   ) {
@@ -196,21 +198,19 @@ export class ExplorerComponent implements OnDestroy {
       this.contextChangeSubject
     );
 
-    this.subscriptions.add(
+    this.subscriptionLifecycle.add(
       this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
         this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
       })
     );
-    this.subscriptions.add(
+
+    this.subscriptionLifecycle.add(
       this.preferenceService.get('savedQueries', []).subscribe(queries => {
         this.savedQueries = queries as SavedQuery[];
       })
     );
-    this.subscriptions.add(this.currentContext$.subscribe(value => (this.currentContext = value)));
-  }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subscriptionLifecycle.add(this.currentContext$.subscribe(value => (this.currentContext = value)));
   }
 
   public onClickSaveQuery(): void {

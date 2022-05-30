@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { IconType } from '@hypertrace/assets-library';
 import {
@@ -8,6 +8,7 @@ import {
   FeatureState,
   FeatureStateResolver,
   PreferenceService,
+  SubscriptionLifecycle,
   TimeRangeService
 } from '@hypertrace/common';
 import {
@@ -23,6 +24,7 @@ import { ObservabilityIconType } from '@hypertrace/observability';
   selector: 'ht-navigation',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./navigation.component.scss'],
+  providers: [SubscriptionLifecycle],
   template: `
     <div class="navigation">
       <ht-navigation-list
@@ -35,9 +37,8 @@ import { ObservabilityIconType } from '@hypertrace/observability';
     </div>
   `
 })
-export class NavigationComponent implements OnDestroy {
+export class NavigationComponent {
   private static readonly COLLAPSED_PREFERENCE: string = 'app-navigation.collapsed';
-  private readonly subscriptions: Subscription = new Subscription();
 
   public navItems$?: Observable<NavItemConfig[]>;
 
@@ -96,9 +97,10 @@ export class NavigationComponent implements OnDestroy {
     private readonly preferenceService: PreferenceService,
     private readonly navListComponentService: NavigationListComponentService,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly subscriptionLifecycle: SubscriptionLifecycle,
     private readonly timeRangeService: TimeRangeService
   ) {
-    this.subscriptions.add(
+    this.subscriptionLifecycle.add(
       this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
         if (featureState === FeatureState.Enabled) {
           this.navItemDefinitions.push(
@@ -116,10 +118,6 @@ export class NavigationComponent implements OnDestroy {
     this.navItems$ = this.navListComponentService.resolveNavItemConfigTimeRanges(navItems);
 
     this.isCollapsed$ = this.preferenceService.get(NavigationComponent.COLLAPSED_PREFERENCE, false);
-  }
-
-  public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 
   public updateDefaultTimeRangeIfUnset(activeItem: NavItemLinkConfig): void {

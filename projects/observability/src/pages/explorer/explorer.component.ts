@@ -142,7 +142,6 @@ export class ExplorerComponent implements OnDestroy {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
-  private readonly subscriptions: Subscription = new Subscription();
   private savedQueries: SavedQuery[] = [];
   private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;

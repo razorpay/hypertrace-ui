@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { isEmpty, isNil } from 'lodash-es';
+import { concat, EMPTY, Observable, Subject } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+
 import { IconType } from '@hypertrace/assets-library';
 import {
   ApplicationFeature,
@@ -9,13 +13,12 @@ import {
   NavigationService,
   PreferenceService,
   QueryParamObject,
+  SubscriptionLifecycle,
   TimeDuration,
   TimeDurationService
 } from '@hypertrace/common';
-import { ButtonSize, Filter, NotificationService, ToggleItem } from '@hypertrace/components';
-import { isEmpty, isNil } from 'lodash-es';
-import { concat, EMPTY, Observable, Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { ButtonRole, ButtonSize, Filter, NotificationService, ToggleItem } from '@hypertrace/components';
+
 import { CartesianSeriesVisualizationType } from '../../shared/components/cartesian/chart';
 import {
   ExploreRequestState,
@@ -42,6 +45,7 @@ import {
 @Component({
   styleUrls: ['./explorer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SubscriptionLifecycle],
   template: `
     <div class="explorer" *htLetAsync="this.initialState$ as initialState">
       <ht-page-header class="explorer-header"></ht-page-header>
@@ -58,7 +62,7 @@ import {
           class="explorer-save-button"
           icon="${IconType.Save}"
           label="Save Query"
-          role="tertiary"
+          role="${ButtonRole.Tertiary}"
           size="${ButtonSize.Small}"
           [disabled]="filters.length < 1"
           (click)="onClickSaveQuery()"
@@ -176,6 +180,7 @@ export class ExplorerComponent {
     private readonly notificationService: NotificationService,
     private readonly timeDurationService: TimeDurationService,
     private readonly preferenceService: PreferenceService,
+    private readonly subscriptionLifecycle: SubscriptionLifecycle,
     @Inject(EXPLORER_DASHBOARD_BUILDER_FACTORY) explorerDashboardBuilderFactory: ExplorerDashboardBuilderFactory,
     activatedRoute: ActivatedRoute
   ) {
@@ -192,20 +197,26 @@ export class ExplorerComponent {
       this.initialState$.pipe(map(value => value.contextToggle.value.dashboardContext)),
       this.contextChangeSubject
     );
-    this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
-      this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
-    });
-    this.preferenceService.get('savedQueries', []).subscribe(queries => {
-      this.savedQueries = queries as SavedQuery[];
-    });
-    this.currentContext$.subscribe(value => (this.currentContext = value));
+
+    this.subscriptionLifecycle.add(
+      this.featureStateResolver.getFeatureState(ApplicationFeature.SavedQueries).subscribe(featureState => {
+        this.enableSavedQueries = featureState === FeatureState.Enabled ? true : false;
+      })
+    );
+
+    this.subscriptionLifecycle.add(
+      this.preferenceService.get('savedQueries', []).subscribe(queries => {
+        this.savedQueries = queries as SavedQuery[];
+      })
+    );
+
+    this.subscriptionLifecycle.add(this.currentContext$.subscribe(value => (this.currentContext = value)));
   }
 
   public onClickSaveQuery(): void {
     const currentScope = this.getQueryParamFromContext(this.currentContext);
-    const currentFilterUrlStrings = this.filters.map(filter => filter.urlString);
 
-    const newSavedQueries = [...this.savedQueries, { scope: currentScope, filterUrlStrings: currentFilterUrlStrings }];
+    const newSavedQueries = [...this.savedQueries, { scopeQueryParam: currentScope, filters: this.filters }];
     this.preferenceService.set('savedQueries', newSavedQueries);
     this.notificationService.createSuccessToast('Query Saved Successfully!');
   }
@@ -381,6 +392,6 @@ const enum ExplorerQueryParam {
 }
 
 export interface SavedQuery {
-  scope: ScopeQueryParam;
-  filterUrlStrings: string[];
+  scopeQueryParam: ScopeQueryParam;
+  filters: Filter[];
 }

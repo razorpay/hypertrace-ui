@@ -12,6 +12,7 @@ import {
   NavigationService,
   PreferenceService,
   RelativeTimeRange,
+  SubscriptionLifecycle,
   TimeDuration,
   TimeRangeService,
   TimeUnit
@@ -83,7 +84,7 @@ describe('Explorer component', () => {
       IconLibraryTestingModule
     ],
     declareComponent: false,
-    componentProviders: [LayoutChangeService],
+    componentProviders: [LayoutChangeService, SubscriptionLifecycle],
     providers: [
       mockProvider(GraphQlRequestService, {
         query: jest.fn().mockReturnValueOnce(of(mockAttributes)).mockReturnValue(EMPTY)

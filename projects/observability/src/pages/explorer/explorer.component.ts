@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { isEmpty, isNil } from 'lodash-es';
 import { concat, EMPTY, Observable, Subject } from 'rxjs';
@@ -138,7 +138,7 @@ import { ExplorerService } from './explorer-service';
     </div>
   `
 })
-export class ExplorerComponent implements OnDestroy {
+export class ExplorerComponent {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;

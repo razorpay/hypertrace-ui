@@ -37,6 +37,11 @@
           "type": "dimension-model",
           "dimension": 1,
           "unit": "FR"
+        },
+        {
+          "type": "dimension-model",
+          "dimension": 400,
+          "unit": "PX"
         }
       ],
       "cell-spans": [
@@ -60,6 +65,13 @@
           "col-end": 3,
           "row-start": 2,
           "row-end": 3
+        },
+        {
+          "type": "cell-span-model",
+          "col-start": 0,
+          "col-end": 3,
+          "row-start": 3,
+          "row-end": 4
         }
       ]
     },
@@ -128,6 +140,25 @@
               "subpath": "merchant"
             }
           ]
+        }
+      },
+      {
+        "type": "donut-widget",
+        "header": {
+          "type": "widget-header",
+          "title": "Test widget"
+        },
+        "data": {
+          "type": "trace-donut-data-source",
+          "metric": {
+            "type": "explore-selection",
+            "metric": "calls",
+            "aggregation": "count"
+          },
+          "groupBy": {
+            "type": "attribute-specification",
+            "attribute": "tags.merchant"
+          }
         }
       }
     ]

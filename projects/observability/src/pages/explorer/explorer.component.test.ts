@@ -451,6 +451,7 @@ describe('Explorer component', () => {
   test("doesn't save query if user cancels input dialog", fakeAsync(() => {
     init();
     const preferenceServiceSpy = spyOn(spectator.inject(PreferenceService), 'set');
+    // tslint:disable-next-line: no-null-keyword
     window.prompt = jest.fn().mockReturnValue(null);
 
     const saveQueryButton = spectator.query('.explorer-save-button');

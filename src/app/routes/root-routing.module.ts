@@ -122,6 +122,17 @@ const ROUTE_CONFIG: HtRoute[] = [
               )
           },
           {
+            path: 'saved-queries',
+            data: {
+              breadcrumb: {
+                icon: IconType.Save,
+                label: 'Saved Queries'
+              }
+            },
+            loadChildren: () =>
+              import('./saved-queries/saved-queries-routing.module').then(module => module.SavedQueriesRoutingModule)
+          },
+          {
             path: 'error',
             component: NotFoundComponent
           }

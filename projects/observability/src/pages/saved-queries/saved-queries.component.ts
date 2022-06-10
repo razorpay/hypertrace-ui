@@ -14,7 +14,7 @@ import { SavedQuery } from '../explorer/explorer.component';
     <div class="saved-queries">
       <ht-page-header></ht-page-header>
       <div class="query-list-container">
-        <div class="query-container" *ngFor="let query of savedQueries$ | async; let queryIndex = index">
+        <div class="query-container" *ngFor="let query of savedQueries; let queryIndex = index">
           <div class="query-link-container">
             <ht-link [paramsOrUrl]="getExplorerNavigationParams$(query) | async">
               <div class="query-link">
@@ -44,14 +44,13 @@ import { SavedQuery } from '../explorer/explorer.component';
           </div>
         </div>
       </div>
-      <p class="not-found-text" *ngIf="(savedQueries$ | async)?.length === 0">
+      <p class="not-found-text" *ngIf="savedQueries.length === 0">
         You haven't saved any queries! Go to Explorer page to save a query.
       </p>
     </div>
   `
 })
 export class SavedQueriesComponent {
-  public savedQueries$: Observable<SavedQuery[]>;
   public savedQueries: SavedQuery[] = [];
 
   public constructor(
@@ -59,8 +58,6 @@ export class SavedQueriesComponent {
     private readonly explorerService: ExplorerService,
     private readonly subscriptionLifecycle: SubscriptionLifecycle
   ) {
-    this.savedQueries$ = this.preferenceService.get('savedQueries', []);
-
     this.subscriptionLifecycle.add(
       this.preferenceService.get('savedQueries', []).subscribe((queries: SavedQuery[]) => {
         this.savedQueries = queries;

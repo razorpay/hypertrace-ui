@@ -150,6 +150,7 @@ export class DonutBuilderService extends D3VisualizationBuilderService<
     const colorsRequired = provided.series.filter(series => isEmpty(series.color)).length;
     const colors = this.colorService.getColorPalette().forNColors(colorsRequired);
     this.type = provided.type;
+
     return {
       series: provided.series.map(providedSeries => ({
         ...providedSeries,

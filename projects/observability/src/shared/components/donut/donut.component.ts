@@ -50,7 +50,7 @@ export class DonutComponent implements OnChanges, OnDestroy, AfterViewInit {
   public alignment: string = DonutAlignmentStyle.Center;
 
   @Input()
-  public type = DonutType.Donut;
+  public type: DonutType = DonutType.Donut;
 
   @ViewChild('donutContainer', { static: true })
   private readonly donutContainer!: ElementRef;

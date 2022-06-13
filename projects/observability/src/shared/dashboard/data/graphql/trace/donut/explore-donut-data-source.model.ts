@@ -1,26 +1,28 @@
-import { isEmpty } from 'lodash-es';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import {
   Model,
   ModelProperty,
   NUMBER_PROPERTY,
+  PLAIN_OBJECT_PROPERTY,
   STRING_PROPERTY,
-  UNKNOWN_PROPERTY,
-  PLAIN_OBJECT_PROPERTY
+  UNKNOWN_PROPERTY
 } from '@hypertrace/hyperdash';
-import { DonutSeries, DonutSeriesResults } from './../../../../../components/donut/donut';
-import { GraphQlDataSourceModel } from '../../graphql-data-source.model';
-import { AttributeExpression } from './../../../../../graphql/model/attribute/attribute-expression';
-import { ExploreResult } from '../../explore/explore-result';
+import { isEmpty } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { DonutSeries, DonutSeriesResults } from '../../../../../components/donut/donut';
+import { AttributeExpression } from '../../../../../graphql/model/attribute/attribute-expression';
+import { GraphQlSortBySpecification } from '../../../../../graphql/model/schema/sort/graphql-sort-by-specification';
+import { ExploreSpecification } from '../../../../../graphql/model/schema/specifications/explore-specification';
+import { ExploreSpecificationBuilder } from '../../../../../graphql/request/builders/specification/explore/explore-specification-builder';
+import { ExploreGraphQlQueryHandlerService } from '../../../../../graphql/request/handlers/explore/explore-graphql-query-handler.service';
 import {
   EXPLORE_GQL_REQUEST,
   GraphQlExploreResponse
-} from './../../../../../graphql/request/handlers/explore/explore-query';
-import { ExploreGraphQlQueryHandlerService } from '../../../../../graphql/request/handlers/explore/explore-graphql-query-handler.service';
-import { ExploreSpecification, ExploreSpecificationBuilder } from 'projects/observability/src/public-api';
+} from '../../../../../graphql/request/handlers/explore/explore-query';
+import { ExploreResult } from '../../explore/explore-result';
+import { GraphQlDataSourceModel } from '../../graphql-data-source.model';
 import { ExploreSelectionSpecificationModel } from '../../specifiers/explore-selection-specification.model';
-import { GraphQlSortBySpecification } from './../../../../../graphql/model/schema/sort/graphql-sort-by-specification';
+
 @Model({
   type: 'explore-donut-data-source'
 })
@@ -63,8 +65,6 @@ export class ExploreDonutDataSourceModel extends GraphQlDataSourceModel<DonutSer
   private _groupBy: AttributeExpression[] = [];
 
   public getData(): Observable<DonutSeriesResults> {
-    console.log(this.metric, 'metric');
-
     const metric: AttributeExpression =
       typeof this.metric.metric! === 'string'
         ? { key: this.metric.metric }

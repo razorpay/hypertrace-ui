@@ -148,16 +148,39 @@
           "type": "widget-header",
           "title": "Test widget"
         },
+        "chartType": "pie",
         "data": {
-          "type": "trace-donut-data-source",
+          "type": "explore-donut-data-source",
+          "context": "API_TRACE",
           "metric": {
             "type": "explore-selection",
             "metric": "calls",
             "aggregation": "count"
           },
-          "groupBy": {
-            "type": "attribute-specification",
-            "attribute": "tags.merchant"
+          "filters": [
+            {
+              "type": "graphql-key-value-filter",
+              "key": {
+                "key": "tags",
+                "subpath": "merchant"
+              },
+              "operator": "NOT_EQUALS",
+              "value": ""
+            }
+          ],
+          "group-by": [
+            {
+              "key": "tags",
+              "subpath": "merchant"
+            }
+          ],
+          "order-by": {
+            "key": {
+              "type": "explore-selection",
+              "metric": "calls",
+              "aggregation": "count"
+            },
+            "direction": "DESC"
           }
         }
       }

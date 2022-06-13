@@ -66,7 +66,7 @@ export class ExploreDonutDataSourceModel extends GraphQlDataSourceModel<DonutSer
 
   public getData(): Observable<DonutSeriesResults> {
     const metric: AttributeExpression =
-      typeof this.metric.metric! === 'string'
+      typeof this.metric.metric === 'string'
         ? { key: this.metric.metric }
         : { key: this.metric.metric.key, subpath: this.metric.metric.subpath };
     this._groupBy = this.groupBy.map(attributeExpression => ({

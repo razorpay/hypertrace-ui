@@ -18,7 +18,7 @@ jobs:
 
       - id: cache
         name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Restore node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
@@ -108,7 +108,7 @@ jobs:
           fetch-depth: 0
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
@@ -169,7 +169,7 @@ jobs:
         uses: hypertrace/github-actions/checksum@main
 
       - name: Cache gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: ~/.gradle
           key: gradle-${{ runner.os }}-${{ hashFiles('**/checksum.txt') }}

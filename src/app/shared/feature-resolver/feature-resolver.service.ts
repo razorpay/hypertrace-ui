@@ -13,7 +13,7 @@ export class FeatureResolverService extends FeatureStateResolver {
   }
   private getConfigValue(flag: string): FeatureState {
     // Handle case where flag is not present in config.json
-    if (this.uiConfigService.isConfigPresentForFeature(flag)) {
+    if (!this.uiConfigService.isConfigPresentForFeature(flag)) {
       return FeatureState.Enabled;
     }
 

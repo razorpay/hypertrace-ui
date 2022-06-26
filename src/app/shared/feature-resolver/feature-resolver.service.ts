@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicationFeature, FeatureState, FeatureStateResolver } from '@hypertrace/common';
+import { FeatureState, FeatureStateResolver } from '@hypertrace/common';
 import { Observable, of } from 'rxjs';
 import { UiConfigurationService } from './../ui-configuration/ui-configuration.service';
 

@@ -25,6 +25,7 @@
             "assets": [
               "src/favicon.png",
               "src/secrets.js",
+              "src/ui-config.js",
               {
                 "glob": "**/*",
                 "input": "./projects/assets-library/assets",

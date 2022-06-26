@@ -34,3 +34,9 @@ export interface Json {
 
 export type JsonValue = Json | Json[] | string | number | boolean | null;
 export type PrimitiveValue = string | number | boolean;
+
+declare global {
+  interface Window {
+    ___CONFIG: any;
+  }
+}

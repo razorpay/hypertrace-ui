@@ -5,9 +5,10 @@ import { ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';
 import { environment } from '../environments/environment';
 import { entityMetadata } from './entity-metadata';
 import { FeatureResolverModule } from './shared/feature-resolver/feature-resolver.module';
+import { UiConfigurationModule } from './shared/ui-configuration/ui-configuration.module';
 
 @NgModule({
-  imports: [FeatureResolverModule],
+  imports: [FeatureResolverModule, UiConfigurationModule],
   providers: [
     {
       provide: GRAPHQL_OPTIONS,

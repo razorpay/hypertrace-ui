@@ -9,14 +9,15 @@ export class FeatureResolverService extends FeatureStateResolver {
     super();
   }
   public getFeatureState(flag: string): Observable<FeatureState> {
-    return of(this.getConfigValue(flag as ApplicationFeature));
+    return of(this.getConfigValue(flag));
   }
-  private getConfigValue(flag: ApplicationFeature): FeatureState {
+  private getConfigValue(flag: string): FeatureState {
     // Handle case where flag is not present in config.json
-    if (this.uiConfigService.isConfigPresentForFeature(flag as string)) {
+    if (this.uiConfigService.isConfigPresentForFeature(flag)) {
       return FeatureState.Enabled;
     }
 
+    // tslint:disable-next-line: strict-boolean-expressions
     return this.uiConfigService.getValueForFeature(flag) ? FeatureState.Enabled : FeatureState.Disabled;
   }
 }

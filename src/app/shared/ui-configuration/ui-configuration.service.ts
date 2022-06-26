@@ -1,5 +1,4 @@
 import { Injectable, Optional, SkipSelf } from '@angular/core';
-import { ApplicationFeature } from '@hypertrace/common';
 @Injectable({
   providedIn: 'root'
 })

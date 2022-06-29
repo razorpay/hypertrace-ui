@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FeatureState, FeatureStateResolver } from '@hypertrace/common';
+import { ApplicationFeature, FeatureState, FeatureStateResolver } from '@hypertrace/common';
 import { Observable, of } from 'rxjs';
 import { DynamicConfigurationService } from '../dynamic-configuration/dynamic-configuration.service';
 
@@ -14,7 +14,14 @@ export class FeatureResolverService extends FeatureStateResolver {
   private getConfigValue(flag: string): FeatureState {
     // Handle case where flag is not present in config.json
     if (!this.dynamicConfigService.isConfigPresentForFeature(flag)) {
-      return FeatureState.Enabled;
+      switch (flag) {
+        case ApplicationFeature.PageTimeRange:
+          return FeatureState.Disabled;
+        case ApplicationFeature.SavedQueries:
+          return FeatureState.Enabled;
+        default:
+          return FeatureState.Enabled;
+      }
     }
 
     // tslint:disable-next-line: strict-boolean-expressions

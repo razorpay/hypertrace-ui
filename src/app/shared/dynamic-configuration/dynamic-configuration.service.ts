@@ -14,7 +14,7 @@ export class DynamicConfigurationService {
     }
   }
   public load(): void {
-    this.http.get<UiConfiguration>('/config.json').subscribe((data: UiConfiguration) => {
+    this.http.get<UiConfiguration>('/assets/json/config.json').subscribe((data: UiConfiguration) => {
       this.config = data;
     });
   }

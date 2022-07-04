@@ -4,6 +4,8 @@ import { Filter } from '@hypertrace/components';
 import { Observable } from 'rxjs';
 import { AttributeExpression } from '../../graphql/model/attribute/attribute-expression';
 import { GraphQlGroupBy } from '../../graphql/model/schema/groupby/graphql-group-by';
+import { GraphQlSortBySpecification } from '../../graphql/model/schema/sort/graphql-sort-by-specification';
+// import { GraphQlSortBySpecification } from '../../graphql/model/schema/sort/graphql-sort-by-specification';
 import { IntervalValue } from '../interval-select/interval-select.component';
 import {
   ExploreRequestContext,
@@ -43,6 +45,13 @@ import {
           [groupByExpression]="(currentVisualization.groupBy?.keyExpressions)[0]"
           (groupByExpressionChange)="this.updateGroupByExpression(currentVisualization.groupBy, $event)"
         ></ht-explore-query-group-by-editor>
+
+        <ht-explore-query-order-by-editor
+          class="order-by"
+          [context]="currentVisualization.context"
+          [orderByExpression]="currentVisualization.orderBy"
+          (orderByExpressionChange)="this.updateOrderBy($event, currentVisualization)"
+        ></ht-explore-query-order-by-editor>
 
         <ht-explore-query-limit-editor
           *ngIf="currentVisualization.groupBy"
@@ -131,6 +140,11 @@ export class ExploreQueryEditorComponent implements OnChanges, OnInit {
 
   public updateGroupByLimit(groupBy: GraphQlGroupBy, limit: number): void {
     this.visualizationBuilder.groupBy({ ...groupBy, limit: limit });
+  }
+
+  public updateOrderBy(orderBy?: GraphQlSortBySpecification, currentVisualization?: any): void {
+    console.log({ currentVisualization });
+    this.visualizationBuilder.orderBy(orderBy);
   }
 
   public setInterval(interval: IntervalValue): void {

@@ -91,6 +91,7 @@ export class GraphQlArgumentBuilder {
   }
 
   protected buildOrderByArgumentValue(orderBy: GraphQlSortBySpecification): GraphQlArgumentObject {
+    // @ts-ignore
     const orderByFragment = orderBy.key.asGraphQlOrderByFragment();
     const unknownFields = omit(orderByFragment, 'direction', 'expression');
 

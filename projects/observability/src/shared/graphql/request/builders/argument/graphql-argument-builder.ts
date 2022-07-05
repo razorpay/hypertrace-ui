@@ -3,6 +3,8 @@ import { isEmpty, omit } from 'lodash-es';
 import { AttributeExpression } from '../../../model/attribute/attribute-expression';
 import { GraphQlFilter } from '../../../model/schema/filter/graphql-filter';
 import { GraphQlSortBySpecification } from '../../../model/schema/sort/graphql-sort-by-specification';
+import { GraphQlSortDirection } from '../../../model/schema/sort/graphql-sort-direction';
+import { Specification } from '../../../model/schema/specifier/specification';
 import { GraphQlTimeRange } from '../../../model/schema/timerange/graphql-time-range';
 import { TraceType } from '../../../model/schema/trace';
 
@@ -38,7 +40,14 @@ export class GraphQlArgumentBuilder {
     return [
       {
         name: 'orderBy',
-        value: orderBys.map(orderBy => this.buildOrderByArgumentValue(orderBy))
+        value: orderBys.map(orderBy =>
+          this.buildOrderByArgumentValue(
+            orderBy as {
+              direction: GraphQlSortDirection;
+              key: Specification;
+            }
+          )
+        )
       }
     ];
   }
@@ -90,8 +99,10 @@ export class GraphQlArgumentBuilder {
     };
   }
 
-  protected buildOrderByArgumentValue(orderBy: GraphQlSortBySpecification): GraphQlArgumentObject {
-    // @ts-ignore
+  protected buildOrderByArgumentValue(orderBy: {
+    direction: GraphQlSortDirection;
+    key: Specification;
+  }): GraphQlArgumentObject {
     const orderByFragment = orderBy.key.asGraphQlOrderByFragment();
     const unknownFields = omit(orderByFragment, 'direction', 'expression');
 

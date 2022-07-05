@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { AttributeExpression } from '../../graphql/model/attribute/attribute-expression';
 import { GraphQlGroupBy } from '../../graphql/model/schema/groupby/graphql-group-by';
 import { GraphQlSortBySpecification } from '../../graphql/model/schema/sort/graphql-sort-by-specification';
-// import { GraphQlSortBySpecification } from '../../graphql/model/schema/sort/graphql-sort-by-specification';
 import { IntervalValue } from '../interval-select/interval-select.component';
 import {
   ExploreRequestContext,
@@ -50,7 +49,7 @@ import {
           class="order-by"
           [context]="currentVisualization.context"
           [orderByExpression]="currentVisualization.orderBy"
-          (orderByExpressionChange)="this.updateOrderBy($event, currentVisualization)"
+          (orderByExpressionChange)="this.updateOrderBy($event)"
         ></ht-explore-query-order-by-editor>
 
         <ht-explore-query-limit-editor
@@ -142,8 +141,7 @@ export class ExploreQueryEditorComponent implements OnChanges, OnInit {
     this.visualizationBuilder.groupBy({ ...groupBy, limit: limit });
   }
 
-  public updateOrderBy(orderBy?: GraphQlSortBySpecification, currentVisualization?: any): void {
-    console.log({ currentVisualization });
+  public updateOrderBy(orderBy?: GraphQlSortBySpecification): void {
     this.visualizationBuilder.orderBy(orderBy);
   }
 

@@ -7,6 +7,8 @@ const _fs = require('fs');
 async function run() {
   try {
     core.info('Checking for new custom dashboards');
+    const { stdout: d } = await execa('git', ['branch']);
+    core.notice(d);
     const { stdout } = await execa('git', [
       `diff`,
       '--name-only',

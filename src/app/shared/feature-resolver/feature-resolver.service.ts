@@ -11,7 +11,7 @@ export class FeatureResolverService extends FeatureStateResolver {
       case ApplicationFeature.SavedQueries:
         return of(FeatureState.Disabled);
       case ApplicationFeature.CustomDashboards:
-        return of(FeatureState.Disabled);
+        return of(FeatureState.Enabled);
       default:
         return of(FeatureState.Enabled);
     }

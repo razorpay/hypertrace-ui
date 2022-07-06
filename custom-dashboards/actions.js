@@ -10,7 +10,7 @@ async function run() {
     const { stdout } = await execa('git', [
       `diff`,
       '--name-only',
-      'feat/dashboard-json',
+      'origin/feat/dashboard-json',
       '--',
       './custom-dashboards/*.json'
     ]);

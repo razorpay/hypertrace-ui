@@ -45,7 +45,7 @@ export class ExploreQueryOrderByEditorComponent {
   public readonly orderOptions: SelectOption<string | undefined>[] = this.getOrderByOptions();
   private readonly orderByExpressionsToEmit: Subject<GraphQlSortBySpecification | undefined> = new Subject();
 
-  public readonly currentOrderOption: string | undefined = this.orderOptions[1].value;
+  public readonly currentOrderOption: string | undefined = this.orderOptions[0].value;
 
   public constructor() {
     this.orderByExpressionsToEmit.pipe(debounceTime(500)).subscribe(this.orderByExpressionChange);

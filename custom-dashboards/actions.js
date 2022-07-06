@@ -7,8 +7,6 @@ const _fs = require('fs');
 async function run() {
   try {
     core.info('Checking for new custom dashboards');
-    const { stdout: d } = await execa('git', ['branch']);
-    core.notice(d);
     const { stdout } = await execa('git', [
       `diff`,
       '--name-only',
@@ -48,8 +46,7 @@ const generateListJson = async files => {
     } catch (error) {
       core.error(error);
       core.error(`JSON parsing failed for ${file}`);
-      core.setFailed(error.message);
-      return;
+      return Promise.reject(error);
     }
     const list_data = {
       display: (json_file_data && json_file_data.name) || 'Dashboard',

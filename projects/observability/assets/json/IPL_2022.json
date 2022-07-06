@@ -37,6 +37,11 @@
           "type": "dimension-model",
           "dimension": 1,
           "unit": "FR"
+        },
+        {
+          "type": "dimension-model",
+          "dimension": 400,
+          "unit": "PX"
         }
       ],
       "cell-spans": [
@@ -60,6 +65,13 @@
           "col-end": 3,
           "row-start": 2,
           "row-end": 3
+        },
+        {
+          "type": "cell-span-model",
+          "col-start": 0,
+          "col-end": 3,
+          "row-start": 3,
+          "row-end": 4
         }
       ]
     },
@@ -128,6 +140,48 @@
               "subpath": "merchant"
             }
           ]
+        }
+      },
+      {
+        "type": "donut-widget",
+        "header": {
+          "type": "widget-header",
+          "title": "Test widget"
+        },
+        "chartType": "pie",
+        "data": {
+          "type": "explore-donut-data-source",
+          "context": "API_TRACE",
+          "metric": {
+            "type": "explore-selection",
+            "metric": "calls",
+            "aggregation": "count"
+          },
+          "filters": [
+            {
+              "type": "graphql-key-value-filter",
+              "key": {
+                "key": "tags",
+                "subpath": "merchant"
+              },
+              "operator": "NOT_EQUALS",
+              "value": ""
+            }
+          ],
+          "group-by": [
+            {
+              "key": "tags",
+              "subpath": "merchant"
+            }
+          ],
+          "order-by": {
+            "key": {
+              "type": "explore-selection",
+              "metric": "calls",
+              "aggregation": "count"
+            },
+            "direction": "DESC"
+          }
         }
       }
     ]

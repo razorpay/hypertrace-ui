@@ -88,12 +88,6 @@ export class NavigationComponent {
       label: 'Explorer',
       icon: IconType.Search,
       matchPaths: ['explorer']
-    },
-    {
-      type: NavItemType.Link,
-      label: 'Custom Dashboards',
-      icon: IconType.Dashboard,
-      matchPaths: ['custom-dashboards']
     }
   ];
 
@@ -111,6 +105,16 @@ export class NavigationComponent {
         if (featureState === FeatureState.Enabled) {
           this.navItemDefinitions.push(
             this.navigationListService.getNavItemDefinitionForFeature(ApplicationFeature.SavedQueries)
+          );
+        }
+      })
+    );
+
+    this.subscriptionLifecycle.add(
+      this.featureStateResolver.getFeatureState(ApplicationFeature.CustomDashboards).subscribe(featureState => {
+        if (featureState === FeatureState.Enabled) {
+          this.navItemDefinitions.push(
+            this.navigationListService.getNavItemDefinitionForFeature(ApplicationFeature.CustomDashboards)
           );
         }
       })

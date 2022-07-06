@@ -73,7 +73,6 @@
   },
   "devDependencies": {
     "@actions/core": "^1.9.0",
-    "@actions/exec": "^1.1.1",
     "@actions/glob": "^0.3.0",
     "@angular-builders/jest": "^11.2.0",
     "@angular-devkit/build-angular": "~12.2.1",

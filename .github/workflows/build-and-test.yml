@@ -31,9 +31,7 @@ jobs:
     needs: [npm-install-if-needed]
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v2
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -43,9 +41,6 @@ jobs:
 
       - name: Build
         run: npm run build:ci
-
-      - name: Custom Dashboards Pipeline
-        run: node ./custom-dashboards/actions.js
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
@@ -202,4 +197,3 @@ jobs:
           tags: ${{ github.sha }}
           dockerfile: Dockerfile
           build_args: GIT_COMMIT_HASH=${{ github.sha }},GIT_TOKEN=${{ secrets.GIT_ACTION_TOKEN }},GIT_USERNAME=rzp
-

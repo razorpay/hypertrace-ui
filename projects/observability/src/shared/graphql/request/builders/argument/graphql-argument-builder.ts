@@ -40,14 +40,7 @@ export class GraphQlArgumentBuilder {
     return [
       {
         name: 'orderBy',
-        value: orderBys.map(orderBy =>
-          this.buildOrderByArgumentValue(
-            orderBy as {
-              direction: GraphQlSortDirection;
-              key: Specification;
-            }
-          )
-        )
+        value: orderBys.map(orderBy => this.buildOrderByArgumentValue(orderBy))
       }
     ];
   }

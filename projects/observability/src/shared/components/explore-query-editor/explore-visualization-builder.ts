@@ -8,7 +8,7 @@ import { AttributeMetadata } from '../../graphql/model/metadata/attribute-metada
 import { MetricAggregationType } from '../../graphql/model/metrics/metric-aggregation';
 import { GraphQlGroupBy } from '../../graphql/model/schema/groupby/graphql-group-by';
 import { ObservabilityTraceType } from '../../graphql/model/schema/observability-traces';
-import { GraphQlSortBySpecification } from '../../graphql/model/schema/sort/graphql-sort-by-specification';
+import { GraphQlSortDirection } from '../../graphql/model/schema/sort/graphql-sort-direction';
 import { SPAN_SCOPE } from '../../graphql/model/schema/span';
 import { ExploreSpecification } from '../../graphql/model/schema/specifications/explore-specification';
 import { Specification } from '../../graphql/model/schema/specifier/specification';
@@ -82,9 +82,9 @@ export class ExploreVisualizationBuilder implements OnDestroy {
     });
   }
 
-  public orderBy(orderBy?: GraphQlSortBySpecification): this {
+  public orderBy(orderBy?: GraphQlSortDirection): this {
     return this.updateState({
-      orderBy: orderBy ? [orderBy] : undefined
+      orderBy: orderBy
     });
   }
 
@@ -124,7 +124,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
       filters: state.filters && [...state.filters],
       interval: state.interval,
       groupBy: state.groupBy && { ...state.groupBy },
-      orderBy: state.orderBy && [...state.orderBy],
+      orderBy: state.orderBy,
       exploreQuery$: this.mapStateToExploreQuery(state),
       resultsQuery$: this.mapStateToResultsQuery(state)
     };
@@ -138,7 +138,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
       interval: this.resolveInterval(state.interval),
       filters: state.filters && this.graphQlFilterBuilderService.buildGraphQlFieldFilters(state.filters),
       groupBy: state.groupBy,
-      orderBy: state.orderBy && [{ ...state.orderBy[0], key: state.series[0].specification }],
+      orderBy: state.orderBy && [{ direction: state.orderBy, key: state.series[0].specification }],
       limit: state.resultLimit
     });
   }
@@ -235,7 +235,7 @@ export interface ExploreRequestState {
   interval?: TimeDuration | 'AUTO';
   filters?: Filter[];
   groupBy?: GraphQlGroupBy;
-  orderBy?: GraphQlSortBySpecification[];
+  orderBy?: GraphQlSortDirection;
   useGroupName?: boolean;
   resultLimit: number;
 }

@@ -69,8 +69,6 @@ export class DatetimePickerComponent implements ControlValueAccessor, OnChanges 
   private propagateControlValueChangeOnTouch?: (value?: Date) => void;
 
   public getInputDate(): string {
-    console.log(this.date);
-
     return this.date?.toISOString().slice(0, 10) ?? '';
   }
 
@@ -96,7 +94,9 @@ export class DatetimePickerComponent implements ControlValueAccessor, OnChanges 
   }
 
   public onDateChange(date: string): void {
-    if (!date) return;
+    if (date === '') {
+      return;
+    }
 
     // The html input uses the format YYYY-MM-DD
     const d: Date = new Date(this.date!);

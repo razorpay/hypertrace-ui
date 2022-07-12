@@ -138,7 +138,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
       interval: this.resolveInterval(state.interval),
       filters: state.filters && this.graphQlFilterBuilderService.buildGraphQlFieldFilters(state.filters),
       groupBy: state.groupBy,
-      orderBy: state.orderBy && [{ direction: state.orderBy, key: state.series[0].specification }],
+      orderBy: state.orderBy && [{ direction: state.orderBy, key: state.series[0]?.specification }],
       limit: state.resultLimit
     });
   }

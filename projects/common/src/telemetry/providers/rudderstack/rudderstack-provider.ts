@@ -22,7 +22,7 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
        */
 
       // tslint:disable-next-line: no-console
-      console.error('Failed to load Rudderstack from here', error);
+      console.error('Failed to load Rudderstack', error);
     }
   }
 

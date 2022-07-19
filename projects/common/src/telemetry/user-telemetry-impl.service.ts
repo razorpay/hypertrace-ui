@@ -48,7 +48,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
     this.initializedTelemetryProviders
       .filter(provider => provider.enableEventTracking)
       .forEach(provider =>
-        provider.telemetryProvider.trackEvent?.(name, { ...data, eventCategory: TelemetryEvent.click })
+        provider.telemetryProvider.trackEvent?.(name, { ...data, eventCategory: TelemetryEvent.mouseEvent })
       );
   }
 
@@ -108,7 +108,7 @@ interface UserTelemetryInternalConfig<InitConfig = unknown> {
 }
 
 export enum TelemetryEvent {
-  click = 'user-action',
+  mouseEvent = 'mouse-event',
   navigate = 'user-navigation',
   error = 'error'
 }

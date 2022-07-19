@@ -89,3 +89,9 @@ interface UserTelemetryInternalConfig<InitConfig = unknown> {
   enableEventTracking: boolean;
   enableErrorTracking: boolean;
 }
+
+export enum TelemetryEvent {
+  click = "user-action",
+  navigate = "user-navigation",
+  error = "error"
+}

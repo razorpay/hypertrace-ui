@@ -91,7 +91,7 @@ interface UserTelemetryInternalConfig<InitConfig = unknown> {
 }
 
 export enum TelemetryEvent {
-  click = "user-action",
-  navigate = "user-navigation",
-  error = "error"
+  click = 'user-action',
+  navigate = 'user-navigation',
+  error = 'error'
 }

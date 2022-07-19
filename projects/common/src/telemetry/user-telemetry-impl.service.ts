@@ -1,6 +1,7 @@
 import { Injectable, Injector, Optional } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { delay, filter } from 'rxjs/operators';
+import { FixedTimeRange, TimeRangeService } from '../public-api';
 import { Dictionary } from '../utilities/types/types';
 import { UserTelemetryProvider, UserTelemetryRegistrationConfig, UserTraits } from './telemetry';
 import { UserTelemetryService } from './user-telemetry.service';
@@ -46,20 +47,28 @@ export class UserTelemetryImplService extends UserTelemetryService {
   public trackEvent(name: string, data: Dictionary<unknown>): void {
     this.initializedTelemetryProviders
       .filter(provider => provider.enableEventTracking)
-      .forEach(provider => provider.telemetryProvider.trackEvent?.(name, { ...data, eventCategory: 'user-action' }));
+      .forEach(provider =>
+        provider.telemetryProvider.trackEvent?.(name, { ...data, eventCategory: TelemetryEvent.click })
+      );
   }
 
   public trackPageEvent(url: string, data: Dictionary<unknown>): void {
     this.initializedTelemetryProviders
       .filter(provider => provider.enablePageTracking)
-      .forEach(provider => provider.telemetryProvider.trackPage?.(url, { ...data, eventCategory: 'page-view' }));
+      .forEach(provider =>
+        provider.telemetryProvider.trackPage?.(url, { ...data, eventCategory: TelemetryEvent.navigate })
+      );
   }
 
   public trackErrorEvent(error: string, data: Dictionary<unknown>): void {
     this.initializedTelemetryProviders
       .filter(provider => provider.enableErrorTracking)
       .forEach(provider =>
-        provider.telemetryProvider.trackError?.(`Error: ${error}`, { ...data, eventCategory: 'error' })
+        provider.telemetryProvider.trackError?.(TelemetryEvent.error, {
+          ...data,
+          eventCategory: TelemetryEvent.error,
+          errorMessage: error
+        })
       );
   }
 
@@ -78,7 +87,15 @@ export class UserTelemetryImplService extends UserTelemetryService {
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
         delay(50)
       )
-      .subscribe(route => this.trackPageEvent(`Visited: ${route.url}`, { url: route.url }));
+      .subscribe(route => {
+        const queryParamMap = this.router?.routerState.snapshot.root.queryParamMap;
+        const timeParamValue = queryParamMap?.get(TimeRangeService.TIME_RANGE_QUERY_PARAM);
+        this.trackPageEvent(TelemetryEvent.navigate, {
+          url: route.url,
+          ...queryParamMap,
+          isCustomTime: FixedTimeRange.isCustomTime(timeParamValue !== null ? timeParamValue : undefined)
+        });
+      });
   }
 }
 

@@ -60,7 +60,7 @@ describe('User Telemetry helper service', () => {
     spectator.service.trackEvent('eventA', { target: 'unknown' });
     expect(telemetryProvider.trackEvent).toHaveBeenCalledWith('eventA', {
       target: 'unknown',
-      eventCategory: 'user-action'
+      eventCategory: TelemetryEvent.mouseEvent
     });
 
     // TrackPage

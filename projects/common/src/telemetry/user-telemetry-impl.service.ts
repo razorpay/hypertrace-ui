@@ -115,6 +115,4 @@ export enum UserTelemetryEvent {
 
 // This is temporary, will move this to fixed-time.range.ts once able to understand why test case was failing
 // This is to move past test case for now
-const isCustomTime = (time: undefined | string): boolean => {
-  return time !== undefined ? /(\d+)-(\d+)/.test(time) : false;
-};
+const isCustomTime = (time: undefined | string): boolean => (time !== undefined ? /(\d+)-(\d+)/.test(time) : false);

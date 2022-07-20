@@ -1,7 +1,6 @@
 import { Injectable, Injector, Optional } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { delay, filter } from 'rxjs/operators';
-import { FixedTimeRange, TimeRangeService } from '../public-api';
 import { Dictionary } from '../utilities/types/types';
 import { UserTelemetryProvider, UserTelemetryRegistrationConfig, UserTraits } from './telemetry';
 import { UserTelemetryService } from './user-telemetry.service';
@@ -89,11 +88,12 @@ export class UserTelemetryImplService extends UserTelemetryService {
       )
       .subscribe(route => {
         const queryParamMap = this.router?.routerState.snapshot.root.queryParamMap;
-        const timeParamValue = queryParamMap?.get(TimeRangeService.TIME_RANGE_QUERY_PARAM);
+        // Todo - Read from TimeRangeService.TIME_QUERY_PARAM once root cause for test case failure is identified
+        const timeParamValue = queryParamMap?.get('time');
         this.trackPageEvent(TelemetryEvent.navigate, {
           url: route.url,
           ...queryParamMap,
-          isCustomTime: FixedTimeRange.isCustomTime(timeParamValue !== null ? timeParamValue : undefined)
+          isCustomTime: isCustomTime(timeParamValue !== null ? timeParamValue : undefined)
         });
       });
   }
@@ -112,3 +112,9 @@ export enum TelemetryEvent {
   navigate = 'user-navigation',
   error = 'error'
 }
+
+// This is temporary, will move this to fixed-time.range.ts once able to understand why test case was failing
+// This is to move past test case for now
+const isCustomTime = (time: undefined | string): boolean => {
+  return time !== undefined ? /(\d+)-(\d+)/.test(time) : false;
+};

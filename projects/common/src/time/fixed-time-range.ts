@@ -31,8 +31,4 @@ export class FixedTimeRange implements TimeRange {
     // Right now all RelativeTimeRanges are NOT custom; all FixedTimeRanges are
     return false;
   }
-
-  public static isCustomTime(time: undefined | string): boolean {
-    return time !== undefined ? URL_REG_EX.test(time) : false;
-  }
 }

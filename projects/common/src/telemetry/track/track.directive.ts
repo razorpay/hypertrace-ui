@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit } from '@ang
 import { fromEvent, Subscription } from 'rxjs';
 import { TypedSimpleChanges } from '../../utilities/types/angular-change-object';
 import { TrackUserEventsType } from '../telemetry';
-import { TelemetryEvent, UserTelemetryImplService } from '../user-telemetry-impl.service';
+import { UserTelemetryEvent, UserTelemetryImplService } from '../user-telemetry-impl.service';
 
 @Directive({
   selector: '[htTrack]'
@@ -59,7 +59,7 @@ export class TrackDirective implements OnInit, OnChanges, OnDestroy {
 
   private trackUserEvent(userEvent: string, eventObj: MouseEvent): void {
     const targetElement = eventObj.target as HTMLElement;
-    this.userTelemetryImplService.trackEvent(TelemetryEvent.mouseEvent, {
+    this.userTelemetryImplService.trackEvent(UserTelemetryEvent.mouseEvent, {
       tagName: targetElement.tagName,
       className: targetElement.className,
       type: userEvent,

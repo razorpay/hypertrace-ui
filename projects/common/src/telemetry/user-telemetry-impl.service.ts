@@ -47,7 +47,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
     this.initializedTelemetryProviders
       .filter(provider => provider.enableEventTracking)
       .forEach(provider =>
-        provider.telemetryProvider.trackEvent?.(name, { ...data, eventCategory: TelemetryEvent.mouseEvent })
+        provider.telemetryProvider.trackEvent?.(name, { ...data, eventCategory: UserTelemetryEvent.mouseEvent })
       );
   }
 
@@ -55,7 +55,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
     this.initializedTelemetryProviders
       .filter(provider => provider.enablePageTracking)
       .forEach(provider =>
-        provider.telemetryProvider.trackPage?.(url, { ...data, eventCategory: TelemetryEvent.navigate })
+        provider.telemetryProvider.trackPage?.(url, { ...data, eventCategory: UserTelemetryEvent.navigate })
       );
   }
 
@@ -63,9 +63,9 @@ export class UserTelemetryImplService extends UserTelemetryService {
     this.initializedTelemetryProviders
       .filter(provider => provider.enableErrorTracking)
       .forEach(provider =>
-        provider.telemetryProvider.trackError?.(TelemetryEvent.error, {
+        provider.telemetryProvider.trackError?.(UserTelemetryEvent.error, {
           ...data,
-          eventCategory: TelemetryEvent.error,
+          eventCategory: UserTelemetryEvent.error,
           errorMessage: error
         })
       );
@@ -90,7 +90,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
         const queryParamMap = this.router?.routerState.snapshot.root.queryParamMap;
         // Todo - Read from TimeRangeService.TIME_QUERY_PARAM once root cause for test case failure is identified
         const timeParamValue = queryParamMap?.get('time');
-        this.trackPageEvent(TelemetryEvent.navigate, {
+        this.trackPageEvent(UserTelemetryEvent.navigate, {
           url: route.url,
           ...queryParamMap,
           isCustomTime: isCustomTime(timeParamValue !== null ? timeParamValue : undefined)
@@ -107,7 +107,7 @@ interface UserTelemetryInternalConfig<InitConfig = unknown> {
   enableErrorTracking: boolean;
 }
 
-export enum TelemetryEvent {
+export enum UserTelemetryEvent {
   mouseEvent = 'mouse-event',
   navigate = 'user-navigation',
   error = 'error'

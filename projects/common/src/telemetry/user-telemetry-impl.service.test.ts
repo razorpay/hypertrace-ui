@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { createServiceFactory, mockProvider } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
 import { TelemetryProviderConfig, UserTelemetryProvider, UserTelemetryRegistrationConfig } from './telemetry';
-import { TelemetryEvent, UserTelemetryImplService } from './user-telemetry-impl.service';
+import { UserTelemetryEvent, UserTelemetryImplService } from './user-telemetry-impl.service';
 
 describe('User Telemetry helper service', () => {
   const injectionToken = new InjectionToken('test-token');
@@ -60,19 +60,19 @@ describe('User Telemetry helper service', () => {
     spectator.service.trackEvent('eventA', { target: 'unknown' });
     expect(telemetryProvider.trackEvent).toHaveBeenCalledWith('eventA', {
       target: 'unknown',
-      eventCategory: TelemetryEvent.mouseEvent
+      eventCategory: UserTelemetryEvent.mouseEvent
     });
 
     // TrackPage
     spectator.service.trackPageEvent('/abs', { target: 'unknown' });
     expect(telemetryProvider.trackPage).toHaveBeenCalledWith('/abs', {
       target: 'unknown',
-      eventCategory: TelemetryEvent.navigate
+      eventCategory: UserTelemetryEvent.navigate
     });
 
     // TrackError
     spectator.service.trackErrorEvent('console error', { target: 'unknown' });
-    expect(telemetryProvider.trackError).toHaveBeenCalledWith(TelemetryEvent.error, {
+    expect(telemetryProvider.trackError).toHaveBeenCalledWith(UserTelemetryEvent.error, {
       target: 'unknown',
       eventCategory: 'error',
       errorMessage: 'console error'
@@ -124,12 +124,12 @@ describe('User Telemetry helper service', () => {
     spectator.service.trackPageEvent('/abs', { target: 'unknown' });
     expect(telemetryProvider.trackPage).toHaveBeenCalledWith('/abs', {
       target: 'unknown',
-      eventCategory: TelemetryEvent.navigate
+      eventCategory: UserTelemetryEvent.navigate
     });
 
     // TrackError
     spectator.service.trackErrorEvent('console error', { target: 'unknown' });
-    expect(telemetryProvider.trackError).toHaveBeenCalledWith(TelemetryEvent.error, {
+    expect(telemetryProvider.trackError).toHaveBeenCalledWith(UserTelemetryEvent.error, {
       target: 'unknown',
       eventCategory: 'error',
       errorMessage: 'console error'
@@ -177,7 +177,7 @@ describe('User Telemetry helper service', () => {
     spectator.service.trackEvent('eventA', { target: 'unknown' });
     expect(telemetryProvider.trackEvent).toHaveBeenCalledWith('eventA', {
       target: 'unknown',
-      eventCategory: TelemetryEvent.mouseEvent
+      eventCategory: UserTelemetryEvent.mouseEvent
     });
 
     // TrackPage
@@ -186,9 +186,9 @@ describe('User Telemetry helper service', () => {
 
     // TrackError
     spectator.service.trackErrorEvent('console error', { target: 'unknown' });
-    expect(telemetryProvider.trackError).toHaveBeenCalledWith(TelemetryEvent.error, {
+    expect(telemetryProvider.trackError).toHaveBeenCalledWith(UserTelemetryEvent.error, {
       target: 'unknown',
-      eventCategory: TelemetryEvent.error,
+      eventCategory: UserTelemetryEvent.error,
       errorMessage: 'console error'
     });
   });
@@ -234,14 +234,14 @@ describe('User Telemetry helper service', () => {
     spectator.service.trackEvent('eventA', { target: 'unknown' });
     expect(telemetryProvider.trackEvent).toHaveBeenCalledWith('eventA', {
       target: 'unknown',
-      eventCategory: TelemetryEvent.mouseEvent
+      eventCategory: UserTelemetryEvent.mouseEvent
     });
 
     // TrackPage
     spectator.service.trackPageEvent('/abs', { target: 'unknown' });
     expect(telemetryProvider.trackPage).toHaveBeenCalledWith('/abs', {
       target: 'unknown',
-      eventCategory: TelemetryEvent.navigate
+      eventCategory: UserTelemetryEvent.navigate
     });
 
     // TrackError

@@ -90,10 +90,14 @@ export class UserTelemetryImplService extends UserTelemetryService {
         const queryParamMap = this.router?.routerState.snapshot.root.queryParamMap;
         // Todo - Read from TimeRangeService.TIME_QUERY_PARAM once root cause for test case failure is identified
         const timeParamValue = queryParamMap?.get('time');
+        const rootObj = this.router?.parseUrl(route.url).root;
+        const urlSegments = rootObj?.children?.primary?.segments.map(segment => segment.path) || [];
         this.trackPageEvent(UserTelemetryEvent.navigate, {
           url: route.url,
           ...queryParamMap,
-          isCustomTime: isCustomTime(timeParamValue !== null ? timeParamValue : undefined)
+          isCustomTime: isCustomTime(timeParamValue !== null ? timeParamValue : undefined),
+          urlSegments: urlSegments,
+          basePath: urlSegments.length >= 0 ? urlSegments[0] : undefined
         });
       });
   }

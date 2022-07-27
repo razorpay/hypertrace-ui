@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Time } from '@hypertrace/common';
 import { InputAppearance } from '../input/input-appearance';
 
 @Component({
@@ -56,7 +55,7 @@ export class DatetimePickerComponent implements ControlValueAccessor {
   @Output()
   public readonly dateChange: EventEmitter<Date> = new EventEmitter();
 
-  public inputType = this.showDateOnly ? 'date' : 'datetime-local';
+  public inputType: string = this.showDateOnly ? 'date' : 'datetime-local';
   public dateTimeString?: string;
 
   private propagateControlValueChange?: (value?: Date) => void;
@@ -88,7 +87,6 @@ export class DatetimePickerComponent implements ControlValueAccessor {
   }
 
   public onDateChange(date: string): void {
-    debugger;
     if (date === '') {
       return;
     }
@@ -111,7 +109,7 @@ ${this.leftPadByZero(paramDate.getHours())}:${this.leftPadByZero(paramDate.getMi
     return undefined;
   }
 
-  public formatDateObjectToISOString(dateParam: Date) {
+  public formatDateObjectToISOString(dateParam: Date): string {
     return dateParam.toISOString().slice(0, 10);
   }
 
@@ -120,10 +118,10 @@ ${this.leftPadByZero(paramDate.getHours())}:${this.leftPadByZero(paramDate.getMi
   }
 
   public leftPadByZero(param: number): string {
-    return ('0' + param).slice(-2);
+    return `0${param}`.slice(-2);
   }
 
-  public leftPadYear(year: number) {
-    return ('000' + year).slice(-4);
+  public leftPadYear(year: number): string {
+    return `000${year}`.slice(-4);
   }
 }

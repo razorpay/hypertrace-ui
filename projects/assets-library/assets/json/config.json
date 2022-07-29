@@ -3,6 +3,8 @@
     "ui.saved-queries": true,
     "ui.custom-dashboards": true
   },
-  "urlConfig": {},
+  "urlConfig": {
+    "restUri": "/assets/json"
+  },
   "dashboardConfig": {}
 }

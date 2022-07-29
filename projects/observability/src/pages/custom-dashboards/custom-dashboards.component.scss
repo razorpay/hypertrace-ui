@@ -4,21 +4,27 @@
 
 .custom-dashboards {
   @include scrollable-container(16px);
-  .dashboard-list {
-    padding: 50px 20px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 15px;
-    .dashboard {
-      cursor: pointer;
-      padding: 0 50px;
-      border: 1px dotted $gray-2;
-      border-radius: 10px;
-      @include center-contents();
-      text-align: center;
-      &:hover {
-        background-color: $gray-2;
-      }
+  padding: 25px 20px;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+
+    h2 {
+      margin: 0;
     }
+  }
+
+  .create-dashboard-button {
+    display: block;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .search-box {
+    margin-bottom: 15px;
+    display: block;
   }
 }

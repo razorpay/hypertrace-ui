@@ -5,29 +5,30 @@ import {
   FilterBarModule,
   InputModule,
   LetAsyncModule,
-  LoadAsyncModule,
-  NotificationModule,
-  PageHeaderModule
+  PageHeaderModule,
+  SelectModule,
+  ToggleGroupModule,
+  TraceCheckboxModule
 } from '@hypertrace/components';
+import { ExploreQueryEditorModule } from '../../../shared/components/explore-query-editor/explore-query-editor.module';
 import { NavigableDashboardModule } from '../../../shared/dashboard/dashboard-wrapper/navigable-dashboard.module';
 import { ObservabilityDashboardModule } from '../../../shared/dashboard/observability-dashboard.module';
-import { CustomDashboardPanelModule } from '../custom-dashboard-panel/custom-dashboard-panel.module';
-import { CustomDashboardDetailComponent } from './custom-dashboard-detail.component';
-
+import { CustomDashboardPanelEditComponent } from './custom-dashboard-panel-edit.component';
 @NgModule({
   imports: [
     CommonModule,
     FilterBarModule,
+    LetAsyncModule,
     ButtonModule,
     InputModule,
-    LetAsyncModule,
-    LoadAsyncModule,
+    SelectModule,
+    TraceCheckboxModule,
+    ToggleGroupModule,
     PageHeaderModule,
-    CustomDashboardPanelModule,
-    NotificationModule,
     ObservabilityDashboardModule,
+    ExploreQueryEditorModule,
     NavigableDashboardModule.withDefaultDashboards()
   ],
-  declarations: [CustomDashboardDetailComponent]
+  declarations: [CustomDashboardPanelEditComponent]
 })
-export class CustomDashboardDetailModule {}
+export class CustomDashboardPanelEditModule {}

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-// Import { v5 as uuidv5 } from 'uuid';
-import { DashboardRemoteStore } from './store/dashboard-remote-store';
+import { v5 as uuidv5 } from 'uuid';
+import { DashboardBrowserLocalStore } from './store/dashboard-browser-local-store';
 import {
   DashboardCreationData,
   DashboardStore,
@@ -15,12 +15,12 @@ import {
   providedIn: 'root'
 })
 export class DashboardPersistenceService {
-  // Private static readonly HYPERTRACE_LOCATION_NAMESPACE: string = '7f12784d-0bd1-4b0f-94da-cb8aa3b7fc9e';
+  private static readonly HYPERTRACE_LOCATION_NAMESPACE: string = '7f12784d-0bd1-4b0f-94da-cb8aa3b7fc9e';
 
   private readonly defaultLocations: Map<string, PersistedDashboard> = new Map();
 
   public constructor(
-    @Inject(DashboardRemoteStore)
+    @Inject(DashboardBrowserLocalStore)
     private readonly dashboardStore: DashboardStore
   ) {}
 
@@ -68,7 +68,7 @@ export class DashboardPersistenceService {
     });
   }
 
-  public getDefaultForLocation(locationKey: string): Observable<PersistedDashboard> {
+  private getDefaultForLocation(locationKey: string): Observable<PersistedDashboard> {
     const dashboardDefault = this.defaultLocations.get(locationKey);
 
     return dashboardDefault === undefined
@@ -77,9 +77,6 @@ export class DashboardPersistenceService {
   }
 
   private getLocationId(locationKey: string): string {
-    // Return uuidv5(locationKey, DashboardPersistenceService.HYPERTRACE_LOCATION_NAMESPACE); TODO: Discuss
-    return locationKey;
+    return uuidv5(locationKey, DashboardPersistenceService.HYPERTRACE_LOCATION_NAMESPACE);
   }
 }
-
-export * from './store/dashboard-store';

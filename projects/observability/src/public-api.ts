@@ -264,6 +264,9 @@ export * from './pages/custom-dashboards/custom-dashboards.component';
 export * from './pages/custom-dashboards/custom-dashboards.module';
 export * from './pages/custom-dashboards/custom-dashboard.service';
 
+export * from './pages/custom-dashboards/custom-dashboard-panel-edit/custom-dashboard-panel-edit.component';
+export * from './pages/custom-dashboards/custom-dashboard-panel-edit/custom-dashboard-panel-edit.module';
+
 export * from './pages/custom-dashboards/custom-dashboard-detail/custom-dashboard-detail.component';
 export * from './pages/custom-dashboards/custom-dashboard-detail/custom-dashboard-detail.module';
 

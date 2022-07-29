@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   graphqlUri: 'https://hypertrace-graphql.concierge.stage.razorpay.in/graphql',
-  restUri: '/assets/json',
+  restUri: '/assets/json/',
   appTitle: 'Hypertrace'
 };
 

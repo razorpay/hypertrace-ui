@@ -27,6 +27,7 @@ async function run() {
     // generate list.json
     const globber = await glob.create(`${__dirname}/*.json`);
     let files = await globber.glob();
+    console.log(files);
     core.info(`Generating list.json`);
     await generateListJson(files);
     files = await globber.glob();
@@ -77,6 +78,7 @@ const copyFilesToDist = async files => {
     if (!_fs.existsSync(target_path)) {
       _fs.mkdirSync(target_path);
     }
+    core.info(`Copying ${file_name} to dist`);
     await fs.cp(file, `${target_path}/${file_name}`);
   }
 };

@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "ngcc --tsconfig './tsconfig.app.json' --use-program-dependencies && ngcc --source 'node_modules/@angular'",
     "ng": "ng",
-    "start": "NG_PERSISTENT_BUILD_CACHE=1 ng serve",
+    "start": "npm run custom:dashboards:local && NG_PERSISTENT_BUILD_CACHE=1 ng serve",
     "build": "NG_PERSISTENT_BUILD_CACHE=1 ng build --configuration production",
     "build:common": "ng build common",
     "build:components": "ng build components",
@@ -21,7 +21,8 @@
     "prettier:check": "prettier --check '**'",
     "test:ci": "ng test hypertrace-ui --maxWorkers=2 --ci --coverage",
     "docs": "compodoc -p tsconfig.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "custom:dashboards:local": "export DEV_ENV=true && node ./custom-dashboards/actions.js"
   },
   "private": true,
   "dependencies": {

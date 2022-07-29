@@ -6,21 +6,24 @@ const _fs = require('fs');
 
 async function run() {
   try {
-    core.info('Checking for new custom dashboards');
-    const { stdout } = await execa('git', [
-      `diff`,
-      '--name-only',
-      'origin/feat/dashboard-json',
-      '--',
-      './custom-dashboards/*.json'
-    ]);
-    const json_files = stdout.split('\n');
-    const has_json = json_files.length > 0;
-    if (!has_json) {
-      core.notice('No dashboard JSON updates present. Exiting...');
-      return;
+    const isLocal = process.DEV_ENV;
+    if (!isLocal) {
+      core.info('Checking for new custom dashboards');
+      const { stdout } = await execa('git', [
+        `diff`,
+        '--name-only',
+        'origin/feat/dashboard-json',
+        '--',
+        './custom-dashboards/*.json'
+      ]);
+      const json_files = stdout.split('\n');
+      const has_json = json_files.length > 0;
+      if (!has_json) {
+        core.notice('No dashboard JSON updates present. Exiting...');
+        return;
+      }
+      core.info(`Found dashboard JSON files: ${json_files}`);
     }
-    core.info(`Found dashboard JSON files: ${json_files}`);
     // generate list.json
     const globber = await glob.create(`${__dirname}/*.json`);
     let files = await globber.glob();

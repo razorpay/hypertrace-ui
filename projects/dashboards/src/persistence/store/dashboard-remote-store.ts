@@ -2,8 +2,6 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-// TODO: fix import
-/* tslint:disable:import-blacklist */
 import { CustomDashboardService } from '../../../../observability/src/pages/custom-dashboards/custom-dashboard.service';
 
 import {
@@ -23,7 +21,6 @@ export class DashboardRemoteStore implements DashboardStore {
     return this.customDashboardService.fetchDashboardConfigById(`/${id}.json`).pipe(
       catchError(() => throwError(`Provided ID does not exist: ${id}`)),
       map(
-        /* tslint:disable:object-literal-shorthand */
         (data): PersistedDashboard => ({
           tags: [],
           content: data.json,

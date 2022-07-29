@@ -77,7 +77,6 @@ export class DashboardPersistenceService {
   }
 
   private getLocationId(locationKey: string): string {
-    // Return uuidv5(locationKey, DashboardPersistenceService.HYPERTRACE_LOCATION_NAMESPACE); TODO: Discuss
     return locationKey;
   }
 }

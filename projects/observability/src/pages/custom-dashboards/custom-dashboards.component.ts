@@ -87,8 +87,6 @@ export class CustomDashboardListComponent {
               data: dashboards.map((dashboard: DashboardListItem) => ({
                 ...dashboard,
                 createdBy: 'Demo' // TODO Remove later
-                // timestamp: this.dateCoercer.coerce(logEvent.timestamp),
-                // baseTimestamp: this.dateCoercer.coerce(logEvent.spanStartTime)
               })),
               totalCount: dashboards.length
             }),

@@ -4,10 +4,10 @@ import { HtRoute } from '@hypertrace/common';
 import {
   CustomDashboardDetailComponent,
   CustomDashboardDetailModule,
-  CustomDashboardPanelEditComponent,
-  CustomDashboardPanelEditModule,
   CustomDashboardListComponent,
   CustomDashboardListModule,
+  CustomDashboardPanelEditComponent,
+  CustomDashboardPanelEditModule,
   CustomDashboardService
 } from '@hypertrace/observability';
 

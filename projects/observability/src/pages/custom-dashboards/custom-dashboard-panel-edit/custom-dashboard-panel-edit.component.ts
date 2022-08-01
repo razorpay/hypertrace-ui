@@ -3,21 +3,21 @@ import { ActivatedRoute } from '@angular/router';
 import { isEqualIgnoreFunctions, NavigationParamsType, NavigationService } from '@hypertrace/common';
 import { ButtonRole, Filter, InputAppearance, ToggleItem } from '@hypertrace/components';
 import { cloneDeep } from 'lodash-es';
-import { LegendPosition } from '../../../shared/components/legend/legend.component';
 import { EMPTY, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { AttributeMetadata } from '../../../shared/graphql/model/metadata/attribute-metadata';
-import { ObservabilityTraceType } from '../../../shared/graphql/model/schema/observability-traces';
-import { MetadataService } from '../../../shared/services/metadata/metadata.service';
-import { ExplorerGeneratedDashboard } from '../../explorer/explorer-dashboard-builder';
-import { CustomDashboardStoreService, PanelData } from '../custom-dashboard-store.service';
-import { CustomDashboardService } from '../custom-dashboard.service';
 import {
   ExploreRequestState,
   ExploreVisualizationRequest
 } from '../../../shared/components/explore-query-editor/explore-visualization-builder';
+import { LegendPosition } from '../../../shared/components/legend/legend.component';
 import { ExplorerVisualizationCartesianDataSourceModel } from '../../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-cartesian-data-source.model';
+import { AttributeMetadata } from '../../../shared/graphql/model/metadata/attribute-metadata';
+import { ObservabilityTraceType } from '../../../shared/graphql/model/schema/observability-traces';
 import { SPAN_SCOPE } from '../../../shared/graphql/model/schema/span';
+import { MetadataService } from '../../../shared/services/metadata/metadata.service';
+import { ExplorerGeneratedDashboard } from '../../explorer/explorer-dashboard-builder';
+import { CustomDashboardStoreService, PanelData } from '../custom-dashboard-store.service';
+import { CustomDashboardService } from '../custom-dashboard.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -222,16 +222,3 @@ export class CustomDashboardPanelEditComponent {
     this.navigationService.navigateWithinApp(['/custom-dashboards/', this.dashboardId]);
   }
 }
-
-// interface ContextToggleItem extends ToggleItem {
-//   value: string;
-// }
-
-// Const enum ExplorerQueryParam {
-//   Scope = 'scope',
-//   Interval = 'interval',
-//   Group = 'group',
-//   OtherGroup = 'other',
-//   GroupLimit = 'limit',
-//   Series = 'series'
-// }

@@ -1,6 +1,7 @@
 import { TableDataRequest, TableDataResponse, TableRow } from '@hypertrace/components';
 import { TimeDurationModel } from '@hypertrace/dashboards';
 import {
+  ARRAY_PROPERTY,
   BOOLEAN_PROPERTY,
   Model,
   ModelModelPropertyTypeInstance,
@@ -8,8 +9,7 @@ import {
   ModelPropertyType,
   NUMBER_PROPERTY,
   PLAIN_OBJECT_PROPERTY,
-  STRING_PROPERTY,
-  UNKNOWN_PROPERTY
+  STRING_PROPERTY
 } from '@hypertrace/hyperdash';
 import { isEmpty } from 'lodash-es';
 import { GraphQlFilter } from '../../../../../graphql/model/schema/filter/graphql-filter';
@@ -49,7 +49,7 @@ export class ExploreTableDataSourceModel extends TableDataSourceModel {
   @ModelProperty({
     key: 'group-by',
     required: false,
-    type: UNKNOWN_PROPERTY.type
+    type: ARRAY_PROPERTY.type
   })
   public groupBy: AttributeExpression[] = [];
 

@@ -12,8 +12,6 @@ export class DynamicConfigurationService {
     });
   }
   public getValueForUrlConfig(key: string): string | undefined {
-    console.log(this.config);
-
     return this.config?.urlConfig?.[key] as string;
   }
   public isConfigPresentForFeature(feature: string): boolean {

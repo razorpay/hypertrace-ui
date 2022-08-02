@@ -19,10 +19,11 @@ export class CustomDashboardStoreService {
     const dashboard = this.dashboards.get(dashboardId)!;
     dashboard.panels.push(panelData);
   }
-  public getPanel(dashboardId: string, panelId: string): PanelData {
-    const dashboard = this.dashboards.get(dashboardId)!;
-
-    return dashboard.panels.find(p => p.id === panelId) as PanelData;
+  public getPanel(dashboardId: string, panelId: string): PanelData | undefined {
+    const dashboard = this.dashboards.get(dashboardId);
+    if (dashboard) {
+      return dashboard.panels.find(p => p.id === panelId) as PanelData;
+    }
   }
   public updatePanel(dashboardId: string, panelData: PanelData): void {
     const dashboard = this.dashboards.get(dashboardId)!;

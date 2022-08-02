@@ -2,5 +2,5 @@ export const environment = {
   production: true,
   graphqlUri: '/graphql',
   appTitle: 'Hypertrace',
-  restUri: '/'
+  restUri: 'https://hus.concierge.stage.razorpay.in'
 };

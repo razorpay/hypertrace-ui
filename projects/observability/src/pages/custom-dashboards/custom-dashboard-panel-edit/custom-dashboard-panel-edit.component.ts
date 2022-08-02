@@ -23,7 +23,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboard-edit.component.scss'],
   template: `
-    <div class="dashboard-editor">
+    <div class="dashboard-editor" *ngIf="state">
       <!-- <ht-page-header class="explorer-header"></ht-page-header> -->
       <div class="header-container">
         <h3>
@@ -88,7 +88,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
 export class CustomDashboardPanelEditComponent {
   public attributes$: Observable<AttributeMetadata[]> = EMPTY;
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
-  public state: PanelData;
+  public state!: PanelData;
   public filters: Filter[] = [];
   public visualizationDashboard$: Observable<ExplorerGeneratedDashboard>;
   public dashboardName: string = '';
@@ -129,7 +129,15 @@ export class CustomDashboardPanelEditComponent {
     });
 
     if (!this.isNewPanel) {
-      this.state = this.customDashboardStoreService.getPanel(this.dashboardId, this.panelId);
+      const panelData = this.customDashboardStoreService.getPanel(this.dashboardId, this.panelId);
+      if (panelData) {
+        this.state = panelData;
+      } else {
+        console.log('nav');
+
+        this.navigationService.navigateWithinApp(['/custom-dashboards']);
+        return;
+      }
     } else {
       this.state = {
         context: ObservabilityTraceType.Api,

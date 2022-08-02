@@ -28,7 +28,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
             (click)="createOrUpdateDashboard()"
           >
           </ht-button>
-          <ht-button [label]="'Cancel'" role="${ButtonRole.Destructive}"> </ht-button>
+          <ht-button [label]="'Cancel'" role="${ButtonRole.Destructive}" (click)="redirectToListing()"> </ht-button>
         </div>
       </div>
       <div class="panels-list" *ngIf="this.panels$ | async as panels">
@@ -80,15 +80,17 @@ export class CustomDashboardDetailComponent {
       }
       // Fetch data from server and set data from server
       else {
-        this.customDashboardService.fetchDashboardConfigById('test-dashboard-9153.json').subscribe(data => {
+        this.customDashboardService.fetchDashboardConfigById(this.dashboardId).subscribe(response => {
+          const payload = response.payload;
           this.dashboardData = {
-            id: data.id,
-            name: data.name,
-            panels: data.panels
+            id: payload.Id,
+            name: payload.Data.name,
+            panels: payload.Data.panels
           };
-          this.dashboardName = data.name;
+          this.dashboardName = this.dashboardData.name;
 
           this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
+          console.log(this.dashboardData);
 
           this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
           this.cdRef.detectChanges();
@@ -131,6 +133,18 @@ export class CustomDashboardDetailComponent {
       queryParamsHandling: 'merge',
       replaceCurrentHistory: false
     });
+  }
+  public redirectToListing(): void {
+    const confirmation = confirm(`Your unsaved changes will be lost! Discard them anyways?`);
+    if (confirmation) {
+      this.navigationService.navigate({
+        navType: NavigationParamsType.InApp,
+        path: [`/custom-dashboards`],
+        queryParams: { dashboardName: this.dashboardName, newDashboard: this.isNew },
+        queryParamsHandling: 'merge',
+        replaceCurrentHistory: false
+      });
+    }
   }
   public onDashboardNameChange(name: string): void {
     this.dashboardName = name;

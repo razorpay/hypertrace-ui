@@ -1,5 +1,7 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RestClientService } from '@hypertrace/common';
+import { UserPreferenceService } from '@hypertrace/common';
+import { PageEvent } from '@hypertrace/components';
 import { Dashboard } from '@hypertrace/hyperdash';
 import { Observable, of, Subscription } from 'rxjs';
 import { GraphQlFilterDataSourceModel } from './../../shared/dashboard/data/graphql/filter/graphql-filter-data-source.model';
@@ -12,26 +14,55 @@ export interface DashboardListItem {
   panels: PanelData[];
 }
 
+export interface CustomDashboardListResponse {
+  error: object;
+  payload: CustomDashboardPayload[];
+  totalRecords: number;
+  success: boolean;
+}
+interface CustomDashboardResponse {
+  error: object;
+  payload: CustomDashboardPayload;
+  success: boolean;
+}
+export interface CustomDashboardPayload {
+  CreatedAt: Date;
+  Data: DashboardListItem;
+  DeletedAt: Date;
+  Id: string;
+  OwnerID: number;
+  UpdatedAt: Date;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CustomDashboardService {
   public static readonly API_ID_PARAM_NAME: string = 'dashboard_id';
+  public readonly BASE_URL: string = '/v1/dashboard';
+  public constructor(private readonly userPreferenceService: UserPreferenceService) {}
+  public fetchDashboards(searchText: string, pagination?: PageEvent): Observable<CustomDashboardListResponse> {
+    let queryParams = new HttpParams();
+    if (pagination) {
+      queryParams = queryParams.append('page', pagination.pageIndex);
+      queryParams = queryParams.append('size', pagination.pageSize);
+    }
+    queryParams = queryParams.append('search', searchText);
 
-  public constructor(private readonly restClient: RestClientService) {}
-  public fetchDashboards(searchText: string): Observable<DashboardListItem[]> {
-    return this.restClient.get<DashboardListItem[]>(`custom-dashboards.json?searchText=${searchText}`);
+    return this.userPreferenceService.get<CustomDashboardListResponse>(`${this.BASE_URL}/global`, {
+      params: queryParams
+    });
   }
-  public fetchDashboardConfigById(dashboardId: string): Observable<DashboardListItem> {
-    return this.restClient.get<DashboardListItem>(dashboardId);
+  public fetchDashboardConfigById(dashboardId: string): Observable<CustomDashboardResponse> {
+    return this.userPreferenceService.get<CustomDashboardResponse>(`${this.BASE_URL}/${dashboardId}`);
   }
   public createDashboard(dashboard: DashboardListItem): Observable<DashboardListItem> {
-    return this.restClient.post<DashboardListItem>('', {
+    return this.userPreferenceService.post<DashboardListItem>(`${this.BASE_URL}/save`, {
       body: dashboard
     });
   }
   public updateDashboard(dashboardId: string, dashboard: DashboardListItem): Observable<DashboardListItem> {
-    return this.restClient.put<DashboardListItem>(dashboardId, {
+    return this.userPreferenceService.put<DashboardListItem>(`${this.BASE_URL}/${dashboardId}`, {
       body: dashboard
     });
   }

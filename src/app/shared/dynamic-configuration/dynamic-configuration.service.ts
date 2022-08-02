@@ -1,18 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Optional, SkipSelf } from '@angular/core';
+import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
 export class DynamicConfigurationService {
   private config!: UiConfiguration;
-  public constructor(
-    private readonly http: HttpClient,
-    @SkipSelf() @Optional() private readonly sharedService?: DynamicConfigurationService
-  ) {
-    if (this.sharedService) {
-      throw new Error('Config service already loaded');
-    }
-  }
+  public constructor(private readonly http: HttpClient) {}
   public load(): void {
     this.http.get<UiConfiguration>('/assets/json/config.json').subscribe((data: UiConfiguration) => {
       this.config = data;

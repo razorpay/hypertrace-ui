@@ -1,18 +1,27 @@
+import { ActivatedRoute } from '@angular/router';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NavigationParamsType, NavigationService } from '@hypertrace/common';
 import {
   ButtonRole,
   ButtonStyle,
   CoreTableCellRendererType,
+  PageEvent,
+  TableCellAlignmentType,
   TableColumnConfig,
   TableDataResponse,
   TableDataSource,
   TableMode,
-  TableRow
+  TableRow,
+  TableStyle
 } from '@hypertrace/components';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CustomDashboardService, DashboardListItem } from './custom-dashboard.service';
+import {
+  CustomDashboardListResponse,
+  CustomDashboardPayload,
+  CustomDashboardService,
+  DashboardListItem
+} from './custom-dashboard.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboards.component.scss'],
@@ -34,19 +43,25 @@ import { CustomDashboardService, DashboardListItem } from './custom-dashboard.se
         <ht-table
           [columnConfigs]="this.columnConfigs"
           [data]="this.dataSource"
-          [pageable]="false"
+          [syncWithUrl]="true"
+          [pageable]="true"
           [resizable]="false"
+          [pageSize]="this.pageSize"
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          (pageChange)="onPaginationChange($event)"
           mode=${TableMode.Flat}
+          display=${TableStyle.FullPage}
         ></ht-table>
       </div>
     </div>
   `
 })
 export class CustomDashboardListComponent {
-  public dashboards$: Observable<DashboardListItem[]> = of([]);
+  public dashboards$: Observable<CustomDashboardListResponse> | undefined;
   public dataSource?: TableDataSource<CustomDashboardTableRow>;
   public searchText: string = '';
-
+  public pageSize: number = 10;
+  public pageIndex: number = 1;
   public columnConfigs: TableColumnConfig[] = [
     {
       id: 'name',
@@ -57,7 +72,8 @@ export class CustomDashboardListComponent {
       width: '100%',
       sortable: false,
       filterable: false,
-      onClick: (row: CustomDashboardTableRow, _column) => this.navigateToDashboard(row.id)
+      onClick: (row: CustomDashboardTableRow, _column) => this.navigateToDashboard(row.id),
+      alignment: TableCellAlignmentType.Left
     },
     {
       id: 'createdBy',
@@ -67,34 +83,55 @@ export class CustomDashboardListComponent {
       visible: true,
       width: '100%',
       sortable: false,
-      filterable: false
+      filterable: false,
+      alignment: TableCellAlignmentType.Center
+    },
+    {
+      id: 'createdAt',
+      name: 'createdAt',
+      title: 'Created At',
+      display: CoreTableCellRendererType.Timestamp,
+      visible: true,
+      width: '100%',
+      sortable: false,
+      filterable: false,
+      alignment: TableCellAlignmentType.Center
     }
   ];
 
   public constructor(
     private readonly customDashboardService: CustomDashboardService,
-    protected readonly navigationService: NavigationService
+    private readonly navigationService: NavigationService,
+    private readonly activatedRoute: ActivatedRoute
   ) {
-    this.setupDataSource();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.pageSize = params['page-size'] ?? this.pageSize;
+      this.pageIndex = +params.page + 1 ?? this.pageIndex;
+    });
+    this.setupDataSource({ pageSize: this.pageSize, pageIndex: this.pageIndex });
   }
 
-  private setupDataSource(): void {
-    this.dashboards$ = this.customDashboardService.fetchDashboards(this.searchText).pipe(
-      tap(dashboards => {
+  private setupDataSource(pagination?: PageEvent): void {
+    this.dashboards$ = this.customDashboardService.fetchDashboards(this.searchText, pagination).pipe(
+      tap(response => {
+        const dashboardPayloads = response.payload;
         this.dataSource = {
           getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
             of({
-              data: dashboards.map((dashboard: DashboardListItem) => ({
-                ...dashboard,
-                createdBy: 'Demo' // TODO Remove later
+              data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
+                ...dashboardPayload.Data,
+                id: dashboardPayload.Id,
+                createdBy: dashboardPayload.OwnerID, // TODO Remove later
+                createdAt: dashboardPayload.CreatedAt
               })),
-              totalCount: dashboards.length
+              totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
             }),
           getScope: () => undefined
         };
       })
     );
   }
+
   private navigateToDashboard(id: string): void {
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,
@@ -108,11 +145,17 @@ export class CustomDashboardListComponent {
     this.searchText = searchText;
     this.setupDataSource();
   }
+  public onPaginationChange(options: PageEvent): void {
+    const pageOptions = { ...options };
+    // Since HUS page number starts with 1 but ht-paginator has default value set as 0 hence incrementing
+    pageOptions.pageIndex += 1;
+    this.setupDataSource(pageOptions);
+  }
 }
 
-interface CustomDashboardTableRow extends TableRow {
+interface CustomDashboardTableRow extends TableRow, DashboardListItem {
   id: string;
   name: string;
-  createdBy?: string;
-  createdAt?: string;
+  createdBy?: number;
+  createdAt?: Date;
 }

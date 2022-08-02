@@ -5,7 +5,14 @@
 .custom-dashboards {
   @include scrollable-container(16px);
   padding: 25px 20px;
-
+  height: 94vh;
+  display: flex;
+  flex-direction: column;
+  ::ng-deep {
+    ht-load-async-wrapper {
+      flex: 1;
+    }
+  }
   .title {
     display: flex;
     align-items: center;
@@ -26,5 +33,8 @@
   .search-box {
     margin-bottom: 15px;
     display: block;
+  }
+  .dashboard-table {
+    height: 100%;
   }
 }

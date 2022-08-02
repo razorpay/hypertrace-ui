@@ -1,4 +1,3 @@
-import { DynamicConfigurationService } from './../../../../src/app/shared/dynamic-configuration/dynamic-configuration.service';
 import {
   HttpClient,
   HttpEvent,
@@ -10,6 +9,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { DynamicConfigurationService } from '../dynamic-configuration/dynamic-configuration.service';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -53,13 +53,16 @@ export class UserPreferenceService {
   }
 }
 
+// tslint:disable-next-line: max-classes-per-file
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
-  intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    //@ts-ignore
+  public intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // tslint:disable-next-line: ban-ts-ignore
+    // @ts-ignore
     if (process.env.NODE_ENV === 'development') {
       return next.handle(httpRequest.clone({ setHeaders: { 'user.email': 'shivam.rai@razorpay.com' } }));
     }
+
     return next.handle(httpRequest);
   }
 }

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ApplicationFeature, FeatureState, FeatureStateResolver } from '@hypertrace/common';
+import {
+  ApplicationFeature,
+  DynamicConfigurationService,
+  FeatureState,
+  FeatureStateResolver
+} from '@hypertrace/common';
 import { Observable, of } from 'rxjs';
-import { DynamicConfigurationService } from '../dynamic-configuration/dynamic-configuration.service';
 
 @Injectable()
 export class FeatureResolverService extends FeatureStateResolver {

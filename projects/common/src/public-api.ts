@@ -134,3 +134,7 @@ export * from './global-header-height/global-header-height-provider.service';
 
 // Http
 export * from './user-preference/user-preference.service';
+
+// Dynamic Config
+export * from './dynamic-configuration/dynamic-configuration.module';
+export * from './dynamic-configuration/dynamic-configuration.service';

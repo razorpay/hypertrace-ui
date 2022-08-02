@@ -4,7 +4,7 @@
     "ui.custom-dashboards": true
   },
   "urlConfig": {
-    "restUri": "/assets/json"
+    "user-preference": "https://hus.concierge.stage.razorpay.in"
   },
   "dashboardConfig": {}
 }

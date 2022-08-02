@@ -11,8 +11,8 @@ export class DynamicConfigurationService {
       this.config = data;
     });
   }
-  public getValueForUrlConfig(key: string): string | number | boolean {
-    return this.config?.urlConfig?.[key];
+  public getValueForUrlConfig(key: string): string | undefined {
+    return this.config?.urlConfig?.[key] as string;
   }
   public isConfigPresentForFeature(feature: string): boolean {
     return this.config?.featureFlags?.hasOwnProperty(feature);

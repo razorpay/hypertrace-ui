@@ -1,9 +1,16 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { DynamicConfigurationService } from './../../../../src/app/shared/dynamic-configuration/dynamic-configuration.service';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpParams,
+  HttpRequest
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-interface RestOptions {
-  uri: string;
-}
+
 export interface IRequestOptions {
   headers?: HttpHeaders;
   observe?: 'body';
@@ -14,49 +21,45 @@ export interface IRequestOptions {
   body?: object;
 }
 
-export const USER_PREFERENCE_URI = new InjectionToken<RestOptions>('USER_PREFERENCE_URI');
-
 @Injectable({
   providedIn: 'root'
 })
 export class UserPreferenceService {
   public BASE_URL: string;
-  public constructor(private readonly http: HttpClient, @Inject(USER_PREFERENCE_URI) restOptions: RestOptions) {
-    this.BASE_URL = restOptions.uri;
+  private static readonly BASE_URL_CONFIG_KEY: string = 'user-preference';
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly dynamicConfigurationService: DynamicConfigurationService
+  ) {
+    this.BASE_URL = this.dynamicConfigurationService.getValueForUrlConfig(
+      UserPreferenceService.BASE_URL_CONFIG_KEY
+    ) as string;
   }
-  private addUserEmailHeader(headers?: HttpHeaders): HttpHeaders {
-    if (headers) {
-      return headers.append('user.email', 'shivam.rai@razorpay.com');
-    }
-    const requestHeaders = new HttpHeaders();
 
-    return requestHeaders.append('user.email', 'shivam.rai@razorpay.com');
-  }
   public get<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
-    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
-
-    return this.http.get<T>(this.BASE_URL + endPoint, requestOptions);
+    return this.http.get<T>(this.BASE_URL + endPoint, options);
   }
 
   public post<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
-    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
-
-    return this.http.post<T>(this.BASE_URL + endPoint, options?.body, requestOptions);
+    return this.http.post<T>(this.BASE_URL + endPoint, options?.body, options);
   }
 
   public put<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
-    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
-
-    return this.http.put<T>(this.BASE_URL + endPoint, options?.body, requestOptions);
+    return this.http.put<T>(this.BASE_URL + endPoint, options?.body, options);
   }
 
   public delete<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
-    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
+    return this.http.delete<T>(this.BASE_URL + endPoint, options);
+  }
+}
 
-    return this.http.delete<T>(this.BASE_URL + endPoint, requestOptions);
+@Injectable()
+export class HeaderInterceptor implements HttpInterceptor {
+  intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    //@ts-ignore
+    if (process.env.NODE_ENV === 'development') {
+      return next.handle(httpRequest.clone({ setHeaders: { 'user.email': 'shivam.rai@razorpay.com' } }));
+    }
+    return next.handle(httpRequest);
   }
 }

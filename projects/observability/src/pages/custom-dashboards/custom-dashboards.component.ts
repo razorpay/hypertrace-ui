@@ -16,12 +16,7 @@ import {
 } from '@hypertrace/components';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import {
-  CustomDashboardListResponse,
-  CustomDashboardPayload,
-  CustomDashboardService,
-  DashboardListItem
-} from './custom-dashboard.service';
+import { CustomDashboardPayload, CustomDashboardService, DashboardListItem } from './custom-dashboard.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboards.component.scss'],
@@ -39,7 +34,7 @@ import {
         [debounceTime]="400"
         (valueChange)="this.onSearchChange($event)"
       ></ht-search-box>
-      <div class="dashboard-table" *htLoadAsync="this.dashboards$ as dashboards">
+      <div class="dashboard-table">
         <ht-table
           [columnConfigs]="this.columnConfigs"
           [data]="this.dataSource"
@@ -57,7 +52,6 @@ import {
   `
 })
 export class CustomDashboardListComponent {
-  public dashboards$: Observable<CustomDashboardListResponse> | undefined;
   public dataSource?: TableDataSource<CustomDashboardTableRow>;
   public searchText: string = '';
   public pageSize: number = 10;
@@ -112,24 +106,27 @@ export class CustomDashboardListComponent {
   }
 
   private setupDataSource(pagination?: PageEvent): void {
-    this.dashboards$ = this.customDashboardService.fetchDashboards(this.searchText, pagination).pipe(
-      tap(response => {
-        const dashboardPayloads = response.payload;
-        this.dataSource = {
-          getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
-            of({
-              data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
-                ...dashboardPayload.Data,
-                id: dashboardPayload.Id,
-                createdBy: dashboardPayload.OwnerID, // TODO Remove later
-                createdAt: dashboardPayload.CreatedAt
-              })),
-              totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
-            }),
-          getScope: () => undefined
-        };
-      })
-    );
+    this.customDashboardService
+      .fetchDashboards(this.searchText, pagination)
+      .pipe(
+        tap(response => {
+          const dashboardPayloads = response.payload;
+          this.dataSource = {
+            getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
+              of({
+                data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
+                  ...dashboardPayload.Data,
+                  id: dashboardPayload.Id,
+                  createdBy: dashboardPayload.OwnerID, // TODO Remove later
+                  createdAt: dashboardPayload.CreatedAt
+                })),
+                totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
+              }),
+            getScope: () => undefined
+          };
+        })
+      )
+      .subscribe();
   }
 
   private navigateToDashboard(id: string): void {

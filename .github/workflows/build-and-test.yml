@@ -44,9 +44,6 @@ jobs:
       - name: Build
         run: npm run build:ci
 
-      - name: Custom Dashboards Pipeline
-        run: node ./custom-dashboards/actions.js
-
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2
         with:

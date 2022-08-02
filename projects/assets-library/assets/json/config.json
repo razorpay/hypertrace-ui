@@ -3,6 +3,8 @@
     "ui.saved-queries": true,
     "ui.custom-dashboards": true
   },
-  "urlConfig": {},
+  "urlConfig": {
+    "user-preference": ""
+  },
   "dashboardConfig": {}
 }

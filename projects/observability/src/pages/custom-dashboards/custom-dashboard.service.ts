@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RestClientService } from '@hypertrace/common';
+import { UserPreferenceService } from '@hypertrace/common';
 import { Dashboard } from '@hypertrace/hyperdash';
 import { Observable, of, Subscription } from 'rxjs';
 import { DashboardDefaultConfiguration } from './../../shared/dashboard/dashboard-wrapper/navigable-dashboard.module';
@@ -17,12 +17,12 @@ export interface DashboardListItem {
 export class CustomDashboardService {
   public static readonly API_ID_PARAM_NAME: string = 'dashboard_id';
 
-  public constructor(private readonly restClient: RestClientService) {}
+  public constructor(private readonly userPreferenceService: UserPreferenceService) {}
   public fetchDashboards(): Observable<DashboardListItem[]> {
-    return this.restClient.get<DashboardListItem[]>('/custom-dashboards-list.json');
+    return this.userPreferenceService.get<DashboardListItem[]>('/custom-dashboards-list.json');
   }
   public fetchDashboardConfigById(dashboardId: string): Observable<DashboardDefaultConfiguration> {
-    return this.restClient.get<DashboardDefaultConfiguration>(dashboardId);
+    return this.userPreferenceService.get<DashboardDefaultConfiguration>(dashboardId);
   }
 
   public applyFiltersToDashboard(dashboard: Dashboard, filters: GraphQlFilter[] = []): Subscription {

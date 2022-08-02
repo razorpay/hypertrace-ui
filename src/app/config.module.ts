@@ -1,5 +1,6 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ALTERNATE_COLOR_PALETTES, APP_TITLE, DEFAULT_COLOR_PALETTE, REST_URI } from '@hypertrace/common';
+import { ALTERNATE_COLOR_PALETTES, APP_TITLE, DEFAULT_COLOR_PALETTE, HeaderInterceptor } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';
 import { environment } from '../environments/environment';
@@ -15,12 +16,6 @@ import { FeatureResolverModule } from './shared/feature-resolver/feature-resolve
       useValue: {
         uri: environment.graphqlUri,
         batchSize: 5
-      }
-    },
-    {
-      provide: REST_URI,
-      useValue: {
-        uri: environment.restUri
       }
     },
     {
@@ -45,6 +40,11 @@ import { FeatureResolverModule } from './shared/feature-resolver/feature-resolve
     {
       provide: APP_TITLE,
       useValue: environment.appTitle
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
+      multi: true
     }
   ]
 })

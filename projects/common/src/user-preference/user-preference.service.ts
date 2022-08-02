@@ -56,7 +56,7 @@ export class UserPreferenceService {
 // tslint:disable-next-line: max-classes-per-file
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
-  public intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(httpRequest: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
     if (process.env.NODE_ENV === 'development') {

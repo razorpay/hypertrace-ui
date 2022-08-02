@@ -90,8 +90,6 @@ export class CustomDashboardDetailComponent {
           this.dashboardName = this.dashboardData.name;
 
           this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
-          console.log(this.dashboardData);
-
           this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
           this.cdRef.detectChanges();
         });

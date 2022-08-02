@@ -133,9 +133,9 @@ export class CustomDashboardPanelEditComponent {
       if (panelData) {
         this.state = panelData;
       } else {
-        console.log('nav');
-
+        // Fallback to listing incase user refereshes on panel edit page. In that case data is not present in the dashboard store since it's in memory.
         this.navigationService.navigateWithinApp(['/custom-dashboards']);
+
         return;
       }
     } else {

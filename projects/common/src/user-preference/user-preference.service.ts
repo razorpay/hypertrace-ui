@@ -26,7 +26,7 @@ export interface IRequestOptions {
 })
 export class UserPreferenceService {
   public BASE_URL: string;
-  private static readonly BASE_URL_CONFIG_KEY: string = 'user-preference';
+  private static readonly BASE_URL_CONFIG_KEY: string = 'user_preference';
   public constructor(
     private readonly http: HttpClient,
     private readonly dynamicConfigurationService: DynamicConfigurationService

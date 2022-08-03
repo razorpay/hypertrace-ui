@@ -31,9 +31,7 @@ jobs:
     needs: [npm-install-if-needed]
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@v2
 
       - name: Cache node modules
         uses: actions/cache@v2

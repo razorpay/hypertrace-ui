@@ -35,34 +35,40 @@ export class UserPreferenceService {
       UserPreferenceService.BASE_URL_CONFIG_KEY
     ) as string;
   }
+  private addUserEmailHeader(headers?: HttpHeaders): HttpHeaders {
+    if (headers) {
+      // TODO Read email form email service later
+      return headers.append('user.email', 'shivam.rai@razorpay.com');
+    }
+    const requestHeaders = new HttpHeaders();
 
+    return requestHeaders.append('user.email', 'shivam.rai@razorpay.com');
+  }
   public get<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    return this.http.get<T>(this.BASE_URL + endPoint, options);
+    const requestOptions = { ...options };
+    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
+
+    return this.http.get<T>(this.BASE_URL + endPoint, requestOptions);
   }
 
   public post<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    return this.http.post<T>(this.BASE_URL + endPoint, options?.body, options);
+    const requestOptions = { ...options };
+    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
+
+    return this.http.post<T>(this.BASE_URL + endPoint, options?.body, requestOptions);
   }
 
   public put<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    return this.http.put<T>(this.BASE_URL + endPoint, options?.body, options);
+    const requestOptions = { ...options };
+    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
+
+    return this.http.put<T>(this.BASE_URL + endPoint, options?.body, requestOptions);
   }
 
   public delete<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    return this.http.delete<T>(this.BASE_URL + endPoint, options);
-  }
-}
+    const requestOptions = { ...options };
+    requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
 
-// tslint:disable-next-line: max-classes-per-file
-@Injectable()
-export class HeaderInterceptor implements HttpInterceptor {
-  public intercept(httpRequest: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // tslint:disable-next-line: ban-ts-ignore
-    // @ts-ignore
-    if (process.env.NODE_ENV === 'development') {
-      return next.handle(httpRequest.clone({ setHeaders: { 'user.email': 'shivam.rai@razorpay.com' } }));
-    }
-
-    return next.handle(httpRequest);
+    return this.http.delete<T>(this.BASE_URL + endPoint, requestOptions);
   }
 }

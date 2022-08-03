@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationParamsType, NavigationService } from '@hypertrace/common';
 import {
@@ -16,7 +16,12 @@ import {
 } from '@hypertrace/components';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CustomDashboardPayload, CustomDashboardService, DashboardListItem } from './custom-dashboard.service';
+import {
+  CustomDashboardListResponse,
+  CustomDashboardPayload,
+  CustomDashboardService,
+  DashboardListItem
+} from './custom-dashboard.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboards.component.scss'],
@@ -34,6 +39,7 @@ import { CustomDashboardPayload, CustomDashboardService, DashboardListItem } fro
         [debounceTime]="400"
         (valueChange)="this.onSearchChange($event)"
       ></ht-search-box>
+
       <div class="dashboard-table">
         <ht-table
           [columnConfigs]="this.columnConfigs"
@@ -53,6 +59,7 @@ import { CustomDashboardPayload, CustomDashboardService, DashboardListItem } fro
 })
 export class CustomDashboardListComponent {
   public dataSource?: TableDataSource<CustomDashboardTableRow>;
+  public dashboards$!: Observable<CustomDashboardListResponse>;
   public searchText: string = '';
   public pageSize: number = 10;
   public pageIndex: number = 1;
@@ -96,7 +103,8 @@ export class CustomDashboardListComponent {
   public constructor(
     private readonly customDashboardService: CustomDashboardService,
     private readonly navigationService: NavigationService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    public readonly cdRef: ChangeDetectorRef
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.pageSize = params['page-size'] ?? this.pageSize;
@@ -106,27 +114,25 @@ export class CustomDashboardListComponent {
   }
 
   private setupDataSource(pagination?: PageEvent): void {
-    this.customDashboardService
-      .fetchDashboards(this.searchText, pagination)
-      .pipe(
-        tap(response => {
-          const dashboardPayloads = response.payload;
-          this.dataSource = {
-            getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
-              of({
-                data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
-                  ...dashboardPayload.Data,
-                  id: dashboardPayload.Id,
-                  createdBy: dashboardPayload.OwnerID, // TODO Remove later
-                  createdAt: dashboardPayload.CreatedAt
-                })),
-                totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
-              }),
-            getScope: () => undefined
-          };
-        })
-      )
-      .subscribe();
+    this.dashboards$ = this.customDashboardService.fetchDashboards(this.searchText, pagination).pipe(
+      tap(response => {
+        const dashboardPayloads = response.payload;
+        this.dataSource = {
+          getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
+            of({
+              data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
+                ...dashboardPayload.Data,
+                id: dashboardPayload.Id,
+                createdBy: dashboardPayload.OwnerID, // TODO Remove later
+                createdAt: dashboardPayload.CreatedAt
+              })),
+              totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
+            }),
+          getScope: () => undefined
+        };
+      })
+    );
+    this.dashboards$.subscribe(() => this.cdRef.detectChanges());
   }
 
   private navigateToDashboard(id: string): void {

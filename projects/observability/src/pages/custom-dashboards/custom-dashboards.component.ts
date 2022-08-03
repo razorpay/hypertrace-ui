@@ -100,7 +100,7 @@ export class CustomDashboardListComponent {
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.pageSize = params['page-size'] ?? this.pageSize;
-      this.pageIndex = +params.page + 1 ?? this.pageIndex;
+      this.pageIndex = params.page ? +params.page + 1 : this.pageIndex;
     });
     this.setupDataSource({ pageSize: this.pageSize, pageIndex: this.pageIndex });
   }

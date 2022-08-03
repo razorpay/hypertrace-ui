@@ -13,11 +13,14 @@ export class DynamicConfigurationService {
       throw new Error('Config service already loaded');
     }
   }
-  public load(): void {
-    this.http.get<UiConfiguration>('/assets/json/config.json').subscribe((data: UiConfiguration) => {
+
+  public load(): Observable<UiConfiguration> {
+    return this.http.get<UiConfiguration>('/assets/json/config.json').pipe(tap((data: UiConfiguration) => {
       this.config = data;
-    });
+      this.setupAnalyticsConfig();
+    }))
   }
+
   public isConfigPresentForFeature(feature: string): boolean {
     return this.config?.featureFlags?.hasOwnProperty(feature);
   }

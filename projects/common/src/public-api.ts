@@ -132,7 +132,7 @@ export * from './color/color-palette';
 // Global header height provider
 export * from './global-header-height/global-header-height-provider.service';
 
-// Http
+// User Preference
 export * from './user-preference/user-preference.service';
 
 // Dynamic Config

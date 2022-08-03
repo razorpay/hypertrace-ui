@@ -57,7 +57,6 @@ export interface DashboardData {
   panels: PanelData[];
 }
 export interface PanelData extends ExploreRequestState {
-  // [key: string]: object | string | number | object[]
   id: string;
   name: string;
   json: ModelJson;

@@ -4,8 +4,7 @@ import {
   ALTERNATE_COLOR_PALETTES,
   APP_TITLE,
   DEFAULT_COLOR_PALETTE,
-  DynamicConfigurationModule,
-  HeaderInterceptor
+  DynamicConfigurationModule
 } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';
@@ -45,11 +44,6 @@ import { FeatureResolverModule } from './shared/feature-resolver/feature-resolve
     {
       provide: APP_TITLE,
       useValue: environment.appTitle
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HeaderInterceptor,
-      multi: true
     }
   ]
 })

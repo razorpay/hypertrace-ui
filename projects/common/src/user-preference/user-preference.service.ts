@@ -38,11 +38,11 @@ export class UserPreferenceService {
   private addUserEmailHeader(headers?: HttpHeaders): HttpHeaders {
     if (headers) {
       // TODO Read email form email service later
-      return headers.append('user.email', 'shivam.rai@razorpay.com');
+      return headers.append('user.email', 'ht-user@razorpay.com');
     }
     const requestHeaders = new HttpHeaders();
 
-    return requestHeaders.append('user.email', 'shivam.rai@razorpay.com');
+    return requestHeaders.append('user.email', 'ht-user@razorpay.com');
   }
   public get<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
     const requestOptions = { ...options };

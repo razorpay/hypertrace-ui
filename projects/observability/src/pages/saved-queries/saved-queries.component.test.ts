@@ -1,11 +1,15 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { mockProvider } from '@ngneat/spectator/jest';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { SavedQueriesModule } from '@hypertrace/observability';
 import { ScopeQueryParam } from '../explorer/explorer.component';
 import { SavedQueriesComponent } from './saved-queries.component';
+import { SavedQueryResponse } from './saved-queries.service';
 
 describe('SavedQueriesComponent', () => {
   let component: SavedQueriesComponent;
@@ -22,7 +26,13 @@ describe('SavedQueriesComponent', () => {
             uri: '/graphql',
             batchSize: 2
           }
-        }
+        },
+        mockProvider(HttpClient, {
+          get: () => of({ payload: [] }),
+          put: () => of({}),
+          delete: () => of({ success: true })
+        }),
+        mockProvider(HttpHandler)
       ]
     });
     fixture = TestBed.createComponent(SavedQueriesComponent);
@@ -42,18 +52,36 @@ describe('SavedQueriesComponent', () => {
   });
 
   test('renames a query successfully', () => {
-    component.savedQueries = [{ name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }];
+    component.savedQueriesSubject = new BehaviorSubject<SavedQueryResponse[]>([
+      {
+        CreatedAt: 3,
+        UpdatedAt: 4,
+        DeletedAt: 0,
+        OwnerID: 2,
+        Id: 1,
+        Data: { name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }
+      }
+    ]);
     window.prompt = jest.fn().mockReturnValue('Query 2');
 
-    component.onRename(0);
-    expect(component.savedQueries[0].name).toBe('Query 2');
+    component.onRename(1);
+    expect(component.savedQueriesSubject.getValue()[0].Data.name).toBe('Query 2');
   });
 
   test('deletes a query successfully', () => {
-    component.savedQueries = [{ name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }];
+    component.savedQueriesSubject = new BehaviorSubject<SavedQueryResponse[]>([
+      {
+        CreatedAt: 3,
+        UpdatedAt: 4,
+        DeletedAt: 0,
+        OwnerID: 2,
+        Id: 1,
+        Data: { name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }
+      }
+    ]);
     window.confirm = jest.fn().mockReturnValue(true);
 
-    component.onDelete(0);
-    expect(component.savedQueries.length).toBe(0);
+    component.onDelete(1);
+    expect(component.savedQueriesSubject.getValue().length).toBe(0);
   });
 });

@@ -3,8 +3,8 @@ import {
   ALTERNATE_COLOR_PALETTES,
   APP_TITLE,
   DEFAULT_COLOR_PALETTE,
-  USER_PREFERENCES_OPTIONS,
-  DynamicConfigurationModule
+  DynamicConfigurationModule,
+  USER_PREFERENCES_OPTIONS
 } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';

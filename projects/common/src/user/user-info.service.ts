@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserTraits } from '../telemetry/telemetry';
-import { InMemoryStorage } from './../utilities/browser/storage/in-memory-storage';
+import { InMemoryStorage } from '../utilities/browser/storage/in-memory-storage';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserInfoService {
   public BASE_URL: string = '/user-preferences';
   public static readonly STORAGE_KEY: 'user-data';
   public static readonly DEFAULT_USER: UserTraits = { name: 'Default User', email: 'ht-user@razorpay.com' };
@@ -14,7 +14,7 @@ export class UserService {
   public load(): void {
     this.http.get<UserTraits>('/user-info').subscribe(
       (data: UserTraits) => {
-        this.inMemoryStorage.set(UserService.STORAGE_KEY, JSON.stringify(data));
+        this.inMemoryStorage.set(UserInfoService.STORAGE_KEY, JSON.stringify(data));
       },
       error => {
         // tslint:disable-next-line: no-console
@@ -23,11 +23,11 @@ export class UserService {
     );
   }
   public getUserData(): UserTraits {
-    const user = this.inMemoryStorage.get(UserService.STORAGE_KEY);
+    const user = this.inMemoryStorage.get(UserInfoService.STORAGE_KEY);
     if (user !== undefined) {
       return JSON.parse(user);
     }
 
-    return UserService.DEFAULT_USER;
+    return UserInfoService.DEFAULT_USER;
   }
 }

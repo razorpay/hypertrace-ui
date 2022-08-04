@@ -133,5 +133,5 @@ export * from './color/color-palette';
 export * from './global-header-height/global-header-height-provider.service';
 
 // User Service
-export * from './user/user.service.module';
-export * from './user/user.service';
+export * from './user/user-info.service.module';
+export * from './user/user-info.service';

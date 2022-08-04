@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Dictionary } from '../../../utilities/types/types';
 
 import { apiObject, identify, load, page, track } from 'rudder-sdk-js';
+import { UserInfoService } from '../../../user/user-info.service';
 import { TelemetryProviderConfig, UserTelemetryProvider } from '../../telemetry';
-import { UserService } from './../../../user/user.service';
 
 export interface RudderStackConfig extends TelemetryProviderConfig {
   writeKey: string;
@@ -11,7 +11,7 @@ export interface RudderStackConfig extends TelemetryProviderConfig {
 
 @Injectable({ providedIn: 'root' })
 export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackConfig> {
-  public constructor(private readonly userService: UserService) {}
+  public constructor(private readonly userInfoService: UserInfoService) {}
 
   public initialize(config: RudderStackConfig): void {
     try {
@@ -27,7 +27,7 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
   }
 
   public identify(): void {
-    const data = this.userService.getUserData();
+    const data = this.userInfoService.getUserData();
     identify(data.email, { email: data.email, name: data.name });
   }
 

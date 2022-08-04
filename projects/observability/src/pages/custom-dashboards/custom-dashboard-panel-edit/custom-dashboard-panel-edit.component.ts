@@ -77,7 +77,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         [checked]="state.is_realtime"
         (checkedChange)="this.onCheckRealtime($event)"
       ></ht-checkbox>
-      <div class="button-container">
+      <div class="button-group">
         <ht-button (click)="onSaveOrEditPanel()" class="save-btn" [label]="'Save Panel'" role="${ButtonRole.Additive}">
         </ht-button>
         <ht-button (click)="onCancel()" [label]="'Cancel'" role=" ${ButtonRole.Destructive}"> </ht-button>
@@ -88,7 +88,25 @@ import { CustomDashboardService } from '../custom-dashboard.service';
 export class CustomDashboardPanelEditComponent {
   public attributes$: Observable<AttributeMetadata[]> = EMPTY;
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
-  public state!: PanelData;
+  public state: PanelData = {
+    context: ObservabilityTraceType.Api,
+    resultLimit: 15,
+    series: [],
+    name: 'New Panel',
+    id: '',
+    is_realtime: false,
+    interval: 'AUTO',
+    json: {
+      type: 'cartesian-widget',
+      'selectable-interval': false,
+      'series-from-data': true,
+      'legend-position': LegendPosition.Bottom,
+      'selection-handler': {
+        type: 'cartesian-explorer-selection-handler',
+        'show-context-menu': false
+      }
+    }
+  };
   public filters: Filter[] = [];
   public visualizationDashboard$: Observable<ExplorerGeneratedDashboard>;
   public dashboardName: string = '';
@@ -138,26 +156,6 @@ export class CustomDashboardPanelEditComponent {
 
         return;
       }
-    } else {
-      this.state = {
-        context: ObservabilityTraceType.Api,
-        resultLimit: 15,
-        series: [],
-        name: 'New Panel',
-        id: '',
-        is_realtime: false,
-        interval: 'AUTO',
-        json: {
-          type: 'cartesian-widget',
-          'selectable-interval': false,
-          'series-from-data': true,
-          'legend-position': LegendPosition.Bottom,
-          'selection-handler': {
-            type: 'cartesian-explorer-selection-handler',
-            'show-context-menu': false
-          }
-        }
-      };
     }
     this.currentContext = this.contextItems.find(i => i.value === this.state.context)!;
     this.setFilters();

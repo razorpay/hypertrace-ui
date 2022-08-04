@@ -57,14 +57,10 @@ export class CustomDashboardService {
     return this.userPreferenceService.get<CustomDashboardResponse>(`${this.BASE_URL}/${dashboardId}`);
   }
   public createDashboard(dashboard: DashboardListItem): Observable<DashboardListItem> {
-    return this.userPreferenceService.post<DashboardListItem>(`${this.BASE_URL}/save`, {
-      body: dashboard
-    });
+    return this.userPreferenceService.post<DashboardListItem>(`${this.BASE_URL}/save`, dashboard);
   }
   public updateDashboard(dashboardId: string, dashboard: DashboardListItem): Observable<DashboardListItem> {
-    return this.userPreferenceService.put<DashboardListItem>(`${this.BASE_URL}/${dashboardId}`, {
-      body: dashboard
-    });
+    return this.userPreferenceService.put<DashboardListItem>(`${this.BASE_URL}/${dashboardId}`, dashboard);
   }
   public applyFiltersToDashboard(dashboard: Dashboard, filters: GraphQlFilter[] = []): Subscription {
     const rootDataSource = dashboard.getRootDataSource<GraphQlFilterDataSourceModel>();

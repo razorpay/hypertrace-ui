@@ -30,20 +30,18 @@
       max-height: 285px;
     }
   }
-  .panel-container {
-    .add-panel {
-      height: 224px;
-      border: 1px dashed $gray-2;
-      border-radius: 6px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      margin: 15px 0;
-      &:hover {
-        background-color: $gray-1;
-        color: $blue-5;
-      }
+  .add-panel {
+    height: 224px;
+    border: 1px dashed $gray-2;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 15px 0;
+    &:hover {
+      background-color: $gray-1;
+      color: $blue-5;
     }
   }
   .visualization-container {

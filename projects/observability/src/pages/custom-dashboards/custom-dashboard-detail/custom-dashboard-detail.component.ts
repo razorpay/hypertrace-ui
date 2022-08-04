@@ -40,9 +40,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         >
         </ht-custom-dashboard-panel>
       </div>
-      <div class="panel-container">
-        <div class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</div>
-      </div>
+      <button class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
     </div>
   `
 })
@@ -51,7 +49,7 @@ export class CustomDashboardDetailComponent {
   public isNew: boolean = false;
   public dashboardId: string = '';
   public dashboardData!: DashboardData;
-  public unSaved: boolean = false;
+  public isUnsaved: boolean = false;
   public queryParams: Params = {};
   public panels$!: Observable<PanelData[]>;
   public constructor(
@@ -60,19 +58,19 @@ export class CustomDashboardDetailComponent {
     protected readonly activedRoute: ActivatedRoute,
     private readonly customDashboardService: CustomDashboardService,
     private readonly notificationService: NotificationService,
-    public readonly cdRef: ChangeDetectorRef
+    public readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.activedRoute.params.subscribe(params => {
       this.dashboardId = params.dashboard_id;
       this.isNew = params.dashboard_id === 'create';
     });
     this.activedRoute.queryParams.subscribe(query => {
-      this.unSaved = query.unSaved;
+      this.isUnsaved = query.unSaved;
       this.queryParams = query;
     });
     if (!this.isNew) {
       // Is not new since redirection back from edit panel page.
-      if (this.unSaved) {
+      if (this.isUnsaved) {
         this.isNew = this.queryParams.newDashboard === 'true';
         this.dashboardData = this.customDashboardStoreService.get(this.dashboardId);
         this.dashboardName = this.dashboardData.name;
@@ -91,7 +89,7 @@ export class CustomDashboardDetailComponent {
 
           this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
           this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
-          this.cdRef.detectChanges();
+          this.changeDetectorRef.detectChanges();
         });
       }
     } else {
@@ -115,10 +113,10 @@ export class CustomDashboardDetailComponent {
       replaceCurrentHistory: false
     });
   }
-  public onPanelDelete(panelId: string): void {
-    const confirmation = confirm(`Are you sure to delete ${panelId} panel?`);
+  public onPanelDelete(panelData: { panelName: string; panelId: string }): void {
+    const confirmation = confirm(`Are you sure to delete ${panelData.panelName} panel?`);
     if (confirmation) {
-      this.dashboardData = this.customDashboardStoreService.deletePanel(this.dashboardId, panelId);
+      this.dashboardData = this.customDashboardStoreService.deletePanel(this.dashboardId, panelData.panelId);
       this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
       this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
     }
@@ -154,7 +152,7 @@ export class CustomDashboardDetailComponent {
     if (this.isNew) {
       // Create
       this.customDashboardService.createDashboard(this.dashboardData).subscribe(() => {
-        this.notificationService.createInfoToast('Dashboard created successfully!');
+        this.notificationService.createSuccessToast('Dashboard created successfully!');
         this.navigationService.navigate({
           navType: NavigationParamsType.InApp,
           path: ['/custom-dashboards']
@@ -163,7 +161,7 @@ export class CustomDashboardDetailComponent {
     } else {
       // Update
       this.customDashboardService.updateDashboard(this.dashboardId, this.dashboardData).subscribe(() => {
-        this.notificationService.createInfoToast('Dashboard updated successfully!');
+        this.notificationService.createSuccessToast('Dashboard updated successfully!');
         this.navigationService.navigate({
           navType: NavigationParamsType.InApp,
           path: ['/custom-dashboards']

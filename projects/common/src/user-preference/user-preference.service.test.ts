@@ -88,11 +88,13 @@ describe('UserPreferenceService testing', () => {
   it('can test RestClient.post', () => {
     const postFnMock = mockPostMethod();
     spectator.service
-      .post('/test', {
-        body: {
+      .post(
+        '/test',
+        {
           title: 'Title'
-        }
-      })
+        },
+        {}
+      )
       .subscribe();
     expect(postFnMock).toHaveBeenCalled();
   });
@@ -100,11 +102,13 @@ describe('UserPreferenceService testing', () => {
   it('can test RestClient.Put', () => {
     const putFnMock = mockPutMethod();
     spectator.service
-      .put('/test', {
-        body: {
+      .put(
+        '/test',
+        {
           title: 'New Title'
-        }
-      })
+        },
+        {}
+      )
       .subscribe();
 
     expect(putFnMock).toHaveBeenCalled();
@@ -112,13 +116,7 @@ describe('UserPreferenceService testing', () => {
 
   it('can test RestClient.Delete', () => {
     const deleteFnMock = mockDeleteMethod();
-    spectator.service
-      .delete('/test', {
-        body: {
-          title: 'New Title'
-        }
-      })
-      .subscribe();
+    spectator.service.delete('/test', {}).subscribe();
 
     expect(deleteFnMock).toHaveBeenCalled();
   });

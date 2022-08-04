@@ -13,7 +13,6 @@ export interface IRequestOptions {
   reportProgress?: boolean;
   responseType?: 'json';
   withCredentials?: boolean;
-  body?: object;
 }
 
 @Injectable({
@@ -34,28 +33,28 @@ export class UserPreferenceService {
     return requestHeaders.append('user.email', 'ht-user@razorpay.com');
   }
   public get<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
+    const requestOptions = options || {};
     requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
 
     return this.http.get<T>(this.BASE_URL + endPoint, requestOptions);
   }
 
-  public post<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
+  public post<T>(endPoint: string, body: object, options?: IRequestOptions): Observable<T> {
+    const requestOptions = options || {};
     requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
 
-    return this.http.post<T>(this.BASE_URL + endPoint, options?.body, requestOptions);
+    return this.http.post<T>(this.BASE_URL + endPoint, body, requestOptions);
   }
 
-  public put<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
+  public put<T>(endPoint: string, body: object, options?: IRequestOptions): Observable<T> {
+    const requestOptions = options || {};
     requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
 
-    return this.http.put<T>(this.BASE_URL + endPoint, options?.body, requestOptions);
+    return this.http.put<T>(this.BASE_URL + endPoint, body, requestOptions);
   }
 
   public delete<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    const requestOptions = { ...options };
+    const requestOptions = options || {};
     requestOptions.headers = this.addUserEmailHeader(requestOptions.headers);
 
     return this.http.delete<T>(this.BASE_URL + endPoint, requestOptions);

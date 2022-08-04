@@ -104,7 +104,7 @@ export class CustomDashboardListComponent {
     private readonly customDashboardService: CustomDashboardService,
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
-    public readonly cdRef: ChangeDetectorRef
+    public readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.activatedRoute.queryParams.subscribe(params => {
       this.pageSize = params['page-size'] ?? this.pageSize;
@@ -132,7 +132,7 @@ export class CustomDashboardListComponent {
         };
       })
     );
-    this.dashboards$.subscribe(() => this.cdRef.detectChanges());
+    this.dashboards$.subscribe(() => this.changeDetectorRef.detectChanges());
   }
 
   private navigateToDashboard(id: string): void {

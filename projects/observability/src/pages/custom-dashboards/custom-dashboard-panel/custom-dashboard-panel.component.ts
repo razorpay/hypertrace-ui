@@ -65,7 +65,7 @@ export class CustomDashboardPanelComponent implements OnInit {
   public readonly editPanel: EventEmitter<string> = new EventEmitter();
 
   @Output()
-  public readonly deletePanel: EventEmitter<string> = new EventEmitter();
+  public readonly deletePanel: EventEmitter<{ panelName: string; panelId: string }> = new EventEmitter();
 
   public constructor(private readonly exploreVisualizationBuilder: ExploreVisualizationBuilder) {}
   public ngOnInit(): void {
@@ -111,6 +111,6 @@ export class CustomDashboardPanelComponent implements OnInit {
   }
   public onPanelDelete(event: MouseEvent): void {
     event.stopPropagation();
-    this.deletePanel.emit(this.panel?.id);
+    this.deletePanel.emit({ panelName: this.panel!.name, panelId: this.panel!.id });
   }
 }

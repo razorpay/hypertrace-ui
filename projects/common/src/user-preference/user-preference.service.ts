@@ -1,7 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DynamicConfigurationService } from '../dynamic-configuration/dynamic-configuration.service';
+interface TokenOptions {
+  uri: string;
+}
+export const USER_PREFERENCES_OPTIONS = new InjectionToken<TokenOptions>('USER_PREFERENCE_OPTIONS');
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -18,14 +21,8 @@ export interface IRequestOptions {
 })
 export class UserPreferenceService {
   public BASE_URL: string;
-  private static readonly BASE_URL_CONFIG_KEY: string = 'user_preference';
-  public constructor(
-    private readonly http: HttpClient,
-    private readonly dynamicConfigurationService: DynamicConfigurationService
-  ) {
-    this.BASE_URL = this.dynamicConfigurationService.getValueForUrlConfig(
-      UserPreferenceService.BASE_URL_CONFIG_KEY
-    ) as string;
+  public constructor(private readonly http: HttpClient, @Inject(USER_PREFERENCES_OPTIONS) tokenOptions: TokenOptions) {
+    this.BASE_URL = tokenOptions.uri;
   }
   private addUserEmailHeader(headers?: HttpHeaders): HttpHeaders {
     if (headers) {

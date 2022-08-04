@@ -2,13 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
-import { UserPreferenceService } from './user-preference.service';
+import { UserPreferenceService, USER_PREFERENCES_OPTIONS } from './user-preference.service';
 
 describe('UserPreferenceService testing', () => {
   let spectator: SpectatorService<UserPreferenceService>;
   const createService = createServiceFactory({
     service: UserPreferenceService,
     providers: [
+      {
+        provide: USER_PREFERENCES_OPTIONS,
+        useValue: {
+          uri: '/'
+        }
+      },
       {
         provide: HttpClient,
         useValue: {

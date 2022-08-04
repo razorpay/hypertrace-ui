@@ -181,6 +181,10 @@ export class CustomDashboardPanelEditComponent {
   }
   private buildVisualizationDashboard(request: ExploreVisualizationRequest): Observable<ExplorerGeneratedDashboard> {
     return of({
+      /*
+        The internal hda-dashboard components for rendering checks whether we pass a new json object to trigger a the dashboardReady event where we are handling the changes to filters and other fields.
+        Refer - https://github.com/razorpay/hypertrace-ui/pull/56#discussion_r937394346
+      */
       json: cloneDeep(this.state.json),
       onReady: dashboard => {
         dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationCartesianDataSourceModel);

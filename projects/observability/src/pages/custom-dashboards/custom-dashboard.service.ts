@@ -49,9 +49,7 @@ export class CustomDashboardService {
     }
     queryParams = queryParams.append('search', searchText);
 
-    return this.userPreferenceService.get<CustomDashboardListResponse>(`${this.BASE_URL}/global`, {
-      params: queryParams
-    });
+    return this.userPreferenceService.get<CustomDashboardListResponse>(`${this.BASE_URL}/global`, queryParams);
   }
   public fetchDashboardConfigById(dashboardId: string): Observable<CustomDashboardResponse> {
     return this.userPreferenceService.get<CustomDashboardResponse>(`${this.BASE_URL}/${dashboardId}`);

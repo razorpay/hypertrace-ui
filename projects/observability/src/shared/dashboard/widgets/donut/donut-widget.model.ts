@@ -13,7 +13,7 @@ import {
 import { ModelInject, MODEL_API } from '@hypertrace/hyperdash-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DonutResults, DonutSeries, DonutSeriesResults, DonutType } from '../../../components/donut/donut';
+import { DonutResults, DonutSeries, DonutSeriesResults, DonutChartType } from '../../../components/donut/donut';
 import { LegendPosition } from '../../../components/legend/legend.component';
 
 @Model({
@@ -79,7 +79,7 @@ export class DonutWidgetModel {
     key: 'chartType',
     type: STRING_PROPERTY.type
   })
-  public chartType: DonutType = DonutType.Donut;
+  public chartType: DonutChartType = DonutChartType.Donut;
 
   @ModelInject(MODEL_API)
   private readonly api!: ModelApi;

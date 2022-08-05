@@ -13,7 +13,7 @@ export interface DonutConfiguration {
   tooltipOption?: TooltipOption;
   displayLegendCounts?: boolean;
   legendFontSize?: LegendFontSize;
-  type: DonutType;
+  type: DonutChartType;
 }
 
 export interface DonutSeriesResults {
@@ -43,7 +43,7 @@ export const enum DonutAlignmentStyle {
   Right = 'right-alignment'
 }
 
-export const enum DonutType {
+export const enum DonutChartType {
   Pie = 'pie',
   Donut = 'donut'
 }

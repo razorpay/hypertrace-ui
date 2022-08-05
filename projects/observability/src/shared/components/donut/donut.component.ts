@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { LegendFontSize, LegendPosition } from '../legend/legend.component';
 import { TooltipOption } from '../utils/d3/d3-visualization-builder.service';
-import { Donut, DonutAlignmentStyle, DonutCenter, DonutSeries, DonutType } from './donut';
+import { Donut, DonutAlignmentStyle, DonutCenter, DonutSeries, DonutChartType } from './donut';
 import { DonutBuilderService } from './donut-builder.service';
 
 @Component({
@@ -50,7 +50,7 @@ export class DonutComponent implements OnChanges, OnDestroy, AfterViewInit {
   public alignment: string = DonutAlignmentStyle.Center;
 
   @Input()
-  public type: DonutType = DonutType.Donut;
+  public type: DonutChartType = DonutChartType.Donut;
 
   @ViewChild('donutContainer', { static: true })
   private readonly donutContainer!: ElementRef;

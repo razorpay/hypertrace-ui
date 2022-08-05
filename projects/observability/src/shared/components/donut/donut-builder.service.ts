@@ -21,7 +21,7 @@ import {
   TooltipOption
 } from '../utils/d3/d3-visualization-builder.service';
 import { MouseLocationData } from '../utils/mouse-tracking/mouse-tracking';
-import { Donut, DonutCenter, DonutConfiguration, DonutSeries, DonutType } from './donut';
+import { Donut, DonutCenter, DonutConfiguration, DonutSeries, DonutChartType } from './donut';
 import { DonutDataLookupStrategy } from './donut-data-lookup-strategy';
 
 @Injectable({ providedIn: 'root' })
@@ -42,7 +42,7 @@ export class DonutBuilderService extends D3VisualizationBuilderService<
   private static readonly MIN_FONT_SIZE_FOR_TITLE: number = 12;
   private static readonly MAX_FONT_SIZE_FOR_TITLE: number = 15;
   private static readonly MAX_FONT_SIZE_FOR_VALUE: number = 64;
-  private type: DonutType = DonutType.Donut;
+  private type: DonutChartType = DonutChartType.Donut;
   public constructor(
     d3: D3UtilService,
     measurer: DomElementMeasurerService,
@@ -194,9 +194,9 @@ export class DonutBuilderService extends D3VisualizationBuilderService<
   private buildDonutUsingType(
     visualizationContainer: DonutContainerSelection,
     dimensions: DonutDimensions,
-    type: DonutType
+    type: DonutChartType
   ): void {
-    if (type === DonutType.Donut) {
+    if (type === DonutChartType.Donut) {
       visualizationContainer
         .select(selector(DonutBuilderService.DONUT_CHART_SVG_CLASS))
         .attr('width', dimensions.visualizationWidth)
@@ -231,7 +231,7 @@ interface InternalConfiguration extends ChartConfig {
   legend: LegendPosition;
   tooltipOption?: TooltipOption;
   displayLegendCounts: boolean;
-  type: DonutType;
+  type: DonutChartType;
 }
 
 interface DonutDimensions extends ChartDimensions {

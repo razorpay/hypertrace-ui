@@ -8,7 +8,7 @@ import { toFilterAttributeType } from '../../shared/graphql/model/metadata/attri
 import { ObservabilityTraceType } from '../../shared/graphql/model/schema/observability-traces';
 import { SPAN_SCOPE } from '../../shared/graphql/model/schema/span';
 import { MetadataService } from '../../shared/services/metadata/metadata.service';
-import { ScopeQueryParam } from './explorer.component';
+import { ScopeQueryParam } from './explorer.types';
 
 @Injectable({ providedIn: 'root' })
 export class ExplorerService {

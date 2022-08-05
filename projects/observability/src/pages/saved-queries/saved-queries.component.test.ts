@@ -7,7 +7,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { SavedQueriesModule } from '@hypertrace/observability';
-import { ScopeQueryParam } from '../explorer/explorer.component';
+import { ScopeQueryParam } from '../explorer/explorer.types';
 import { SavedQueriesComponent } from './saved-queries.component';
 import { SavedQueryResponse } from './saved-queries.service';
 

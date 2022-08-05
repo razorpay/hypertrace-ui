@@ -4,6 +4,7 @@ import {
   APP_TITLE,
   DEFAULT_COLOR_PALETTE,
   DynamicConfigurationModule,
+  UserModule,
   USER_PREFERENCES_OPTIONS
 } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
@@ -13,7 +14,7 @@ import { entityMetadata } from './entity-metadata';
 import { FeatureResolverModule } from './shared/feature-resolver/feature-resolver.module';
 
 @NgModule({
-  imports: [FeatureResolverModule, DynamicConfigurationModule],
+  imports: [FeatureResolverModule, DynamicConfigurationModule, UserModule],
   providers: [
     {
       provide: GRAPHQL_OPTIONS,

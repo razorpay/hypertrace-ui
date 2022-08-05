@@ -1,3 +1,4 @@
+import { UserInfoService } from './../user/user-info.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -11,13 +12,18 @@ export const USER_PREFERENCES_OPTIONS = new InjectionToken<TokenOptions>('USER_P
 })
 export class UserPreferenceService {
   public BASE_URL: string;
-  public constructor(private readonly http: HttpClient, @Inject(USER_PREFERENCES_OPTIONS) tokenOptions: TokenOptions) {
+  public constructor(
+    private readonly http: HttpClient,
+    @Inject(USER_PREFERENCES_OPTIONS) tokenOptions: TokenOptions,
+    private readonly userInfoService: UserInfoService
+  ) {
     this.BASE_URL = tokenOptions.uri;
   }
   private addUserEmailHeader(): HttpHeaders {
     const requestHeaders = new HttpHeaders();
+    const { email } = this.userInfoService.getUserData();
 
-    return requestHeaders.append('user-email', 'ht-user@razorpay.com');
+    return requestHeaders.append('user-email', email!);
   }
   public get<T>(endPoint: string, params?: HttpParams): Observable<T> {
     return this.http.get<T>(this.BASE_URL + endPoint, {

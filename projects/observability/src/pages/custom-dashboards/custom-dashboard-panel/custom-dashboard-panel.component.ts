@@ -23,7 +23,7 @@ import { ExploreSpecificationBuilder } from './../../../shared/graphql/request/b
           <ht-panel-title [expanded]="expanded"
             ><span class="panel-title">{{ panel?.name || panel?.id }}</span>
           </ht-panel-title>
-          <div class="actions-container">
+          <div class="actions-container" *ngIf="this.isOwner">
             <ht-icon
               title="Rename"
               class="panel-icon panel-edit"
@@ -56,6 +56,9 @@ import { ExploreSpecificationBuilder } from './../../../shared/graphql/request/b
 export class CustomDashboardPanelComponent implements OnInit {
   @Input()
   public panel?: PanelData;
+
+  @Input()
+  public isOwner: boolean = true;
 
   @Output()
   public readonly editPanel: EventEmitter<string> = new EventEmitter();

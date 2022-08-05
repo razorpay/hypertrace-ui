@@ -70,13 +70,6 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         [groupBy]="state.groupBy"
         (visualizationRequestChange)="this.onVisualizationRequestUpdated($event)"
       ></ht-explore-query-editor>
-
-      <ht-checkbox
-        class="live-update-checkbox"
-        [label]="'Live Update'"
-        [checked]="state.isRealtime"
-        (checkedChange)="this.onCheckRealtime($event)"
-      ></ht-checkbox>
       <div class="button-group">
         <ht-button (click)="onSaveOrEditPanel()" class="save-btn" [label]="'Save Panel'" role="${ButtonRole.Additive}">
         </ht-button>
@@ -102,8 +95,13 @@ export class CustomDashboardPanelEditComponent {
       'series-from-data': true,
       'legend-position': LegendPosition.Bottom,
       'selection-handler': {
-        type: 'cartesian-explorer-selection-handler',
-        'show-context-menu': false
+        type: 'custom-dashboard-selection-handler'
+      },
+      'show-y-axis': true,
+      'y-axis': {
+        type: 'cartesian-axis',
+        'show-grid-lines': true,
+        'min-upper-limit': 25
       }
     }
   };
@@ -175,9 +173,6 @@ export class CustomDashboardPanelEditComponent {
     this.currentContext = this.contextItems.find(i => i.value === this.state.context)!;
 
     this.attributes$ = this.metadataService.getFilterAttributes(this.state.context);
-  }
-  public onCheckRealtime(val: boolean): void {
-    this.state.isRealtime = val;
   }
   private buildVisualizationDashboard(request: ExploreVisualizationRequest): Observable<ExplorerGeneratedDashboard> {
     return of({

@@ -35,6 +35,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
       <div class="panels-list" *ngIf="this.panels$ | async as panels">
         <ht-custom-dashboard-panel
           [panel]="panel"
+          [isOwner]="user.id === this.ownerId"
           *ngFor="let panel of panels"
           (editPanel)="onPanelEdit($event)"
           (deletePanel)="onPanelDelete($event)"

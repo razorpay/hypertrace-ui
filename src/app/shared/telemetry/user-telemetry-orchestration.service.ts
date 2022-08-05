@@ -13,7 +13,12 @@ export class UserTelemetryOrchestrationService {
 
   public initialize(): void {
     // tslint:disable-next-line: no-console
-    console.log('user tel orch init ', window?.analyticsConfig);
+    console.log(
+      'user tel orch init ',
+      window?.analyticsConfig?.enabled,
+      window?.analyticsConfig?.rudderstack_dataplane_url,
+      window.RUDDERSTACK_HT_WRITE_KEY
+    );
     if (window?.analyticsConfig?.enabled) {
       this.userTelemetryService.initialize();
 

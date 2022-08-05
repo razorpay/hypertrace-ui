@@ -31,7 +31,7 @@
     }
   }
   .add-panel {
-    height: 224px;
+    min-height: 224px;
     border: 1px dashed $gray-2;
     border-radius: 6px;
     display: flex;

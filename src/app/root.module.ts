@@ -25,10 +25,10 @@ declare const window: CustomWindow;
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    ConfigModule,
     RootRoutingModule,
+    ConfigModule,
     NavigationModule,
+    HttpClientModule,
     ApplicationFrameModule,
     ObservabilityDashboardModule,
     UserTelemetryModule.forRoot([
@@ -38,7 +38,6 @@ declare const window: CustomWindow;
         enableEventTracking: true,
         enablePageTracking: true,
         initConfig: {
-          orgId: window.analyticsConfig?.rudderstack_dataplane_url,
           writeKey: window.RUDDERSTACK_HT_WRITE_KEY
         }
       }

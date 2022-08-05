@@ -43,24 +43,4 @@
     display: block;
     height: 224px;
   }
-
-  .realtime {
-    animation: 1s blink-green ease infinite;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    margin-left: 15px;
-  }
-
-  @keyframes blink-green {
-    from,
-    to {
-      opacity: 0;
-      background-color: $green-5;
-    }
-
-    50% {
-      opacity: 1;
-    }
-  }
 }

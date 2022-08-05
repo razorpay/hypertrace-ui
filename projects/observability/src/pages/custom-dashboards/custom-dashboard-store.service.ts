@@ -60,7 +60,7 @@ export interface PanelData extends ExploreRequestState {
   id: string;
   name: string;
   json: ModelJson;
-  is_realtime?: boolean;
+  isRealtime?: boolean;
   interval: PanelInterval | 'AUTO';
 }
 export interface PanelInterval extends TimeDuration {

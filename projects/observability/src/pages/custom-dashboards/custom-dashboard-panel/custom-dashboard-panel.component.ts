@@ -22,9 +22,6 @@ import { ExploreSpecificationBuilder } from './../../../shared/graphql/request/b
         <ht-panel-header class="panel-header">
           <ht-panel-title [expanded]="expanded"
             ><span class="panel-title">{{ panel?.name || panel?.id }}</span>
-            <!-- <span class="realtime">
-
-          </span> -->
           </ht-panel-title>
           <div class="actions-container">
             <ht-icon

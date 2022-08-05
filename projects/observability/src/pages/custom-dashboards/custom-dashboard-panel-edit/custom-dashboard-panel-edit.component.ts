@@ -74,7 +74,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
       <ht-checkbox
         class="live-update-checkbox"
         [label]="'Live Update'"
-        [checked]="state.is_realtime"
+        [checked]="state.isRealtime"
         (checkedChange)="this.onCheckRealtime($event)"
       ></ht-checkbox>
       <div class="button-group">
@@ -94,7 +94,7 @@ export class CustomDashboardPanelEditComponent {
     series: [],
     name: 'New Panel',
     id: '',
-    is_realtime: false,
+    isRealtime: false,
     interval: 'AUTO',
     json: {
       type: 'cartesian-widget',
@@ -177,7 +177,7 @@ export class CustomDashboardPanelEditComponent {
     this.attributes$ = this.metadataService.getFilterAttributes(this.state.context);
   }
   public onCheckRealtime(val: boolean): void {
-    this.state.is_realtime = val;
+    this.state.isRealtime = val;
   }
   private buildVisualizationDashboard(request: ExploreVisualizationRequest): Observable<ExplorerGeneratedDashboard> {
     return of({

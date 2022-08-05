@@ -1,7 +1,7 @@
-import { UserInfoService } from './../user/user-info.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserInfoService } from './../user/user-info.service';
 interface TokenOptions {
   uri: string;
 }

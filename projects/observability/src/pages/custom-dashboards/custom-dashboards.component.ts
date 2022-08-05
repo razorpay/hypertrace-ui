@@ -1,7 +1,6 @@
-import { UserInfoService } from './../../../../common/src/user/user-info.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavigationParamsType, NavigationService } from '@hypertrace/common';
+import { NavigationParamsType, NavigationService, UserInfoService } from '@hypertrace/common';
 import {
   ButtonRole,
   ButtonStyle,

@@ -27,8 +27,8 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
   }
 
   public identify(): void {
-    const data = this.userInfoService.getUserData();
-    identify(data.email, { email: data.email, name: data.name });
+    const { email, name } = this.userInfoService.getUserData();
+    identify(email, { email: email, name: name });
   }
 
   public trackEvent(name: string, eventData: Dictionary<unknown>): void {

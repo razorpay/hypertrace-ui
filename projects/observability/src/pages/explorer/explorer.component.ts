@@ -42,7 +42,7 @@ import {
   ExplorerGeneratedDashboardContext,
   EXPLORER_DASHBOARD_BUILDER_FACTORY
 } from './explorer-dashboard-builder';
-import type { ScopeQueryParam } from './explorer.types';
+import { ScopeQueryParam } from './explorer.types';
 
 @Component({
   styleUrls: ['./explorer.component.scss'],

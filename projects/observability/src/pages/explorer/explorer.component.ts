@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { isEmpty, isNil } from 'lodash-es';
 import { concat, EMPTY, Observable, Subject } from 'rxjs';
@@ -42,6 +42,7 @@ import {
   ExplorerGeneratedDashboardContext,
   EXPLORER_DASHBOARD_BUILDER_FACTORY
 } from './explorer-dashboard-builder';
+import type { ScopeQueryParam } from './explorer.types';
 
 @Component({
   styleUrls: ['./explorer.component.scss'],
@@ -138,11 +139,10 @@ import {
     </div>
   `
 })
-export class ExplorerComponent {
+export class ExplorerComponent implements OnInit {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
-  // private savedQueries: SavedQuery[] = [];
   private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
@@ -206,13 +206,11 @@ export class ExplorerComponent {
       })
     );
 
-    // this.subscriptionLifecycle.add(
-    //   this.preferenceService.get('savedQueries', []).subscribe(queries => {
-    //     this.savedQueries = queries as SavedQuery[];
-    //   })
-    // );
-
     this.subscriptionLifecycle.add(this.currentContext$.subscribe(value => (this.currentContext = value)));
+  }
+
+  public ngOnInit(): void {
+    this.savedQueriesService.moveOldQueries();
   }
 
   public onClickSaveQuery(): void {
@@ -228,27 +226,15 @@ export class ExplorerComponent {
     }
 
     const currentQuery = { scopeQueryParam: currentScope, filters: cleanedFilters };
-
-    // if (
-    //   this.explorerService.isDuplicateQuery(
-    //     currentQuery,
-    //     this.savedQueries.map(({ name, ...rest }) => rest)
-    //   )
-    // ) {
-    //   this.notificationService.createInfoToast('This query is saved already!');
-    // } else {
     const queryName = prompt('Please enter a name for this query', 'My query');
 
     if (queryName !== null) {
-      // const newSavedQueries = [...this.savedQueries, { name: queryName, ...currentQuery }];
-      // this.preferenceService.set('savedQueries', newSavedQueries);
       this.savedQueriesService.saveQuery({ name: queryName, ...currentQuery }).subscribe(response => {
         if (response.success) {
           this.notificationService.createSuccessToast('Query Saved Successfully!');
         }
       });
     }
-    // }
   }
 
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {
@@ -408,10 +394,6 @@ interface ExplorerContextScope {
   scopeQueryParam: ScopeQueryParam;
 }
 
-export const enum ScopeQueryParam {
-  EndpointTraces = 'endpoint-traces',
-  Spans = 'spans'
-}
 const enum ExplorerQueryParam {
   Scope = 'scope',
   Interval = 'interval',
@@ -419,10 +401,4 @@ const enum ExplorerQueryParam {
   OtherGroup = 'other',
   GroupLimit = 'limit',
   Series = 'series'
-}
-
-export interface SavedQuery {
-  name: string;
-  scopeQueryParam: ScopeQueryParam;
-  filters: Filter[];
 }

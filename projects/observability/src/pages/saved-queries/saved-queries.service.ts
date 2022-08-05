@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { SubscriptionLifecycle, UserTraits } from '@hypertrace/common';
-import { SavedQuery } from '../explorer/explorer.component';
+import { PreferenceService, SubscriptionLifecycle, UserTraits } from '@hypertrace/common';
+import { Filter } from '@hypertrace/components';
+import { ScopeQueryParam } from '../explorer/explorer.types';
 
 const BASE_URL = 'https://hus.concierge.stage.razorpay.in/v1';
 
@@ -12,7 +13,11 @@ const BASE_URL = 'https://hus.concierge.stage.razorpay.in/v1';
 export class SavedQueriesService {
   private static userEmail: string;
 
-  public constructor(private readonly http: HttpClient, private readonly subscriptionLifecycle: SubscriptionLifecycle) {
+  public constructor(
+    private readonly http: HttpClient,
+    private readonly subscriptionLifecycle: SubscriptionLifecycle,
+    private readonly preferenceService: PreferenceService
+  ) {
     // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
     if (process.env.NODE_ENV === 'development') {
@@ -61,6 +66,26 @@ export class SavedQueriesService {
       }
     });
   }
+
+  /**
+   * Temporary method to support transition from localStorage to backend service.
+   * This removes old saved queries from localStorage and moves them to backend
+   * storage. This method can be safely deleted around December 2022, assuming
+   * 6 months is enough time for a user to visit the Hypertrace Explorer or Saved
+   * Queries pages, which triggers this method. Reading from localStorage has a
+   * performance impact so this method shouldn't be left in the code when it's
+   * no longer needed.
+   */
+  public moveOldQueries(): void {
+    this.subscriptionLifecycle.add(
+      this.preferenceService.get('savedQueries', []).subscribe((queries: SavedQuery[]) => {
+        if (queries.length > 0) {
+          queries.forEach(query => this.subscriptionLifecycle.add(this.saveQuery(query).subscribe()));
+          this.preferenceService.set('savedQueries', []);
+        }
+      })
+    );
+  }
 }
 
 export interface SavedQueryResponse {
@@ -70,4 +95,10 @@ export interface SavedQueryResponse {
   Id: number;
   OwnerID: number;
   UpdatedAt: number;
+}
+
+export interface SavedQuery {
+  name: string;
+  scopeQueryParam: ScopeQueryParam;
+  filters: Filter[];
 }

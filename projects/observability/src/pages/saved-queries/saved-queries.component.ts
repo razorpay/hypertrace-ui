@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { IconType } from '@hypertrace/assets-library';
 import { NavigationParams, SubscriptionLifecycle } from '@hypertrace/common';
 import { DrilldownFilter, ExplorerService } from '../explorer/explorer-service';
-import { SavedQuery } from '../explorer/explorer.component';
-import { SavedQueriesService, SavedQueryResponse } from './saved-queries.service';
+import { SavedQueriesService, SavedQuery, SavedQueryResponse } from './saved-queries.service';
 
 @Component({
   styleUrls: ['./saved-queries.component.scss'],
@@ -51,7 +50,7 @@ import { SavedQueriesService, SavedQueryResponse } from './saved-queries.service
     </div>
   `
 })
-export class SavedQueriesComponent {
+export class SavedQueriesComponent implements OnInit {
   public savedQueriesSubject: BehaviorSubject<SavedQueryResponse[]> = new BehaviorSubject<SavedQueryResponse[]>([]);
 
   public constructor(
@@ -64,6 +63,10 @@ export class SavedQueriesComponent {
         this.savedQueriesSubject.next(queries);
       })
     );
+  }
+
+  public ngOnInit(): void {
+    this.savedQueriesService.moveOldQueries();
   }
 
   public getExplorerNavigationParams$(query: SavedQuery): Observable<NavigationParams> {

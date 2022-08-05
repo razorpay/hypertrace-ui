@@ -25,10 +25,10 @@ declare const window: CustomWindow;
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RootRoutingModule,
-    ConfigModule,
-    NavigationModule,
     HttpClientModule,
+    ConfigModule,
+    RootRoutingModule,
+    NavigationModule,
     ApplicationFrameModule,
     ObservabilityDashboardModule,
     UserTelemetryModule.forRoot([

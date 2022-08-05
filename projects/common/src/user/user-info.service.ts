@@ -12,7 +12,7 @@ import { InMemoryStorage } from '../utilities/browser/storage/in-memory-storage'
 export class UserInfoService {
   public BASE_URL: string = '/user-preferences';
   public static readonly STORAGE_KEY: 'user-data';
-  public static readonly DEFAULT_USER: UserTraits = { name: 'ht-user', email: 'ht-user@razorpay.com' };
+  public static readonly DEFAULT_USER: UserTraits = { id: 2, name: 'ht-user', email: 'ht-user@razorpay.com' };
   public constructor(
     private readonly http: HttpClient,
     private readonly inMemoryStorage: InMemoryStorage,

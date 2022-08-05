@@ -112,7 +112,7 @@ export class CustomDashboardListComponent {
       this.pageIndex = params.page ? +params.page + 1 : this.pageIndex;
     });
     this.customDashboardService.fetchUser().subscribe(data => {
-      this.userInfoService.updateUserData({ email: data.payload.email });
+      this.userInfoService.updateUserData({ email: data.payload.email, id: data.payload.id });
     });
     this.setupDataSource({ pageSize: this.pageSize, pageIndex: this.pageIndex });
   }

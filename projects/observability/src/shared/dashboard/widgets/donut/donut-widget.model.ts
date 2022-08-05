@@ -13,7 +13,7 @@ import {
 import { ModelInject, MODEL_API } from '@hypertrace/hyperdash-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DonutResults, DonutSeries, DonutSeriesResults, DonutChartType } from '../../../components/donut/donut';
+import { DonutChartType, DonutResults, DonutSeries, DonutSeriesResults } from '../../../components/donut/donut';
 import { LegendPosition } from '../../../components/legend/legend.component';
 
 @Model({

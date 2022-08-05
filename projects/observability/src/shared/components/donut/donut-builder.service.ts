@@ -21,7 +21,7 @@ import {
   TooltipOption
 } from '../utils/d3/d3-visualization-builder.service';
 import { MouseLocationData } from '../utils/mouse-tracking/mouse-tracking';
-import { Donut, DonutCenter, DonutConfiguration, DonutSeries, DonutChartType } from './donut';
+import { Donut, DonutCenter, DonutChartType, DonutConfiguration, DonutSeries } from './donut';
 import { DonutDataLookupStrategy } from './donut-data-lookup-strategy';
 
 @Injectable({ providedIn: 'root' })

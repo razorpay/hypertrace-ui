@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { LegendFontSize, LegendPosition } from '../legend/legend.component';
 import { TooltipOption } from '../utils/d3/d3-visualization-builder.service';
-import { Donut, DonutAlignmentStyle, DonutCenter, DonutSeries, DonutChartType } from './donut';
+import { Donut, DonutAlignmentStyle, DonutCenter, DonutChartType, DonutSeries } from './donut';
 import { DonutBuilderService } from './donut-builder.service';
 
 @Component({

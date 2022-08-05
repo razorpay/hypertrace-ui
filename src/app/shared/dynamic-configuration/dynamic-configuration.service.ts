@@ -35,8 +35,6 @@ export class DynamicConfigurationService {
   }
   public setupAnalyticsConfig(): void {
     (window as CustomWindow).analyticsConfig = this.config?.analyticsConfig;
-    // tslint:disable-next-line: no-console
-    console.log('analytics setup is done ', (window as CustomWindow).analyticsConfig.rudderstack_dataplane_url);
   }
 }
 

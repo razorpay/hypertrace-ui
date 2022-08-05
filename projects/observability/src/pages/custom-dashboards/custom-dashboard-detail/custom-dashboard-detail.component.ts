@@ -107,8 +107,10 @@ export class CustomDashboardDetailComponent {
       this.dashboardData = {
         id: this.dashboardId,
         name: this.dashboardName,
-        panels: []
+        panels: [],
+        ownerId: this.user.id
       };
+      this.ownerId = this.user.id;
       this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
       this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
     }

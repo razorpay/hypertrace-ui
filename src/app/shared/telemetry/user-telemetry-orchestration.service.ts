@@ -12,6 +12,8 @@ export class UserTelemetryOrchestrationService {
   public constructor(private readonly userTelemetryService: UserTelemetryService) {}
 
   public initialize(): void {
+    // tslint:disable-next-line: no-console
+    console.log('user tel orch init ', window?.analyticsConfig);
     if (window?.analyticsConfig?.enabled) {
       this.userTelemetryService.initialize();
 

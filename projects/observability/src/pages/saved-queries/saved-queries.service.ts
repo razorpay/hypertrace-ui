@@ -26,6 +26,14 @@ export class SavedQueriesService {
     }
   }
 
+  public saveQuery(query: SavedQuery): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(`${BASE_URL}/query/save`, query, {
+      headers: {
+        'user-email': SavedQueriesService.userEmail
+      }
+    });
+  }
+
   public getAllQueries(): Observable<SavedQueryResponse[]> {
     return this.http
       .get<{ payload: SavedQueryResponse[] }>(`${BASE_URL}/query/all?sort=created_at&order=DESC`, {

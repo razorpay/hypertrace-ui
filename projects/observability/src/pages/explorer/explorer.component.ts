@@ -34,6 +34,7 @@ import { ObservabilityTraceType } from '../../shared/graphql/model/schema/observ
 import { SPAN_SCOPE } from '../../shared/graphql/model/schema/span';
 import { ExploreSpecificationBuilder } from '../../shared/graphql/request/builders/specification/explore/explore-specification-builder';
 import { MetadataService } from '../../shared/services/metadata/metadata.service';
+import { SavedQueriesService } from '../saved-queries/saved-queries.service';
 import {
   ExplorerDashboardBuilder,
   ExplorerDashboardBuilderFactory,
@@ -41,12 +42,11 @@ import {
   ExplorerGeneratedDashboardContext,
   EXPLORER_DASHBOARD_BUILDER_FACTORY
 } from './explorer-dashboard-builder';
-import { ExplorerService } from './explorer-service';
 
 @Component({
   styleUrls: ['./explorer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SubscriptionLifecycle],
+  providers: [SubscriptionLifecycle, SavedQueriesService],
   template: `
     <div class="explorer" *htLetAsync="this.initialState$ as initialState">
       <ht-page-header class="explorer-header"></ht-page-header>
@@ -142,7 +142,7 @@ export class ExplorerComponent {
   private static readonly VISUALIZATION_EXPANDED_PREFERENCE: string = 'explorer.visualizationExpanded';
   private static readonly RESULTS_EXPANDED_PREFERENCE: string = 'explorer.resultsExpanded';
   private readonly explorerDashboardBuilder: ExplorerDashboardBuilder;
-  private savedQueries: SavedQuery[] = [];
+  // private savedQueries: SavedQuery[] = [];
   private currentContext: ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly vizDashboard$: Observable<ExplorerGeneratedDashboard>;
@@ -176,13 +176,13 @@ export class ExplorerComponent {
 
   public constructor(
     private readonly featureStateResolver: FeatureStateResolver,
-    private readonly explorerService: ExplorerService,
     private readonly metadataService: MetadataService,
     private readonly navigationService: NavigationService,
     private readonly notificationService: NotificationService,
     private readonly timeDurationService: TimeDurationService,
     private readonly preferenceService: PreferenceService,
     private readonly subscriptionLifecycle: SubscriptionLifecycle,
+    private readonly savedQueriesService: SavedQueriesService,
     @Inject(EXPLORER_DASHBOARD_BUILDER_FACTORY) explorerDashboardBuilderFactory: ExplorerDashboardBuilderFactory,
     activatedRoute: ActivatedRoute
   ) {
@@ -206,11 +206,11 @@ export class ExplorerComponent {
       })
     );
 
-    this.subscriptionLifecycle.add(
-      this.preferenceService.get('savedQueries', []).subscribe(queries => {
-        this.savedQueries = queries as SavedQuery[];
-      })
-    );
+    // this.subscriptionLifecycle.add(
+    //   this.preferenceService.get('savedQueries', []).subscribe(queries => {
+    //     this.savedQueries = queries as SavedQuery[];
+    //   })
+    // );
 
     this.subscriptionLifecycle.add(this.currentContext$.subscribe(value => (this.currentContext = value)));
   }
@@ -219,7 +219,7 @@ export class ExplorerComponent {
     const currentScope = this.getQueryParamFromContext(this.currentContext);
     const cleanedFilters = [];
 
-    // Remove the undefined subpath field for correct object comparison
+    // Remove the undefined subpath field
     for (const filter of this.filters) {
       if (filter.subpath === undefined) {
         delete filter.subpath;
@@ -229,22 +229,26 @@ export class ExplorerComponent {
 
     const currentQuery = { scopeQueryParam: currentScope, filters: cleanedFilters };
 
-    if (
-      this.explorerService.isDuplicateQuery(
-        currentQuery,
-        this.savedQueries.map(({ name, ...rest }) => rest)
-      )
-    ) {
-      this.notificationService.createInfoToast('This query is saved already!');
-    } else {
-      const queryName = prompt('Please enter a name for this query', 'My query');
+    // if (
+    //   this.explorerService.isDuplicateQuery(
+    //     currentQuery,
+    //     this.savedQueries.map(({ name, ...rest }) => rest)
+    //   )
+    // ) {
+    //   this.notificationService.createInfoToast('This query is saved already!');
+    // } else {
+    const queryName = prompt('Please enter a name for this query', 'My query');
 
-      if (queryName !== null) {
-        const newSavedQueries = [...this.savedQueries, { name: queryName, ...currentQuery }];
-        this.preferenceService.set('savedQueries', newSavedQueries);
-        this.notificationService.createSuccessToast('Query Saved Successfully!');
-      }
+    if (queryName !== null) {
+      // const newSavedQueries = [...this.savedQueries, { name: queryName, ...currentQuery }];
+      // this.preferenceService.set('savedQueries', newSavedQueries);
+      this.savedQueriesService.saveQuery({ name: queryName, ...currentQuery }).subscribe(response => {
+        if (response.success) {
+          this.notificationService.createSuccessToast('Query Saved Successfully!');
+        }
+      });
     }
+    // }
   }
 
   public onVisualizationRequestUpdated(newRequest: ExploreVisualizationRequest): void {

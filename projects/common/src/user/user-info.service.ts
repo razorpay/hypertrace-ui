@@ -46,4 +46,18 @@ export class UserInfoService {
 
     return UserInfoService.DEFAULT_USER;
   }
+  public updateUserData(data: UserTraits): UserTraits {
+    const user = this.inMemoryStorage.get(UserInfoService.STORAGE_KEY);
+    if (user !== undefined) {
+      const updatedUser = {
+        ...JSON.parse(user),
+        ...data
+      };
+      this.inMemoryStorage.set(UserInfoService.STORAGE_KEY, JSON.stringify(updatedUser));
+
+      return updatedUser;
+    }
+
+    return UserInfoService.DEFAULT_USER;
+  }
 }

@@ -56,14 +56,15 @@ import { ExploreSpecificationBuilder } from './../../../shared/graphql/request/b
 export class CustomDashboardPanelComponent implements OnInit {
   @Input()
   public panel?: PanelData;
-  public visualizationDashboard!: ExplorerGeneratedDashboard;
-  public expanded: boolean = true;
+
   @Output()
   public readonly editPanel: EventEmitter<string> = new EventEmitter();
 
   @Output()
   public readonly deletePanel: EventEmitter<{ panelName: string; panelId: string }> = new EventEmitter();
 
+  public visualizationDashboard!: ExplorerGeneratedDashboard;
+  public expanded: boolean = true;
   public constructor(private readonly exploreVisualizationBuilder: ExploreVisualizationBuilder) {}
   public ngOnInit(): void {
     this.panel!.series = this.tryDecodeExploreSeries(this.panel!.series);

@@ -55,6 +55,7 @@ export interface DashboardData {
   id: string;
   name: string;
   panels: PanelData[];
+  ownerId?: number;
 }
 export interface PanelData extends ExploreRequestState {
   id: string;

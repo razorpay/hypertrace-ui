@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NavigationParamsType, NavigationService } from '@hypertrace/common';
+import { NavigationParamsType, NavigationService, UserInfoService, UserTraits } from '@hypertrace/common';
 import { ButtonRole, InputAppearance, NotificationService } from '@hypertrace/components';
 import { Observable } from 'rxjs';
 import { CustomDashboardStoreService, DashboardData, PanelData } from '../custom-dashboard-store.service';
@@ -22,6 +22,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         </ht-input>
         <div class="button-container">
           <ht-button
+            *ngIf="user.id === this.ownerId"
             class="save-btn"
             [label]="'Save'"
             role="${ButtonRole.Additive}"
@@ -52,13 +53,16 @@ export class CustomDashboardDetailComponent {
   public isUnsaved: boolean = false;
   public queryParams: Params = {};
   public panels$!: Observable<PanelData[]>;
+  public user: UserTraits;
+  public ownerId?: number;
   public constructor(
     protected readonly navigationService: NavigationService,
     protected readonly customDashboardStoreService: CustomDashboardStoreService,
     protected readonly activedRoute: ActivatedRoute,
     private readonly customDashboardService: CustomDashboardService,
     private readonly notificationService: NotificationService,
-    public readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly userInfoService: UserInfoService
   ) {
     this.activedRoute.params.subscribe(params => {
       this.dashboardId = params.dashboard_id;
@@ -68,12 +72,15 @@ export class CustomDashboardDetailComponent {
       this.isUnsaved = query.unSaved;
       this.queryParams = query;
     });
+    this.user = this.userInfoService.getUserData();
+
     if (!this.isNew) {
       // Is not new since redirection back from edit panel page.
       if (this.isUnsaved) {
         this.isNew = this.queryParams.newDashboard === 'true';
         this.dashboardData = this.customDashboardStoreService.get(this.dashboardId);
         this.dashboardName = this.dashboardData.name;
+        this.ownerId = this.dashboardData.ownerId;
         this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
       }
       // Fetch data from server and set data from server
@@ -83,8 +90,10 @@ export class CustomDashboardDetailComponent {
           this.dashboardData = {
             id: payload.Id,
             name: payload.Data.name,
-            panels: payload.Data.panels
+            panels: payload.Data.panels,
+            ownerId: payload.OwnerID
           };
+          this.ownerId = payload.OwnerID;
           this.dashboardName = this.dashboardData.name;
 
           this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);

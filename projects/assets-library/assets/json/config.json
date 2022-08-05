@@ -6,5 +6,9 @@
   "urlConfig": {
     "user_preference": "https://hus.concierge.stage.razorpay.in"
   },
-  "dashboardConfig": {}
+  "dashboardConfig": {},
+  "analyticsConfig": {
+    "enabled": false,
+    "rudderstack_dataplane_url": ""
+  }
 }

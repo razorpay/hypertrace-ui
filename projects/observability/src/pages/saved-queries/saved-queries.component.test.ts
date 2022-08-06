@@ -52,7 +52,7 @@ describe('SavedQueriesComponent', () => {
   });
 
   test('renames a query successfully', () => {
-    component.savedQueriesSubject = new BehaviorSubject<SavedQueryResponse[]>([
+    component.savedQueriesSubject = new BehaviorSubject<SavedQueryPayload[]>([
       {
         CreatedAt: 3,
         UpdatedAt: 4,

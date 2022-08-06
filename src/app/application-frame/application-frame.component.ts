@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IconType } from '@hypertrace/assets-library';
-import { LayoutChangeService, TimeRange, TimeRangeService } from '@hypertrace/common';
+import { LayoutChangeService, SubscriptionLifecycle, TimeRange, TimeRangeService } from '@hypertrace/common';
 import { IconSize } from '@hypertrace/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AddUserService } from '../shared/add-user/add-user.service';
 import { UserTelemetryOrchestrationService } from '../shared/telemetry/user-telemetry-orchestration.service';
+
 @Component({
   selector: 'ht-application-frame',
   styleUrls: ['./application-frame.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LayoutChangeService], // Provided as root layout
+  providers: [LayoutChangeService, AddUserService, SubscriptionLifecycle], // Provided as root layout
   template: `
     <ht-application-header>
       <div class="ht-logo" logo>
@@ -29,12 +31,14 @@ export class ApplicationFrameComponent implements OnInit {
 
   public constructor(
     private readonly userTelemetryOrchestrationService: UserTelemetryOrchestrationService,
-    private readonly timeRangeService: TimeRangeService
+    private readonly timeRangeService: TimeRangeService,
+    private readonly addUserService: AddUserService
   ) {
     this.timeRangeHasInit$ = this.timeRangeService.getTimeRangeAndChanges().pipe(take(1));
   }
 
   public ngOnInit(): void {
+    this.addUserService.addUser().subscribe();
     this.userTelemetryOrchestrationService.initialize();
   }
 }

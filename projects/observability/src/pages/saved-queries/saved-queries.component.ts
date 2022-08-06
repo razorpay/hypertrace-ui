@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { IconType } from '@hypertrace/assets-library';
 import { NavigationParams, SubscriptionLifecycle } from '@hypertrace/common';
 import { DrilldownFilter, ExplorerService } from '../explorer/explorer-service';
-import { SavedQueriesService, SavedQuery, SavedQueryResponse } from './saved-queries.service';
+import { SavedQueriesService, SavedQuery, SavedQueryPayload } from './saved-queries.service';
 
 @Component({
   styleUrls: ['./saved-queries.component.scss'],
@@ -51,7 +51,7 @@ import { SavedQueriesService, SavedQuery, SavedQueryResponse } from './saved-que
   `
 })
 export class SavedQueriesComponent implements OnInit {
-  public savedQueriesSubject: BehaviorSubject<SavedQueryResponse[]> = new BehaviorSubject<SavedQueryResponse[]>([]);
+  public savedQueriesSubject: BehaviorSubject<SavedQueryPayload[]> = new BehaviorSubject<SavedQueryPayload[]>([]);
 
   public constructor(
     private readonly explorerService: ExplorerService,
@@ -59,7 +59,7 @@ export class SavedQueriesComponent implements OnInit {
     private readonly savedQueriesService: SavedQueriesService
   ) {
     this.subscriptionLifecycle.add(
-      this.savedQueriesService.getAllQueries().subscribe((queries: SavedQueryResponse[]) => {
+      this.savedQueriesService.getAllQueries().subscribe((queries: SavedQueryPayload[]) => {
         this.savedQueriesSubject.next(queries);
       })
     );
@@ -74,9 +74,7 @@ export class SavedQueriesComponent implements OnInit {
   }
 
   public onRename(queryId: number): void {
-    const query: SavedQueryResponse = this.savedQueriesSubject
-      .getValue()
-      .find(savedQuery => savedQuery.Id === queryId)!;
+    const query: SavedQueryPayload = this.savedQueriesSubject.getValue().find(savedQuery => savedQuery.Id === queryId)!;
     const queryData: SavedQuery = query.Data;
     const queryName = prompt('Enter a new name for this query', queryData.name);
     if (queryName !== null) {
@@ -91,7 +89,7 @@ export class SavedQueriesComponent implements OnInit {
         this.savedQueriesService.deleteQueryById(queryId).subscribe(response => {
           if (response.success) {
             this.savedQueriesSubject.next(
-              this.savedQueriesSubject.getValue().filter((savedQuery: SavedQueryResponse) => savedQuery.Id !== queryId)
+              this.savedQueriesSubject.getValue().filter((savedQuery: SavedQueryPayload) => savedQuery.Id !== queryId)
             );
           }
         })

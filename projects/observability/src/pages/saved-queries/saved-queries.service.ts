@@ -21,7 +21,7 @@ export class SavedQueriesService {
     // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
     if (process.env.NODE_ENV === 'development') {
-      SavedQueriesService.userEmail = 'shivam.rai@razorpay.com';
+      SavedQueriesService.userEmail = 'ht-user@razorpay.com';
     } else {
       this.subscriptionLifecycle.add(
         this.http
@@ -31,17 +31,17 @@ export class SavedQueriesService {
     }
   }
 
-  public saveQuery(query: SavedQuery): Observable<{ success: boolean }> {
-    return this.http.post<{ success: boolean }>(`${BASE_URL}/query/save`, query, {
+  public saveQuery(query: SavedQuery): Observable<SavedQueryResponse> {
+    return this.http.post<SavedQueryResponse>(`${BASE_URL}/query/save`, query, {
       headers: {
         'user-email': SavedQueriesService.userEmail
       }
     });
   }
 
-  public getAllQueries(): Observable<SavedQueryResponse[]> {
+  public getAllQueries(): Observable<SavedQueryPayload[]> {
     return this.http
-      .get<{ payload: SavedQueryResponse[] }>(`${BASE_URL}/query/all?sort=created_at&order=DESC`, {
+      .get<{ payload: SavedQueryPayload[] }>(`${BASE_URL}/query/all?sort=created_at&order=DESC`, {
         headers: {
           'user-email': SavedQueriesService.userEmail
         }
@@ -49,9 +49,9 @@ export class SavedQueriesService {
       .pipe(map(response => response.payload));
   }
 
-  public updateQueryById(queryId: number, queryData: SavedQuery): Observable<SavedQueryResponse> {
+  public updateQueryById(queryId: number, queryData: SavedQuery): Observable<SavedQueryPayload> {
     return this.http
-      .put<{ payload: SavedQueryResponse }>(`${BASE_URL}/query/${queryId}`, queryData, {
+      .put<{ payload: SavedQueryPayload }>(`${BASE_URL}/query/${queryId}`, queryData, {
         headers: {
           'user-email': SavedQueriesService.userEmail
         }
@@ -59,8 +59,8 @@ export class SavedQueriesService {
       .pipe(map(response => response.payload));
   }
 
-  public deleteQueryById(queryId: number): Observable<{ success: boolean }> {
-    return this.http.delete<{ success: boolean }>(`${BASE_URL}/query/${queryId}`, {
+  public deleteQueryById(queryId: number): Observable<SavedQueryResponse> {
+    return this.http.delete<SavedQueryResponse>(`${BASE_URL}/query/${queryId}`, {
       headers: {
         'user-email': SavedQueriesService.userEmail
       }
@@ -88,7 +88,7 @@ export class SavedQueriesService {
   }
 }
 
-export interface SavedQueryResponse {
+export interface SavedQueryPayload {
   CreatedAt: number;
   Data: SavedQuery;
   DeletedAt: number;
@@ -101,4 +101,8 @@ export interface SavedQuery {
   name: string;
   scopeQueryParam: ScopeQueryParam;
   filters: Filter[];
+}
+
+interface SavedQueryResponse {
+  success: boolean;
 }

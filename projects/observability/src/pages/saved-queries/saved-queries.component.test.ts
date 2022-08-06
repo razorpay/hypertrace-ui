@@ -9,7 +9,7 @@ import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { SavedQueriesModule } from '@hypertrace/observability';
 import { ScopeQueryParam } from '../explorer/explorer.types';
 import { SavedQueriesComponent } from './saved-queries.component';
-import { SavedQueryResponse } from './saved-queries.service';
+import { SavedQueryPayload } from './saved-queries.service';
 
 describe('SavedQueriesComponent', () => {
   let component: SavedQueriesComponent;
@@ -69,7 +69,7 @@ describe('SavedQueriesComponent', () => {
   });
 
   test('deletes a query successfully', () => {
-    component.savedQueriesSubject = new BehaviorSubject<SavedQueryResponse[]>([
+    component.savedQueriesSubject = new BehaviorSubject<SavedQueryPayload[]>([
       {
         CreatedAt: 3,
         UpdatedAt: 4,

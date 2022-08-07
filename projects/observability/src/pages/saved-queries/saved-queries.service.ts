@@ -7,11 +7,11 @@ import { PreferenceService, SubscriptionLifecycle, UserInfoService } from '@hype
 import { Filter } from '@hypertrace/components';
 import { ScopeQueryParam } from '../explorer/explorer.types';
 
-const BASE_URL = 'https://hus.concierge.stage.razorpay.in/v1';
-
 @Injectable()
 export class SavedQueriesService {
   private static userEmail: string;
+  // Replace this with UserPreferenceService when its available
+  private readonly baseUrl: string = '/user-preferences';
 
   public constructor(
     private readonly http: HttpClient,
@@ -20,10 +20,16 @@ export class SavedQueriesService {
     private readonly userInfoService: UserInfoService
   ) {
     SavedQueriesService.userEmail = this.userInfoService.getUserData().email!;
+
+    // tslint:disable-next-line: ban-ts-ignore
+    // @ts-ignore
+    if (process.env.NODE_ENV === 'development') {
+      this.baseUrl = 'https://hus.concierge.stage.razorpay.in/v1';
+    }
   }
 
   public saveQuery(query: SavedQuery): Observable<SavedQueryResponse> {
-    return this.http.post<SavedQueryResponse>(`${BASE_URL}/query/save`, query, {
+    return this.http.post<SavedQueryResponse>(`${this.baseUrl}/query/save`, query, {
       headers: {
         'user-email': SavedQueriesService.userEmail
       }
@@ -32,7 +38,7 @@ export class SavedQueriesService {
 
   public getAllQueries(): Observable<SavedQueryPayload[]> {
     return this.http
-      .get<{ payload: SavedQueryPayload[] }>(`${BASE_URL}/query/all?sort=created_at&order=DESC`, {
+      .get<{ payload: SavedQueryPayload[] }>(`${this.baseUrl}/query/all?sort=created_at&order=DESC`, {
         headers: {
           'user-email': SavedQueriesService.userEmail
         }
@@ -42,7 +48,7 @@ export class SavedQueriesService {
 
   public updateQueryById(queryId: number, queryData: SavedQuery): Observable<SavedQueryPayload> {
     return this.http
-      .put<{ payload: SavedQueryPayload }>(`${BASE_URL}/query/${queryId}`, queryData, {
+      .put<{ payload: SavedQueryPayload }>(`${this.baseUrl}/query/${queryId}`, queryData, {
         headers: {
           'user-email': SavedQueriesService.userEmail
         }
@@ -51,7 +57,7 @@ export class SavedQueriesService {
   }
 
   public deleteQueryById(queryId: number): Observable<SavedQueryResponse> {
-    return this.http.delete<SavedQueryResponse>(`${BASE_URL}/query/${queryId}`, {
+    return this.http.delete<SavedQueryResponse>(`${this.baseUrl}/query/${queryId}`, {
       headers: {
         'user-email': SavedQueriesService.userEmail
       }

@@ -24,12 +24,12 @@ export class SavedQueriesService {
     // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
     if (process.env.NODE_ENV === 'development') {
-      this.baseUrl = 'https://hus.concierge.stage.razorpay.in/v1';
+      this.baseUrl = 'https://hus.concierge.stage.razorpay.in';
     }
   }
 
   public saveQuery(query: SavedQuery): Observable<SavedQueryResponse> {
-    return this.http.post<SavedQueryResponse>(`${this.baseUrl}/query/save`, query, {
+    return this.http.post<SavedQueryResponse>(`${this.baseUrl}/v1/query/save`, query, {
       headers: {
         'user-email': SavedQueriesService.userEmail
       }
@@ -38,7 +38,7 @@ export class SavedQueriesService {
 
   public getAllQueries(): Observable<SavedQueryPayload[]> {
     return this.http
-      .get<{ payload: SavedQueryPayload[] }>(`${this.baseUrl}/query/all?sort=created_at&order=DESC`, {
+      .get<{ payload: SavedQueryPayload[] }>(`${this.baseUrl}/v1/query/all?sort=created_at&order=DESC`, {
         headers: {
           'user-email': SavedQueriesService.userEmail
         }
@@ -48,7 +48,7 @@ export class SavedQueriesService {
 
   public updateQueryById(queryId: number, queryData: SavedQuery): Observable<SavedQueryPayload> {
     return this.http
-      .put<{ payload: SavedQueryPayload }>(`${this.baseUrl}/query/${queryId}`, queryData, {
+      .put<{ payload: SavedQueryPayload }>(`${this.baseUrl}/v1/query/${queryId}`, queryData, {
         headers: {
           'user-email': SavedQueriesService.userEmail
         }
@@ -57,7 +57,7 @@ export class SavedQueriesService {
   }
 
   public deleteQueryById(queryId: number): Observable<SavedQueryResponse> {
-    return this.http.delete<SavedQueryResponse>(`${this.baseUrl}/query/${queryId}`, {
+    return this.http.delete<SavedQueryResponse>(`${this.baseUrl}/v1/query/${queryId}`, {
       headers: {
         'user-email': SavedQueriesService.userEmail
       }

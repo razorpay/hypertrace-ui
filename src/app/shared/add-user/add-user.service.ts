@@ -15,12 +15,12 @@ export class AddUserService {
     // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
     if (process.env.NODE_ENV === 'development') {
-      this.baseUrl = 'https://hus.concierge.stage.razorpay.in/v1';
+      this.baseUrl = 'https://hus.concierge.stage.razorpay.in';
     }
   }
 
   public addUser(): Observable<AddUserResponse> {
-    return this.http.get<AddUserResponse>(`${this.baseUrl}/user/add`, {
+    return this.http.get<AddUserResponse>(`${this.baseUrl}/v1/user/add`, {
       headers: {
         'user-email': AddUserService.userEmail
       }

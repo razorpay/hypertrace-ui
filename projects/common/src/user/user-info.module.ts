@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { UserInfoService } from './user-info.service';
+
 @NgModule({
   providers: [
     UserInfoService,

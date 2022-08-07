@@ -32,7 +32,7 @@ export class UserInfoService {
         }
       }),
       catchError(error => {
-        this.logger.error('something went wrong in while fetching user-info', error);
+        this.logger.error('Something went wrong while fetching /user-info', error);
 
         return of({});
       })

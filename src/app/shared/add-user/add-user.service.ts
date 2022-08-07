@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SubscriptionLifecycle } from '@hypertrace/common';
+import { UserInfoService } from '@hypertrace/common';
 import { Observable } from 'rxjs';
 
 const BASE_URL = 'https://hus.concierge.stage.razorpay.in/v1';
@@ -9,18 +9,8 @@ const BASE_URL = 'https://hus.concierge.stage.razorpay.in/v1';
 export class AddUserService {
   private static userEmail: string;
 
-  public constructor(private readonly http: HttpClient, private readonly subscriptionLifecycle: SubscriptionLifecycle) {
-    // tslint:disable-next-line: ban-ts-ignore
-    // @ts-ignore
-    if (process.env.NODE_ENV === 'development') {
-      AddUserService.userEmail = 'ht-user@razorpay.com';
-    } else {
-      this.subscriptionLifecycle.add(
-        this.http
-          .get<{ email: string }>('https://hypertrace.concierge.stage.razorpay.in/user-info')
-          .subscribe(data => (AddUserService.userEmail = data.email ?? ''))
-      );
-    }
+  public constructor(private readonly http: HttpClient, private readonly userInfoService: UserInfoService) {
+    AddUserService.userEmail = this.userInfoService.getUserData().email!;
   }
 
   public addUser(): Observable<AddUserResponse> {

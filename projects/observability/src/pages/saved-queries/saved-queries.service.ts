@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { PreferenceService, SubscriptionLifecycle, UserTraits } from '@hypertrace/common';
+import { PreferenceService, SubscriptionLifecycle, UserInfoService } from '@hypertrace/common';
 import { Filter } from '@hypertrace/components';
 import { ScopeQueryParam } from '../explorer/explorer.types';
 
@@ -16,19 +16,10 @@ export class SavedQueriesService {
   public constructor(
     private readonly http: HttpClient,
     private readonly subscriptionLifecycle: SubscriptionLifecycle,
-    private readonly preferenceService: PreferenceService
+    private readonly preferenceService: PreferenceService,
+    private readonly userInfoService: UserInfoService
   ) {
-    // tslint:disable-next-line: ban-ts-ignore
-    // @ts-ignore
-    if (process.env.NODE_ENV === 'development') {
-      SavedQueriesService.userEmail = 'ht-user@razorpay.com';
-    } else {
-      this.subscriptionLifecycle.add(
-        this.http
-          .get<UserTraits>('https://hypertrace.concierge.stage.razorpay.in/user-info')
-          .subscribe(data => (SavedQueriesService.userEmail = data.email ?? ''))
-      );
-    }
+    SavedQueriesService.userEmail = this.userInfoService.getUserData().email!;
   }
 
   public saveQuery(query: SavedQuery): Observable<SavedQueryResponse> {

@@ -77,17 +77,6 @@ export class CustomDashboardListComponent {
       alignment: TableCellAlignmentType.Left
     },
     {
-      id: 'createdBy',
-      name: 'created_by',
-      title: 'Author',
-      display: CoreTableCellRendererType.Text,
-      visible: true,
-      width: '100%',
-      sortable: false,
-      filterable: false,
-      alignment: TableCellAlignmentType.Center
-    },
-    {
       id: 'createdAt',
       name: 'createdAt',
       title: 'Created At',
@@ -127,7 +116,6 @@ export class CustomDashboardListComponent {
               data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
                 ...dashboardPayload.Data,
                 id: dashboardPayload.Id,
-                createdBy: dashboardPayload.OwnerID, // TODO Remove later
                 createdAt: dashboardPayload.CreatedAt
               })),
               totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length

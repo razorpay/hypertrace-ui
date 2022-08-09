@@ -42,7 +42,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         >
         </ht-custom-dashboard-panel>
       </div>
-      <button class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
+      <button *ngIf="user.id === this.ownerId" class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
     </div>
   `
 })

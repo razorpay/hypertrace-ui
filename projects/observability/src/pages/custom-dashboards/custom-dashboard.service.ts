@@ -76,8 +76,8 @@ export class CustomDashboardService {
 
     return of(dashboard.refresh()).subscribe();
   }
-  public convertToSlug(text: string): string {
-    const slug = text
+  public convertNameToSlug(name: string): string {
+    const slug = name
       .toLowerCase()
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '');

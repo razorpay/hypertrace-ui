@@ -104,7 +104,7 @@ export class CustomDashboardDetailComponent {
       }
     } else {
       // Default new dashboard
-      this.dashboardId = this.customDashboardService.convertToSlug(this.dashboardName);
+      this.dashboardId = this.customDashboardService.convertNameToSlug(this.dashboardName);
       this.dashboardData = {
         id: this.dashboardId,
         name: this.dashboardName,
@@ -160,7 +160,7 @@ export class CustomDashboardDetailComponent {
     this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
   }
   public createOrUpdateDashboard(): void {
-    this.dashboardData.id = this.customDashboardService.convertToSlug(this.dashboardData.name);
+    this.dashboardData.id = this.customDashboardService.convertNameToSlug(this.dashboardData.name);
     if (this.isNew) {
       // Create
       this.customDashboardService.createDashboard(this.dashboardData).subscribe(() => {

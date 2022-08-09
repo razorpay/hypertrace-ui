@@ -207,7 +207,7 @@ export class CustomDashboardPanelEditComponent {
     };
   }
   public onSaveOrEditPanel(): void {
-    const panelSlug = this.customDashboardService.convertToSlug(this.state.name);
+    const panelSlug = this.customDashboardService.convertNameToSlug(this.state.name);
     if (this.isNewPanel) {
       this.state.id = panelSlug;
 

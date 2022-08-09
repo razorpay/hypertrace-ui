@@ -4,6 +4,7 @@ import { UserPreferenceService } from '@hypertrace/common';
 import { PageEvent } from '@hypertrace/components';
 import { Dashboard } from '@hypertrace/hyperdash';
 import { Observable, of, Subscription } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
 import { GraphQlFilterDataSourceModel } from './../../shared/dashboard/data/graphql/filter/graphql-filter-data-source.model';
 import { GraphQlFilter } from './../../shared/graphql/model/schema/filter/graphql-filter';
 import { PanelData } from './custom-dashboard-store.service';
@@ -82,6 +83,6 @@ export class CustomDashboardService {
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '');
 
-    return `${slug}-${Math.floor(1000 + Math.random() * 9000)}`;
+    return `${slug}-${uuidv4()}`;
   }
 }

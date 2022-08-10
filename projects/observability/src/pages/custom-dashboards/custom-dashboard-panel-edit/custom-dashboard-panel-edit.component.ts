@@ -108,6 +108,7 @@ export class CustomDashboardPanelEditComponent {
   public filters: Filter[] = [];
   public visualizationDashboard$: Observable<ExplorerGeneratedDashboard>;
   public dashboardName: string = '';
+  private dashboardView: string = '';
   public isNewPanel: boolean = false;
   public isNewDashboard: boolean = false;
   public dashboardId: string = '';
@@ -138,6 +139,7 @@ export class CustomDashboardPanelEditComponent {
       this.isNewPanel = params.panel_id === 'new';
       this.panelId = params.panel_id;
       this.dashboardId = params.dashboard_id;
+      this.dashboardView = params.dashboard_view;
     });
     this.activatedRoute.queryParams.subscribe(params => {
       this.dashboardName = params.dashboardName;
@@ -217,13 +219,13 @@ export class CustomDashboardPanelEditComponent {
     }
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,
-      path: ['/custom-dashboards/', this.dashboardId],
+      path: ['/custom-dashboards/', this.dashboardView, this.dashboardId],
       queryParams: { unSaved: true, newDashboard: this.isNewDashboard },
       queryParamsHandling: 'merge',
       replaceCurrentHistory: false
     });
   }
   public onCancel(): void {
-    this.navigationService.navigateWithinApp(['/custom-dashboards/', this.dashboardId]);
+    this.navigationService.navigateWithinApp(['/custom-dashboards/', this.dashboardView, this.dashboardId]);
   }
 }

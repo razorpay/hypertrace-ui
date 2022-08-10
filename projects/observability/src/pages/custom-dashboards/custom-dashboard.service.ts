@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { GraphQlFilterDataSourceModel } from './../../shared/dashboard/data/graphql/filter/graphql-filter-data-source.model';
 import { GraphQlFilter } from './../../shared/graphql/model/schema/filter/graphql-filter';
 import { PanelData } from './custom-dashboard-store.service';
+import { DashboardViewType, DASHBOARD_VIEWS } from './custom-dashboards-view.component';
 
 export interface DashboardListItem {
   id: string;
@@ -52,7 +53,18 @@ export class CustomDashboardService {
   public fetchUser(): Observable<UserResponse> {
     return this.userPreferenceService.get<UserResponse>(`/v1/user/add`);
   }
-  public fetchDashboards(searchText: string, pagination?: PageEvent): Observable<CustomDashboardListResponse> {
+  public fetchDashboards(
+    view: DashboardViewType,
+    searchText: string,
+    pagination?: PageEvent
+  ): Observable<CustomDashboardListResponse> {
+    if (view === DASHBOARD_VIEWS.MY_DASHBOARDS) {
+      return this.fetchUserDashboards(searchText, pagination);
+    }
+
+    return this.fetchAllDashboards(searchText, pagination);
+  }
+  public fetchAllDashboards(searchText: string, pagination?: PageEvent): Observable<CustomDashboardListResponse> {
     let queryParams = new HttpParams();
     if (pagination) {
       queryParams = queryParams.append('page', pagination.pageIndex);
@@ -61,6 +73,16 @@ export class CustomDashboardService {
     queryParams = queryParams.append('search', searchText);
 
     return this.userPreferenceService.get<CustomDashboardListResponse>(`${this.BASE_URL}/global`, queryParams);
+  }
+  public fetchUserDashboards(searchText: string, pagination?: PageEvent): Observable<CustomDashboardListResponse> {
+    let queryParams = new HttpParams();
+    if (pagination) {
+      queryParams = queryParams.append('page', pagination.pageIndex);
+      queryParams = queryParams.append('size', pagination.pageSize);
+    }
+    queryParams = queryParams.append('search', searchText);
+
+    return this.userPreferenceService.get<CustomDashboardListResponse>(`${this.BASE_URL}/list`, queryParams);
   }
   public fetchDashboardConfigById(dashboardId: string): Observable<CustomDashboardResponse> {
     return this.userPreferenceService.get<CustomDashboardResponse>(`${this.BASE_URL}/${dashboardId}`);

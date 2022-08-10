@@ -5,6 +5,8 @@ import { ButtonRole, InputAppearance, NotificationService } from '@hypertrace/co
 import { Observable } from 'rxjs';
 import { CustomDashboardStoreService, DashboardData, PanelData } from '../custom-dashboard-store.service';
 import { CustomDashboardService } from '../custom-dashboard.service';
+import { DashboardViewType } from '../custom-dashboards-view.component';
+import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,7 +24,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         </ht-input>
         <div class="button-container">
           <ht-button
-            *ngIf="user.id === this.ownerId"
+            *ngIf="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'"
             class="save-btn"
             [label]="'Save'"
             role="${ButtonRole.Additive}"
@@ -35,7 +37,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
       <div class="panels-list" *ngIf="this.panels$ | async as panels">
         <ht-custom-dashboard-panel
           [panel]="panel"
-          [isOwner]="user.id === this.ownerId"
+          [isOwner]="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'"
           *ngFor="let panel of panels"
           (editPanel)="onPanelEdit($event)"
           (deletePanel)="onPanelDelete($event)"
@@ -50,6 +52,7 @@ export class CustomDashboardDetailComponent {
   public dashboardName: string = 'Unnamed';
   public isNew: boolean = false;
   public dashboardId: string = '';
+  public dashboardView!: DashboardViewType;
   public dashboardData!: DashboardData;
   public isUnsaved: boolean = false;
   public queryParams: Params = {};
@@ -68,6 +71,7 @@ export class CustomDashboardDetailComponent {
     this.activedRoute.params.subscribe(params => {
       this.dashboardId = params.dashboard_id;
       this.isNew = params.dashboard_id === 'create';
+      this.dashboardView = params.dashboard_view;
     });
     this.activedRoute.queryParams.subscribe(query => {
       this.isUnsaved = query.unSaved;
@@ -119,7 +123,7 @@ export class CustomDashboardDetailComponent {
   public onPanelEdit(panelId: string): void {
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,
-      path: [`/custom-dashboards/${this.dashboardId}/panel/${panelId}`],
+      path: [`/custom-dashboards/${this.dashboardView}/${this.dashboardId}/panel/${panelId}`],
       queryParams: { dashboardName: this.dashboardName, newDashboard: this.isNew },
       queryParamsHandling: 'merge',
       replaceCurrentHistory: false
@@ -136,7 +140,7 @@ export class CustomDashboardDetailComponent {
   public redirectToCreatePanel(): void {
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,
-      path: [`/custom-dashboards/${this.dashboardId}/panel/new`],
+      path: [`/custom-dashboards/${this.dashboardView}/${this.dashboardId}/panel/new`],
       queryParams: { dashboardName: this.dashboardName, newDashboard: this.isNew },
       queryParamsHandling: 'merge',
       replaceCurrentHistory: false
@@ -147,8 +151,7 @@ export class CustomDashboardDetailComponent {
     if (confirmation) {
       this.navigationService.navigate({
         navType: NavigationParamsType.InApp,
-        path: [`/custom-dashboards`],
-        queryParams: { dashboardName: this.dashboardName, newDashboard: this.isNew },
+        path: [`/custom-dashboards/${this.dashboardView}`],
         queryParamsHandling: 'merge',
         replaceCurrentHistory: false
       });

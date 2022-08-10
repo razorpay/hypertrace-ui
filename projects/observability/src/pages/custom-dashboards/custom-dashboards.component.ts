@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/
 import { ActivatedRoute } from '@angular/router';
 import { NavigationParamsType, NavigationService, UserInfoService } from '@hypertrace/common';
 import {
-  ButtonRole,
-  ButtonStyle,
   CoreTableCellRendererType,
   PageEvent,
   TableCellAlignmentType,
@@ -22,17 +20,12 @@ import {
   CustomDashboardService,
   DashboardListItem
 } from './custom-dashboard.service';
+import { DashboardViewType, DASHBOARD_VIEWS } from './custom-dashboards-view.component';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboards.component.scss'],
   template: `
     <div class="custom-dashboards">
-      <div class="title">
-        <h2>Custom Dashboards</h2>
-        <ht-link [paramsOrUrl]="'create'" class="create-dashboard-button">
-          <ht-button role="${ButtonRole.Primary}" display="${ButtonStyle.Solid}" label="Create Dashboard"> </ht-button>
-        </ht-link>
-      </div>
       <ht-search-box
         class="search-box"
         placeholder="Search"
@@ -88,7 +81,7 @@ export class CustomDashboardListComponent {
       alignment: TableCellAlignmentType.Center
     }
   ];
-
+  public dashboardView: DashboardViewType = DASHBOARD_VIEWS.MY_DASHBOARDS;
   public constructor(
     private readonly customDashboardService: CustomDashboardService,
     private readonly navigationService: NavigationService,
@@ -96,6 +89,13 @@ export class CustomDashboardListComponent {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly userInfoService: UserInfoService
   ) {
+    this.activatedRoute.params.subscribe(params => {
+      this.dashboardView = params.dashboard_view;
+      this.updateDashboardView();
+    });
+  }
+
+  private updateDashboardView(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.pageSize = params['page-size'] ?? this.pageSize;
       this.pageIndex = params.page ? +params.page + 1 : this.pageIndex;
@@ -107,30 +107,32 @@ export class CustomDashboardListComponent {
   }
 
   private setupDataSource(pagination?: PageEvent): void {
-    this.dashboards$ = this.customDashboardService.fetchDashboards(this.searchText, pagination).pipe(
-      tap(response => {
-        const dashboardPayloads = response.payload;
-        this.dataSource = {
-          getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
-            of({
-              data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
-                ...dashboardPayload.Data,
-                id: dashboardPayload.Id,
-                createdAt: dashboardPayload.CreatedAt
-              })),
-              totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
-            }),
-          getScope: () => undefined
-        };
-      })
-    );
+    this.dashboards$ = this.customDashboardService
+      .fetchDashboards(this.dashboardView, this.searchText, pagination)
+      .pipe(
+        tap(response => {
+          const dashboardPayloads = response.payload;
+          this.dataSource = {
+            getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
+              of({
+                data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
+                  ...dashboardPayload.Data,
+                  id: dashboardPayload.Id,
+                  createdAt: dashboardPayload.CreatedAt
+                })),
+                totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
+              }),
+            getScope: () => undefined
+          };
+        })
+      );
     this.dashboards$.subscribe(() => this.changeDetectorRef.detectChanges());
   }
 
   private navigateToDashboard(id: string): void {
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,
-      path: [`/custom-dashboards/${id}`]
+      path: [`/custom-dashboards/${this.dashboardView}/${id}`]
     });
   }
   public navigateToCreateDashboard(): void {

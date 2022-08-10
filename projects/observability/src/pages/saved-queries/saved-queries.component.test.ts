@@ -54,29 +54,29 @@ describe('SavedQueriesComponent', () => {
   test('renames a query successfully', () => {
     component.savedQueriesSubject = new BehaviorSubject<SavedQueryPayload[]>([
       {
-        CreatedAt: 3,
-        UpdatedAt: 4,
-        DeletedAt: 0,
-        OwnerID: 2,
-        Id: 1,
-        Data: { name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }
+        createdAt: 3,
+        updatedAt: 4,
+        deletedAt: 0,
+        ownerID: 2,
+        id: 1,
+        data: { name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }
       }
     ]);
     window.prompt = jest.fn().mockReturnValue('Query 2');
 
     component.onRename(1);
-    expect(component.savedQueriesSubject.getValue()[0].Data.name).toBe('Query 2');
+    expect(component.savedQueriesSubject.getValue()[0].data.name).toBe('Query 2');
   });
 
   test('deletes a query successfully', () => {
     component.savedQueriesSubject = new BehaviorSubject<SavedQueryPayload[]>([
       {
-        CreatedAt: 3,
-        UpdatedAt: 4,
-        DeletedAt: 0,
-        OwnerID: 2,
-        Id: 1,
-        Data: { name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }
+        createdAt: 3,
+        updatedAt: 4,
+        deletedAt: 0,
+        ownerID: 2,
+        id: 1,
+        data: { name: 'Query 1', scopeQueryParam: ScopeQueryParam.Spans, filters: [] }
       }
     ]);
     window.confirm = jest.fn().mockReturnValue(true);

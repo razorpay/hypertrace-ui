@@ -16,14 +16,14 @@ import { SavedQueriesService, SavedQuery, SavedQueryPayload } from './saved-quer
       <div class="query-list-container">
         <div class="query-container" *ngFor="let query of savedQueriesSubject | async">
           <div class="query-link-container">
-            <ht-link [paramsOrUrl]="getExplorerNavigationParams$(query.Data) | async">
+            <ht-link [paramsOrUrl]="getExplorerNavigationParams$(query.data) | async">
               <div class="query-link">
                 <div class="name-container">
-                  <p class="query-name">{{ query.Data.name }}</p>
-                  <p class="scope">{{ query.Data.scopeQueryParam === 'spans' ? 'Spans' : 'Endpoint Traces' }}</p>
+                  <p class="query-name">{{ query.data.name }}</p>
+                  <p class="scope">{{ query.data.scopeQueryParam === 'spans' ? 'Spans' : 'Endpoint Traces' }}</p>
                 </div>
                 <div class="filters-container">
-                  <span *ngFor="let filter of query.Data.filters">{{ filter.userString }}</span>
+                  <span *ngFor="let filter of query.data.filters">{{ filter.userString }}</span>
                 </div>
               </div>
             </ht-link>
@@ -33,13 +33,13 @@ import { SavedQueriesService, SavedQuery, SavedQueryPayload } from './saved-quer
               title="Rename"
               class="query-option-edit"
               icon="${IconType.Edit}"
-              (click)="onRename(query.Id)"
+              (click)="onRename(query.id)"
             ></ht-icon>
             <ht-icon
               title="Delete"
               class="query-option-delete"
               icon="${IconType.Delete}"
-              (click)="onDelete(query.Id)"
+              (click)="onDelete(query.id)"
             ></ht-icon>
           </div>
         </div>
@@ -75,8 +75,8 @@ export class SavedQueriesComponent implements OnInit {
   }
 
   public onRename(queryId: number): void {
-    const query: SavedQueryPayload = this.savedQueriesSubject.getValue().find(savedQuery => savedQuery.Id === queryId)!;
-    const queryData: SavedQuery = query.Data;
+    const query: SavedQueryPayload = this.savedQueriesSubject.getValue().find(savedQuery => savedQuery.id === queryId)!;
+    const queryData: SavedQuery = query.data;
     const queryName = prompt('Enter a new name for this query', queryData.name);
     if (queryName !== null) {
       queryData.name = queryName;
@@ -90,7 +90,7 @@ export class SavedQueriesComponent implements OnInit {
         this.savedQueriesService.deleteQueryById(queryId).subscribe(response => {
           if (response.success) {
             this.savedQueriesSubject.next(
-              this.savedQueriesSubject.getValue().filter((savedQuery: SavedQueryPayload) => savedQuery.Id !== queryId)
+              this.savedQueriesSubject.getValue().filter((savedQuery: SavedQueryPayload) => savedQuery.id !== queryId)
             );
           }
         })

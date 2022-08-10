@@ -86,12 +86,12 @@ export class SavedQueriesService {
 }
 
 export interface SavedQueryPayload {
-  CreatedAt: number;
-  Data: SavedQuery;
-  DeletedAt: number;
-  Id: number;
-  OwnerID: number;
-  UpdatedAt: number;
+  createdAt: number;
+  data: SavedQuery;
+  deletedAt: number;
+  id: number;
+  ownerID: number;
+  updatedAt: number;
 }
 
 export interface SavedQuery {

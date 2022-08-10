@@ -66,6 +66,7 @@ export class SavedQueriesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // Todo: Remove this after some time. See method definition for details.
     this.savedQueriesService.moveOldQueries();
   }
 

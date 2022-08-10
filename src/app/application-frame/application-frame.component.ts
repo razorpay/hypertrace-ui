@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IconType } from '@hypertrace/assets-library';
-import {
-  LayoutChangeService,
-  SubscriptionLifecycle,
-  TimeRange,
-  TimeRangeService,
-  UserPreferenceService
-} from '@hypertrace/common';
+import { LayoutChangeService, SubscriptionLifecycle, TimeRange, TimeRangeService } from '@hypertrace/common';
 import { IconSize } from '@hypertrace/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -36,19 +30,12 @@ export class ApplicationFrameComponent implements OnInit {
 
   public constructor(
     private readonly userTelemetryOrchestrationService: UserTelemetryOrchestrationService,
-    private readonly timeRangeService: TimeRangeService,
-    private readonly userPreferenceService: UserPreferenceService
+    private readonly timeRangeService: TimeRangeService
   ) {
     this.timeRangeHasInit$ = this.timeRangeService.getTimeRangeAndChanges().pipe(take(1));
   }
 
   public ngOnInit(): void {
-    /**
-     * We call the /user/add endpoint of the Hypertrace User Service once on
-     * every application load. This adds the user to the service if not present
-     * already. More details: https://razorpay.slack.com/archives/CU5GKS8MQ/p1659328334493179?thread_ts=1659310225.849849&cid=CU5GKS8MQ
-     */
-    this.userPreferenceService.get<{ success: boolean }>('/v1/user/add').subscribe();
     this.userTelemetryOrchestrationService.initialize();
   }
 }

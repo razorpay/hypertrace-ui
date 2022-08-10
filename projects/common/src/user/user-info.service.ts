@@ -18,6 +18,7 @@ export class UserInfoService {
     private readonly inMemoryStorage: InMemoryStorage,
     private readonly logger: LoggerService
   ) {}
+
   public load(): Observable<UserTraits> {
     // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
@@ -38,6 +39,7 @@ export class UserInfoService {
       })
     );
   }
+
   public getUserData(): UserTraits {
     const user = this.inMemoryStorage.get(UserInfoService.STORAGE_KEY);
     if (user !== undefined) {

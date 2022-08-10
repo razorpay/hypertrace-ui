@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { BehaviorSubject, of } from 'rxjs';
 
+import { USER_PREFERENCES_OPTIONS } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { SavedQueriesModule } from '@hypertrace/observability';
 import { ScopeQueryParam } from '../explorer/explorer.types';
@@ -25,6 +26,12 @@ describe('SavedQueriesComponent', () => {
           useValue: {
             uri: '/graphql',
             batchSize: 2
+          }
+        },
+        {
+          provide: USER_PREFERENCES_OPTIONS,
+          useValue: {
+            uri: '/user-preferences'
           }
         },
         mockProvider(HttpClient, {

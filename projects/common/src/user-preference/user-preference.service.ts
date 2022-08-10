@@ -12,6 +12,7 @@ export const USER_PREFERENCES_OPTIONS = new InjectionToken<TokenOptions>('USER_P
 })
 export class UserPreferenceService {
   public BASE_URL: string;
+
   public constructor(
     private readonly http: HttpClient,
     @Inject(USER_PREFERENCES_OPTIONS) tokenOptions: TokenOptions,
@@ -19,12 +20,14 @@ export class UserPreferenceService {
   ) {
     this.BASE_URL = tokenOptions.uri;
   }
+
   private addUserEmailHeader(): HttpHeaders {
     const requestHeaders = new HttpHeaders();
     const { email } = this.userInfoService.getUserData();
 
     return requestHeaders.append('user-email', email!);
   }
+
   public get<T>(endPoint: string, params?: HttpParams): Observable<T> {
     return this.http.get<T>(this.BASE_URL + endPoint, {
       params: params,

@@ -1,71 +1,48 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { PreferenceService, SubscriptionLifecycle, UserInfoService } from '@hypertrace/common';
+import { PreferenceService, SubscriptionLifecycle, UserInfoService, UserPreferenceService } from '@hypertrace/common';
 import { Filter } from '@hypertrace/components';
 import { ScopeQueryParam } from '../explorer/explorer.types';
 
 @Injectable()
 export class SavedQueriesService {
   private static userEmail: string;
-  // Replace this with UserPreferenceService when its available
-  private readonly baseUrl: string = '/user-preferences';
 
   public constructor(
-    private readonly http: HttpClient,
     private readonly subscriptionLifecycle: SubscriptionLifecycle,
     private readonly preferenceService: PreferenceService,
-    private readonly userInfoService: UserInfoService
+    private readonly userInfoService: UserInfoService,
+    private readonly userPreferenceService: UserPreferenceService
   ) {
     SavedQueriesService.userEmail = this.userInfoService.getUserData().email!;
-
-    // tslint:disable-next-line: ban-ts-ignore
-    // @ts-ignore
-    if (process.env.NODE_ENV === 'development') {
-      this.baseUrl = 'https://hus.concierge.stage.razorpay.in';
-    }
+    // tslint:disable-next-line: no-console
+    console.log(SavedQueriesService.userEmail);
   }
 
   public saveQuery(query: SavedQuery): Observable<SavedQueryResponse> {
-    return this.http.post<SavedQueryResponse>(`${this.baseUrl}/v1/query/save`, query, {
-      headers: {
-        'user-email': SavedQueriesService.userEmail
-      }
-    });
+    return this.userPreferenceService.post<SavedQueryResponse>('/v1/query/save', query);
   }
 
   public getAllQueries(): Observable<SavedQueryPayload[]> {
-    return this.http
-      .get<{ payload: SavedQueryPayload[] }>(`${this.baseUrl}/v1/query/all?sort=created_at&order=DESC`, {
-        headers: {
-          'user-email': SavedQueriesService.userEmail
-        }
-      })
+    return this.userPreferenceService
+      .get<{ payload: SavedQueryPayload[] }>('/v1/query/all?sort=created_at&order=DESC')
       .pipe(map(response => response.payload));
   }
 
   public updateQueryById(queryId: number, queryData: SavedQuery): Observable<SavedQueryPayload> {
-    return this.http
-      .put<{ payload: SavedQueryPayload }>(`${this.baseUrl}/v1/query/${queryId}`, queryData, {
-        headers: {
-          'user-email': SavedQueriesService.userEmail
-        }
-      })
+    return this.userPreferenceService
+      .put<{ payload: SavedQueryPayload }>(`/v1/query/${queryId}`, queryData)
       .pipe(map(response => response.payload));
   }
 
   public deleteQueryById(queryId: number): Observable<SavedQueryResponse> {
-    return this.http.delete<SavedQueryResponse>(`${this.baseUrl}/v1/query/${queryId}`, {
-      headers: {
-        'user-email': SavedQueriesService.userEmail
-      }
-    });
+    return this.userPreferenceService.delete(`/v1/query/${queryId}`);
   }
 
   /**
-   * Temporary method to support transition from localStorage to backend service.
+   * Todo: Temporary method to support transition from localStorage to backend service.
    * This removes old saved queries from localStorage and moves them to backend
    * storage. This method can be safely deleted around December 2022, assuming
    * 6 months is enough time for a user to visit the Hypertrace Explorer or Saved

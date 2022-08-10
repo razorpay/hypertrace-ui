@@ -2,24 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { PreferenceService, SubscriptionLifecycle, UserInfoService, UserPreferenceService } from '@hypertrace/common';
+import { PreferenceService, SubscriptionLifecycle, UserPreferenceService } from '@hypertrace/common';
 import { Filter } from '@hypertrace/components';
 import { ScopeQueryParam } from '../explorer/explorer.types';
 
 @Injectable()
 export class SavedQueriesService {
-  private static userEmail: string;
-
   public constructor(
     private readonly subscriptionLifecycle: SubscriptionLifecycle,
     private readonly preferenceService: PreferenceService,
-    private readonly userInfoService: UserInfoService,
     private readonly userPreferenceService: UserPreferenceService
-  ) {
-    SavedQueriesService.userEmail = this.userInfoService.getUserData().email!;
-    // tslint:disable-next-line: no-console
-    console.log(SavedQueriesService.userEmail);
-  }
+  ) {}
 
   public saveQuery(query: SavedQuery): Observable<SavedQueryResponse> {
     return this.userPreferenceService.post<SavedQueryResponse>('/v1/query/save', query);

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavigationParamsType, NavigationService, UserInfoService } from '@hypertrace/common';
+import { NavigationParamsType, NavigationService, SubscriptionLifecycle, UserInfoService } from '@hypertrace/common';
 import {
   CoreTableCellRendererType,
   PageEvent,
@@ -24,6 +24,7 @@ import { DashboardViewType, DASHBOARD_VIEWS } from './custom-dashboards-view.com
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboards.component.scss'],
+  providers: [SubscriptionLifecycle],
   template: `
     <div class="custom-dashboards">
       <ht-search-box
@@ -87,12 +88,15 @@ export class CustomDashboardListComponent {
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly userInfoService: UserInfoService
+    private readonly userInfoService: UserInfoService,
+    private readonly subscriptionLifecycle: SubscriptionLifecycle
   ) {
-    this.activatedRoute.params.subscribe(params => {
-      this.dashboardView = params.dashboard_view;
-      this.updateDashboardView();
-    });
+    this.subscriptionLifecycle.add(
+      this.activatedRoute.params.subscribe(params => {
+        this.dashboardView = params.dashboard_view;
+        this.updateDashboardView();
+      })
+    );
   }
 
   private updateDashboardView(): void {
@@ -116,9 +120,9 @@ export class CustomDashboardListComponent {
             getData: (): Observable<TableDataResponse<CustomDashboardTableRow>> =>
               of({
                 data: dashboardPayloads.map((dashboardPayload: CustomDashboardPayload) => ({
-                  ...dashboardPayload.Data,
-                  id: dashboardPayload.Id,
-                  createdAt: dashboardPayload.CreatedAt
+                  ...dashboardPayload.data,
+                  id: dashboardPayload.id,
+                  createdAt: dashboardPayload.createdAt
                 })),
                 totalCount: this.searchText === '' ? response.totalRecords : dashboardPayloads.length
               }),

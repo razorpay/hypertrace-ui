@@ -73,7 +73,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
       <div class="button-group">
         <ht-button (click)="onSaveOrEditPanel()" class="save-btn" [label]="'Save Panel'" role="${ButtonRole.Additive}">
         </ht-button>
-        <ht-button (click)="onCancel()" [label]="'Cancel'" role=" ${ButtonRole.Destructive}"> </ht-button>
+        <ht-button (click)="redirectToDashboard()" [label]="'Cancel'" role=" ${ButtonRole.Destructive}"> </ht-button>
       </div>
     </div>
   `
@@ -145,17 +145,16 @@ export class CustomDashboardPanelEditComponent {
       this.dashboardName = params.dashboardName;
       this.isNewDashboard = params.newDashboard;
     });
+    const hasKey = this.customDashboardStoreService.hasKey(this.dashboardId);
+    if (!hasKey) {
+      // Fallback to listing incase user refereshes on panel edit page. In that case data is not present in the dashboard store since it's in memory.
+      this.redirectToDashboard();
 
+      return;
+    }
     if (!this.isNewPanel) {
-      const panelData = this.customDashboardStoreService.getPanel(this.dashboardId, this.panelId);
-      if (panelData) {
-        this.state = panelData;
-      } else {
-        // Fallback to listing incase user refereshes on panel edit page. In that case data is not present in the dashboard store since it's in memory.
-        this.navigationService.navigateWithinApp(['/custom-dashboards']);
-
-        return;
-      }
+      const panelData = this.customDashboardStoreService.getPanel(this.dashboardId, this.panelId)!;
+      this.state = panelData;
     }
     this.currentContext = this.contextItems.find(i => i.value === this.state.context)!;
     this.setFilters();
@@ -212,7 +211,6 @@ export class CustomDashboardPanelEditComponent {
     const panelSlug = this.customDashboardService.convertNameToSlug(this.state.name);
     if (this.isNewPanel) {
       this.state.id = panelSlug;
-
       this.customDashboardStoreService.addPanel(this.dashboardId, this.state);
     } else {
       this.customDashboardStoreService.updatePanel(this.dashboardId, this.state);
@@ -225,7 +223,8 @@ export class CustomDashboardPanelEditComponent {
       replaceCurrentHistory: false
     });
   }
-  public onCancel(): void {
-    this.navigationService.navigateWithinApp(['/custom-dashboards/', this.dashboardView, this.dashboardId]);
+  public redirectToDashboard(): void {
+    const dashboardId = this.isNewDashboard ? 'create' : this.dashboardId;
+    this.navigationService.navigateWithinApp(['/custom-dashboards/', this.dashboardView, dashboardId]);
   }
 }

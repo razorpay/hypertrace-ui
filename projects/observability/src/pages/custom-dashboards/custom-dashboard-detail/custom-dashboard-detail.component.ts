@@ -22,9 +22,8 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
           (valueChange)="this.onDashboardNameChange($event)"
         >
         </ht-input>
-        <div class="button-container">
+        <div class="button-container" *ngIf="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'">
           <ht-button
-            *ngIf="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'"
             class="save-btn"
             [label]="'Save'"
             role="${ButtonRole.Additive}"
@@ -44,7 +43,13 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
         >
         </ht-custom-dashboard-panel>
       </div>
-      <button *ngIf="user.id === this.ownerId" class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
+      <button
+        *ngIf="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'"
+        class="add-panel"
+        (click)="redirectToCreatePanel()"
+      >
+        Add Panel +
+      </button>
     </div>
   `
 })
@@ -58,7 +63,6 @@ export class CustomDashboardDetailComponent {
   public queryParams: Params = {};
   public panels$!: Observable<PanelData[]>;
   public user: UserTraits;
-  public ownerId?: number;
   public constructor(
     protected readonly navigationService: NavigationService,
     protected readonly customDashboardStoreService: CustomDashboardStoreService,
@@ -85,7 +89,6 @@ export class CustomDashboardDetailComponent {
         this.isNew = this.queryParams.newDashboard === 'true';
         this.dashboardData = this.customDashboardStoreService.get(this.dashboardId);
         this.dashboardName = this.dashboardData.name;
-        this.ownerId = this.dashboardData.ownerId;
         this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
       }
       // Fetch data from server and set data from server
@@ -93,12 +96,10 @@ export class CustomDashboardDetailComponent {
         this.customDashboardService.fetchDashboardConfigById(this.dashboardId).subscribe(response => {
           const payload = response.payload;
           this.dashboardData = {
-            id: payload.Id,
-            name: payload.Data.name,
-            panels: payload.Data.panels,
-            ownerId: payload.OwnerID
+            id: payload.id,
+            name: payload.data.name,
+            panels: payload.data.panels
           };
-          this.ownerId = payload.OwnerID;
           this.dashboardName = this.dashboardData.name;
 
           this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
@@ -115,7 +116,6 @@ export class CustomDashboardDetailComponent {
         panels: [],
         ownerId: this.user.id
       };
-      this.ownerId = this.user.id;
       this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
       this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
     }

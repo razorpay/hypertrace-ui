@@ -28,12 +28,12 @@ interface CustomDashboardResponse {
   success: boolean;
 }
 export interface CustomDashboardPayload {
-  CreatedAt: Date;
-  Data: DashboardListItem;
-  DeletedAt: Date;
-  Id: string;
-  OwnerID: number;
-  UpdatedAt: Date;
+  createdAt: Date;
+  data: DashboardListItem;
+  deletedAt: Date;
+  id: string;
+  ownerID: number;
+  updatedAt: Date;
 }
 export interface UserResponse {
   error: object;

@@ -17,19 +17,24 @@ import {
 const ROUTE_CONFIG: HtRoute[] = [
   {
     path: '',
-    component: CustomDashboardsViewComponent,
     children: [
       {
         path: '',
-        redirectTo: DASHBOARD_VIEWS.MY_DASHBOARDS,
-        pathMatch: 'full'
+        redirectTo: DASHBOARD_VIEWS.MY_DASHBOARDS
       },
       {
         path: ':dashboard_view',
-        component: CustomDashboardListComponent
+        component: CustomDashboardsViewComponent,
+        children: [
+          {
+            path: '',
+            component: CustomDashboardListComponent
+          }
+        ]
       }
     ]
   },
+
   {
     path: `:dashboard_view/:${CustomDashboardService.API_ID_PARAM_NAME}/panel/:panel_id`,
     component: CustomDashboardPanelEditComponent

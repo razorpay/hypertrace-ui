@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NavigationParamsType, NavigationService } from '@hypertrace/common';
 import { ButtonRole, ButtonStyle, ToggleItem } from '@hypertrace/components';
 
@@ -35,15 +36,31 @@ export class CustomDashboardsViewComponent {
       value: DASHBOARD_VIEWS.ALL_DASHBOARDS
     }
   ];
-  public constructor(private readonly navigationService: NavigationService) {
-    this.currentContext = this.contextItems[0];
-  }
-  public onContextChange(context: ToggleItem<string>): void {
-    this.navigationService.navigate({
-      navType: NavigationParamsType.InApp,
-      path: [`/custom-dashboards/${context.value}`]
+  public constructor(
+    private readonly navigationService: NavigationService,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
+    this.activatedRoute.params.subscribe(params => {
+      if (params.dashboard_view) {
+        this.currentContext = this.contextItems.find(item => item.value === params.dashboard_view)!;
+      } else {
+        this.navigationService.navigate({
+          navType: NavigationParamsType.InApp,
+          path: [`/custom-dashboards/${DASHBOARD_VIEWS.MY_DASHBOARDS}`]
+        });
+        this.currentContext = this.contextItems[0];
+      }
     });
-    this.currentContext = context;
+  }
+
+  public onContextChange(context: ToggleItem<string>): void {
+    if (context.hasOwnProperty('value')) {
+      this.navigationService.navigate({
+        navType: NavigationParamsType.InApp,
+        path: [`/custom-dashboards/${context.value}`]
+      });
+      this.currentContext = context;
+    }
   }
 }
 

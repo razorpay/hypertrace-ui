@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { IconType } from '@hypertrace/assets-library';
 import { NavigationParamsType, NavigationService, UserInfoService, UserTraits } from '@hypertrace/common';
 import { ButtonRole, InputAppearance, NotificationService } from '@hypertrace/components';
 import { Observable } from 'rxjs';
@@ -15,6 +16,7 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
     <div class="dashboard-viewer">
       <div class="header-container">
         <ht-input
+          [disabled]="!isMyDashboard"
           type="string"
           class="dashboard-name-input"
           appearance="${InputAppearance.Border}"
@@ -22,7 +24,7 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
           (valueChange)="this.onDashboardNameChange($event)"
         >
         </ht-input>
-        <div class="button-container" *ngIf="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'">
+        <div class="button-container" *ngIf="isMyDashboard; else goBack">
           <ht-button
             class="save-btn"
             [label]="'Save'"
@@ -32,24 +34,33 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
           </ht-button>
           <ht-button [label]="'Cancel'" role="${ButtonRole.Destructive}" (click)="redirectToListing()"> </ht-button>
         </div>
+        <ng-template #goBack>
+          <div>
+            <ht-button [label]="'Cancel'" role="${ButtonRole.Destructive}" (click)="navigateBack()"> </ht-button>
+          </div>
+        </ng-template>
       </div>
-      <div class="panels-list" *ngIf="this.panels$ | async as panels">
+      <div class="panels-list" *htLoadAsync="this.panels$ as panels">
         <ht-custom-dashboard-panel
           [panel]="panel"
-          [isOwner]="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'"
+          [isOwner]="isMyDashboard"
           *ngFor="let panel of panels"
           (editPanel)="onPanelEdit($event)"
           (deletePanel)="onPanelDelete($event)"
         >
         </ht-custom-dashboard-panel>
+        <div *ngIf="!isMyDashboard && hasPanels(panels)">
+          <ht-message-display
+            class="no-panels-container"
+            aria-live="polite"
+            role="alert"
+            icon="${IconType.NoData}"
+            title="No panels added"
+          >
+          </ht-message-display>
+        </div>
       </div>
-      <button
-        *ngIf="dashboardView === '${DASHBOARD_VIEWS.MY_DASHBOARDS}'"
-        class="add-panel"
-        (click)="redirectToCreatePanel()"
-      >
-        Add Panel +
-      </button>
+      <button *ngIf="isMyDashboard" class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
     </div>
   `
 })
@@ -63,6 +74,7 @@ export class CustomDashboardDetailComponent {
   public queryParams: Params = {};
   public panels$!: Observable<PanelData[]>;
   public user: UserTraits;
+  public isMyDashboard: boolean = false;
   public constructor(
     protected readonly navigationService: NavigationService,
     protected readonly customDashboardStoreService: CustomDashboardStoreService,
@@ -76,6 +88,7 @@ export class CustomDashboardDetailComponent {
       this.dashboardId = params.dashboard_id;
       this.isNew = params.dashboard_id === 'create';
       this.dashboardView = params.dashboard_view;
+      this.isMyDashboard = this.dashboardView === DASHBOARD_VIEWS.MY_DASHBOARDS;
     });
     this.activedRoute.queryParams.subscribe(query => {
       this.isUnsaved = query.unSaved;
@@ -149,13 +162,24 @@ export class CustomDashboardDetailComponent {
   public redirectToListing(): void {
     const confirmation = confirm(`Your unsaved changes will be lost! Discard them anyways?`);
     if (confirmation) {
-      this.navigationService.navigate({
-        navType: NavigationParamsType.InApp,
-        path: [`/custom-dashboards/${this.dashboardView}`],
-        queryParamsHandling: 'merge',
-        replaceCurrentHistory: false
-      });
+      this.navigateBack();
     }
+  }
+  public navigateBack(): void {
+    this.navigationService.navigate({
+      navType: NavigationParamsType.InApp,
+      path: [`/custom-dashboards/${this.dashboardView}`],
+      queryParamsHandling: 'merge',
+      replaceCurrentHistory: false
+    });
+  }
+  public hasPanels(panels: PanelData[]): boolean {
+    // tslint:disable-next-line: strict-boolean-expressions
+    if (!panels) {
+      return true;
+    }
+
+    return false;
   }
   public onDashboardNameChange(name: string): void {
     this.dashboardName = name;

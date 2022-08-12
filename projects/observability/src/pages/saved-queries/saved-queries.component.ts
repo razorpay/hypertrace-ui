@@ -57,17 +57,17 @@ export class SavedQueriesComponent implements OnInit {
     private readonly explorerService: ExplorerService,
     private readonly subscriptionLifecycle: SubscriptionLifecycle,
     private readonly savedQueriesService: SavedQueriesService
-  ) {
+  ) {}
+
+  public ngOnInit(): void {
+    // Todo: Remove this after some time. See method definition for details.
+    this.savedQueriesService.moveOldQueries();
+
     this.subscriptionLifecycle.add(
       this.savedQueriesService.getAllQueries().subscribe((queries: SavedQueryPayload[]) => {
         this.savedQueriesSubject.next(queries);
       })
     );
-  }
-
-  public ngOnInit(): void {
-    // Todo: Remove this after some time. See method definition for details.
-    this.savedQueriesService.moveOldQueries();
   }
 
   public getExplorerNavigationParams$(query: SavedQuery): Observable<NavigationParams> {

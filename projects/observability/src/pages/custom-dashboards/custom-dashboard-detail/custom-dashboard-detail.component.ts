@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { IconType } from '@hypertrace/assets-library';
-import { NavigationParamsType, NavigationService, UserInfoService, UserTraits } from '@hypertrace/common';
+import {
+  NavigationParamsType,
+  NavigationService,
+  SubscriptionLifecycle,
+  UserPreferenceService
+} from '@hypertrace/common';
 import { ButtonRole, InputAppearance, NotificationService } from '@hypertrace/components';
 import { Observable } from 'rxjs';
 import { CustomDashboardStoreService, DashboardData, PanelData } from '../custom-dashboard-store.service';
@@ -11,6 +16,7 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SubscriptionLifecycle],
   styleUrls: ['./custom-dashboard-detail.component.scss'],
   template: `
     <div class="dashboard-viewer">
@@ -73,7 +79,6 @@ export class CustomDashboardDetailComponent {
   public isUnsaved: boolean = false;
   public queryParams: Params = {};
   public panels$!: Observable<PanelData[]>;
-  public user: UserTraits;
   public isMyDashboard: boolean = false;
   public constructor(
     protected readonly navigationService: NavigationService,
@@ -81,8 +86,9 @@ export class CustomDashboardDetailComponent {
     protected readonly activedRoute: ActivatedRoute,
     private readonly customDashboardService: CustomDashboardService,
     private readonly notificationService: NotificationService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly userInfoService: UserInfoService
+    private readonly subscriptionLifecycle: SubscriptionLifecycle,
+    private readonly userPreferenceService: UserPreferenceService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.activedRoute.params.subscribe(params => {
       this.dashboardId = params.dashboard_id;
@@ -94,7 +100,6 @@ export class CustomDashboardDetailComponent {
       this.isUnsaved = query.unSaved;
       this.queryParams = query;
     });
-    this.user = this.userInfoService.getUserData();
 
     if (!this.isNew) {
       // Is not new since redirection back from edit panel page.
@@ -106,19 +111,27 @@ export class CustomDashboardDetailComponent {
       }
       // Fetch data from server and set data from server
       else {
-        this.customDashboardService.fetchDashboardConfigById(this.dashboardId).subscribe(response => {
-          const payload = response.payload;
-          this.dashboardData = {
-            id: payload.id,
-            name: payload.data.name,
-            panels: payload.data.panels
-          };
-          this.dashboardName = this.dashboardData.name;
+        this.subscriptionLifecycle.add(
+          this.userPreferenceService.hasLoaded.subscribe(hasLoaded => {
+            if (hasLoaded) {
+              this.subscriptionLifecycle.add(
+                this.customDashboardService.fetchDashboardConfigById(this.dashboardId).subscribe(response => {
+                  const payload = response.payload;
+                  this.dashboardData = {
+                    id: payload.id,
+                    name: payload.data.name,
+                    panels: payload.data.panels
+                  };
+                  this.dashboardName = this.dashboardData.name;
 
-          this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
-          this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
-          this.changeDetectorRef.detectChanges();
-        });
+                  this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
+                  this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);
+                  this.changeDetectorRef.detectChanges();
+                })
+              );
+            }
+          })
+        );
       }
     } else {
       // Default new dashboard
@@ -126,8 +139,7 @@ export class CustomDashboardDetailComponent {
       this.dashboardData = {
         id: this.dashboardId,
         name: this.dashboardName,
-        panels: [],
-        ownerId: this.user.id
+        panels: []
       };
       this.customDashboardStoreService.set(this.dashboardId, this.dashboardData);
       this.panels$ = this.customDashboardStoreService.getAllPanels(this.dashboardId);

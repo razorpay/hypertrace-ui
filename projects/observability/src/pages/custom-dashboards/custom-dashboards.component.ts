@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavigationParamsType, NavigationService, SubscriptionLifecycle } from '@hypertrace/common';
+import {
+  NavigationParamsType,
+  NavigationService,
+  SubscriptionLifecycle,
+  UserPreferenceService
+} from '@hypertrace/common';
 import {
   CoreTableCellRendererType,
   PageEvent,
@@ -85,15 +90,22 @@ export class CustomDashboardListComponent {
   public dashboardView: DashboardViewType = DASHBOARD_VIEWS.MY_DASHBOARDS;
   public constructor(
     private readonly customDashboardService: CustomDashboardService,
+    private readonly userPreferenceService: UserPreferenceService,
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly subscriptionLifecycle: SubscriptionLifecycle
   ) {
     this.subscriptionLifecycle.add(
-      this.activatedRoute.params.subscribe(params => {
-        this.dashboardView = params.dashboard_view;
-        this.updateDashboardView();
+      this.userPreferenceService.hasLoaded.subscribe(hasLoaded => {
+        if (hasLoaded) {
+          this.subscriptionLifecycle.add(
+            this.activatedRoute.params.subscribe(params => {
+              this.dashboardView = params.dashboard_view;
+              this.updateDashboardView();
+            })
+          );
+        }
       })
     );
   }

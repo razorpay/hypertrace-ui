@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IconType } from '@hypertrace/assets-library';
-import { LayoutChangeService, SubscriptionLifecycle, TimeRange, TimeRangeService } from '@hypertrace/common';
+import { LayoutChangeService, TimeRange, TimeRangeService } from '@hypertrace/common';
 import { IconSize } from '@hypertrace/components';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { UserTelemetryOrchestrationService } from '../shared/telemetry/user-tele
   selector: 'ht-application-frame',
   styleUrls: ['./application-frame.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LayoutChangeService, SubscriptionLifecycle], // Provided as root layout
+  providers: [LayoutChangeService], // Provided as root layout
   template: `
     <ht-application-header>
       <div class="ht-logo" logo>

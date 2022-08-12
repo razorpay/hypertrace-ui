@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NavigationParamsType, NavigationService, SubscriptionLifecycle, UserInfoService } from '@hypertrace/common';
+import { NavigationParamsType, NavigationService, SubscriptionLifecycle } from '@hypertrace/common';
 import {
   CoreTableCellRendererType,
   PageEvent,
@@ -88,7 +88,6 @@ export class CustomDashboardListComponent {
     private readonly navigationService: NavigationService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly userInfoService: UserInfoService,
     private readonly subscriptionLifecycle: SubscriptionLifecycle
   ) {
     this.subscriptionLifecycle.add(
@@ -104,9 +103,7 @@ export class CustomDashboardListComponent {
       this.pageSize = params['page-size'] ?? this.pageSize;
       this.pageIndex = params.page ? +params.page + 1 : this.pageIndex;
     });
-    this.customDashboardService.fetchUser().subscribe(data => {
-      this.userInfoService.updateUserData({ email: data.payload.email, id: data.payload.id });
-    });
+
     this.setupDataSource({ pageSize: this.pageSize, pageIndex: this.pageIndex });
   }
 

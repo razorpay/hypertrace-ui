@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { IconType } from '@hypertrace/assets-library';
-import { NavigationParams, SubscriptionLifecycle } from '@hypertrace/common';
+import { NavigationParams, SubscriptionLifecycle, UserPreferenceService } from '@hypertrace/common';
 import { DrilldownFilter, ExplorerService } from '../explorer/explorer-service';
 import { SavedQueriesService, SavedQuery, SavedQueryPayload } from './saved-queries.service';
 
@@ -56,7 +56,8 @@ export class SavedQueriesComponent implements OnInit {
   public constructor(
     private readonly explorerService: ExplorerService,
     private readonly subscriptionLifecycle: SubscriptionLifecycle,
-    private readonly savedQueriesService: SavedQueriesService
+    private readonly savedQueriesService: SavedQueriesService,
+    private readonly userPreferenceService: UserPreferenceService
   ) {}
 
   public ngOnInit(): void {
@@ -64,8 +65,14 @@ export class SavedQueriesComponent implements OnInit {
     this.savedQueriesService.moveOldQueries();
 
     this.subscriptionLifecycle.add(
-      this.savedQueriesService.getAllQueries().subscribe((queries: SavedQueryPayload[]) => {
-        this.savedQueriesSubject.next(queries);
+      this.userPreferenceService.hasLoaded.subscribe(hasLoaded => {
+        if (hasLoaded) {
+          this.subscriptionLifecycle.add(
+            this.savedQueriesService.getAllQueries().subscribe((queries: SavedQueryPayload[]) => {
+              this.savedQueriesSubject.next(queries);
+            })
+          );
+        }
       })
     );
   }

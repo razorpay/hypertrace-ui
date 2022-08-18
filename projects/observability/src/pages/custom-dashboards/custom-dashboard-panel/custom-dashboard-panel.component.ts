@@ -142,6 +142,9 @@ export class CustomDashboardPanelComponent implements OnInit {
     this.deletePanel.emit({ panelName: this.panel!.name, panelId: this.panel!.id });
   }
   public onPanelClone(event: MouseEvent): void {
+    /*
+      need to add stopPropagation since these buttons are in the panel header component, if we dont stop the panel collapse would be triggered which would minimise the panel. Hence we don't want the click event to propagate to the header
+    */
     event.stopPropagation();
     this.clonePanel.emit({ panelName: this.panel!.name, panelId: this.panel!.id });
   }

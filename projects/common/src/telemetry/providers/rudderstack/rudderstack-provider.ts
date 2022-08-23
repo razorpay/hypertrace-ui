@@ -21,7 +21,7 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
       load(config.writeKey, (window as CustomWindow)?.analyticsConfig.rudderstack_dataplane_url);
     } catch (error) {
       /**
-       * Fail silently here
+       * Fail silently here for now
        */
 
       // tslint:disable-next-line: no-console

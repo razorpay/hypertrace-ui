@@ -8,7 +8,6 @@ on:
     - cron: '30 20 * * *'
 jobs:
   semgrep:
-    if: (github.actor != 'dependabot[bot]')
     name: Scan
     runs-on: [ubuntu-latest]   #nosemgrep zklW
     steps:

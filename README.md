@@ -12,6 +12,9 @@
   </p>
 </p>
 
+![build and test](https://github.com/razorpay/hypertrace-ui/actions/workflows/build-and-test.yml/badge.svg)
+[![codecov](https://codecov.io/gh/razorpay/hypertrace-ui/branch/rzp_main/graph/badge.svg)](https://codecov.io/gh/razorpay/hypertrace-ui)
+
 ## Table of Contents
 
 - [Setup](#setup)

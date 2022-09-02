@@ -25,7 +25,7 @@ import { map } from 'rxjs/operators';
 })
 export class ServiceInstrumentationComponent {
   public serviceName$: Observable<string | undefined> = this.breadcrumbsService.breadcrumbs$.pipe(
-    map(breadcrumbs => (breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].label : ''))
+    map(breadcrumbs => (breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1]?.label : ''))
   );
 
   public constructor(protected readonly breadcrumbsService: BreadcrumbsService) {}

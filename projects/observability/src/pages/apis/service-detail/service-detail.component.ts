@@ -36,6 +36,8 @@ export class ServiceDetailComponent {
   ];
 
   public constructor(private readonly featureStateResolver: FeatureStateResolver) {
+    // TODO: Create a generic config to map tabs to feature flags if more tabs
+    // are to be added in the future: https://github.com/razorpay/hypertrace-ui/pull/80#issuecomment-1235141757
     this.featureStateResolver.getFeatureState(ApplicationFeature.InstrumentationQuality).subscribe(
       featureState =>
         featureState === FeatureState.Enabled &&

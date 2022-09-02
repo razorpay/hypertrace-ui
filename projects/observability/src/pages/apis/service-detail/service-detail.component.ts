@@ -32,6 +32,10 @@ export class ServiceDetailComponent {
     {
       path: 'metrics',
       label: 'Metrics'
+    },
+    {
+      path: 'instrumentation',
+      label: 'Instrumentation Quality'
     }
   ];
 }

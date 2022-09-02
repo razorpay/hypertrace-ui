@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SubscriptionLifecycle } from '@hypertrace/common';
+import { ApplicationFeature, FeatureState, FeatureStateResolver, SubscriptionLifecycle } from '@hypertrace/common';
 import { NavigableTab } from '@hypertrace/components';
 import { ServiceDetailService } from './service-detail.service';
 
@@ -32,10 +32,17 @@ export class ServiceDetailComponent {
     {
       path: 'metrics',
       label: 'Metrics'
-    },
-    {
-      path: 'instrumentation',
-      label: 'Instrumentation Quality'
     }
   ];
+
+  public constructor(private readonly featureStateResolver: FeatureStateResolver) {
+    this.featureStateResolver.getFeatureState(ApplicationFeature.InstrumentationQuality).subscribe(
+      featureState =>
+        featureState === FeatureState.Enabled &&
+        this.tabs.push({
+          path: 'instrumentation',
+          label: 'Instrumentation Quality'
+        })
+    );
+  }
 }

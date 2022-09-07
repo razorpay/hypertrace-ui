@@ -69,9 +69,7 @@ export class BreadcrumbsService<T extends Breadcrumb = Breadcrumb> {
 
   public getLastBreadCrumbString(): Observable<string> {
     return this.breadcrumbs$.pipe(
-      map(breadCrumbs => {
-        return breadCrumbs.length > 0 ? breadCrumbs[breadCrumbs.length - 1]?.label ?? '' : '';
-      })
+      map(breadCrumbs => (breadCrumbs.length > 0 ? breadCrumbs[breadCrumbs.length - 1]?.label ?? '' : ''))
     );
   }
 

@@ -1,16 +1,22 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { BreadcrumbsService } from '@hypertrace/components';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ServiceInstrumentationService } from './service-instrumentation.service';
+import { ServiceScoreResponse } from './service-instrumentation.types';
 
 @Component({
   styleUrls: ['./service-instrumentation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ServiceInstrumentationService],
   template: `
     <main class="service-instrumentation">
       <section class="overview">
-        <div>{{ this.serviceName$ | async }} progress circle and description</div>
+        <div>{{ (this.serviceScoreSubject | async)?.serviceName }} progress circle and description</div>
+        <ht-service-instrumentation-total-score
+          [serviceScore]="this.serviceScoreSubject | async"
+        ></ht-service-instrumentation-total-score>
         <div>org scores</div>
       </section>
 
@@ -24,9 +30,20 @@ import { map } from 'rxjs/operators';
   `
 })
 export class ServiceInstrumentationComponent {
-  public serviceName$: Observable<string | undefined> = this.breadcrumbsService.breadcrumbs$.pipe(
-    map(breadcrumbs => (breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1]?.label : ''))
-  );
+  public serviceScoreSubject: BehaviorSubject<ServiceScoreResponse | undefined> = new BehaviorSubject<
+    ServiceScoreResponse | undefined
+  >(undefined);
 
-  public constructor(protected readonly breadcrumbsService: BreadcrumbsService) {}
+  public constructor(
+    private readonly breadcrumbsService: BreadcrumbsService,
+    private readonly serviceInstrumentationService: ServiceInstrumentationService
+  ) {
+    this.breadcrumbsService.breadcrumbs$
+      .pipe(map(breadcrumbs => (breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1]?.label : undefined)))
+      .subscribe(serviceName => {
+        this.serviceInstrumentationService
+          .getServiceScore(serviceName!)
+          .subscribe(serviceScore => this.serviceScoreSubject.next(serviceScore));
+      });
+  }
 }

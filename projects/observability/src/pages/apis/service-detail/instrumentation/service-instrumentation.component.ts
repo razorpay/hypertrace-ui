@@ -13,7 +13,6 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
   template: `
     <main class="service-instrumentation">
       <section class="overview">
-        <div>{{ (this.serviceScoreSubject | async)?.serviceName }} progress circle and description</div>
         <ht-service-instrumentation-total-score
           [serviceScore]="this.serviceScoreSubject | async"
         ></ht-service-instrumentation-total-score>

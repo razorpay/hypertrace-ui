@@ -4,8 +4,12 @@ import { ServiceScoreResponse } from '../service-instrumentation.types';
 @Component({
   selector: 'ht-service-instrumentation-total-score',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `{{ this.serviceScore?.serviceName }}
-    <div>progress circle and description</div> `
+  template: `
+    <ht-service-instrumentation-progress-circle
+      [percent]="serviceScore?.aggregatedWeightedScore"
+    ></ht-service-instrumentation-progress-circle>
+    <div>score description</div>
+  `
 })
 export class TotalScoreComponent {
   @Input()

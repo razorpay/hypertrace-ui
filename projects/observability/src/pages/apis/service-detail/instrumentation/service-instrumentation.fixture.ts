@@ -1,4 +1,4 @@
-import { BuScoreResponse, OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
+import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
 
 export const serviceScoreResponse: ServiceScoreResponse = {
   serviceName: 'metro',
@@ -46,56 +46,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
       ]
     }
   ],
-  aggregatedWeightedScore: 40.5
-};
-
-export const buScoreResponse: BuScoreResponse = {
-  buScoreResponse: [
-    {
-      buName: 'Platform',
-      qoiTypeScores: [
-        {
-          qoiType: 'Quality',
-          score: 10.55
-        },
-        {
-          qoiType: 'Completeness',
-          score: 1.02
-        },
-        {
-          qoiType: 'Security',
-          score: 20.59
-        },
-        {
-          qoiType: 'Noise',
-          score: 19.65
-        }
-      ],
-      aggregatedWeightedScore: 17.45
-    },
-    {
-      buName: 'Payments',
-      qoiTypeScores: [
-        {
-          qoiType: 'Quality',
-          score: 4.5
-        },
-        {
-          qoiType: 'Security',
-          score: 0.59
-        },
-        {
-          qoiType: 'Completeness',
-          score: 2.5
-        },
-        {
-          qoiType: 'Noise',
-          score: 1.65
-        }
-      ],
-      aggregatedWeightedScore: 2.05
-    }
-  ]
+  aggregatedWeightedScore: 80.5
 };
 
 export const orgScoreResponse: OrgScoreResponse = {

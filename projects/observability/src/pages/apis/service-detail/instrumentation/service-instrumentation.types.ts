@@ -22,16 +22,6 @@ export interface ServiceScoreResponse {
   aggregatedWeightedScore: number;
 }
 
-interface BuScore {
-  buName: string;
-  qoiTypeScores: QoiTypeScore[];
-  aggregatedWeightedScore: number;
-}
-
-export interface BuScoreResponse {
-  buScoreResponse: BuScore[];
-}
-
 export interface OrgScoreResponse {
   qoiTypeScores: QoiTypeScore[];
   aggregatedWeightedScore: number;

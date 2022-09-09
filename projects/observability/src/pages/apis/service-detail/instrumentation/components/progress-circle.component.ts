@@ -1,24 +1,33 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'ht-service-instrumentation-progress-circle',
-  changeDetection: ChangeDetectionStrategy.Default, // tslint:disable-line: prefer-on-push-component-change-detection
+  styleUrls: ['./progress-circle.component.scss'],
+  selector: 'ht-progress-circle',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="service-instrumentation-progress-circle">
-      <circle-progress
-        [percent]="this.percent"
-        [radius]="56"
-        [innerStrokeWidth]="4"
-        [outerStrokeWidth]="8"
-        [space]="-6"
-        [innerStrokeColor]="this.getColor().inner"
-        [outerStrokeColor]="this.getColor().outer"
-        [titleFontSize]="32"
-        [titleFontWeight]="600"
-        [animation]="false"
-        [showUnits]="false"
-        [showSubtitle]="false"
-      ></circle-progress>
+    <div class="ht-progress-circle">
+      <svg class="progress-circle" width="200px" height="200px" xmlns="http://www.w3.org/2000/svg">
+        <circle
+          class="progress-circle-back"
+          cx="80"
+          cy="80"
+          r="58"
+          [ngStyle]="{
+            stroke: this.getColor().inner
+          }"
+        ></circle>
+        <circle
+          class="progress-circle-prog"
+          cx="80"
+          cy="80"
+          r="58"
+          [ngStyle]="{
+            stroke: this.getColor().outer,
+            'stroke-dasharray': this.getDashLength()
+          }"
+        ></circle>
+      </svg>
+      <div class="progress-text">{{ this.getRoundedPercent() }}</div>
     </div>
   `
 })
@@ -46,5 +55,15 @@ export class ProgressCircleComponent {
       inner: '#e4f7c7', // Lime4
       outer: '#99d52a' // Lime10
     };
+  }
+
+  public getDashLength(): string {
+    const dashLength = (364 * this.percent) / 100;
+
+    return `${dashLength} 999`;
+  }
+
+  public getRoundedPercent(): number {
+    return Math.round(this.percent);
   }
 }

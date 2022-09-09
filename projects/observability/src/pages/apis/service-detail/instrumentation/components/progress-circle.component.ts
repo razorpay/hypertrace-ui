@@ -52,8 +52,8 @@ export class ProgressCircleComponent {
     }
 
     return {
-      inner: '#e4f7c7', // Lime4
-      outer: '#99d52a' // Lime10
+      inner: '#dff3df', // Grass4
+      outer: '#3d9a50' // Grass10
     };
   }
 

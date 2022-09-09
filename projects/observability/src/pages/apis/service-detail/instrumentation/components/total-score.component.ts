@@ -7,11 +7,29 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   template: `
     <div class="service-instrumentation-total-score">
       <ht-progress-circle [percent]="serviceScore"></ht-progress-circle>
+
       <div>
         <h4 class="heading">{{ this.getHeadingForScore() }}</h4>
         <p class="description">
           {{ this.getDescriptionForScore() }}
         </p>
+
+        <div class="legend">
+          <div class="dot">
+            <span [style.background-color]="'#dc3d43'"></span>
+            <label>0-49</label>
+          </div>
+
+          <div class="dot">
+            <span [style.background-color]="'#ffa01c'"></span>
+            <label>50-69</label>
+          </div>
+
+          <div class="dot">
+            <span [style.background-color]="'#3d9a50'"></span>
+            <label>70-100</label>
+          </div>
+        </div>
       </div>
     </div>
   `

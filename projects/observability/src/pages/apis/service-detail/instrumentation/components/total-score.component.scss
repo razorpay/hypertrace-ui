@@ -13,4 +13,27 @@
     @include subtitle-3();
     text-align: justify;
   }
+
+  .legend {
+    margin-top: 16px;
+    display: flex;
+  }
+
+  .dot {
+    display: flex;
+    align-items: center;
+
+    span {
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    label {
+      @include subtitle-3();
+      padding-left: 12px;
+      padding-right: 36px;
+    }
+  }
 }

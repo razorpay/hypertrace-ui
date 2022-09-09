@@ -1,17 +1,54 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ServiceScoreResponse } from '../service-instrumentation.types';
 
 @Component({
+  styleUrls: ['./total-score.component.scss'],
   selector: 'ht-service-instrumentation-total-score',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <ht-service-instrumentation-progress-circle
-      [percent]="serviceScore?.aggregatedWeightedScore"
-    ></ht-service-instrumentation-progress-circle>
-    <div>score description</div>
+    <div class="service-instrumentation-total-score">
+      <ht-progress-circle [percent]="serviceScore"></ht-progress-circle>
+      <div>
+        <h4 class="heading">{{ this.getHeadingForScore() }}</h4>
+        <p class="description">
+          {{ this.getDescriptionForScore() }}
+        </p>
+      </div>
+    </div>
   `
 })
 export class TotalScoreComponent {
   @Input()
-  public serviceScore!: ServiceScoreResponse;
+  public serviceScore: number = 0;
+
+  public getHeadingForScore(): string {
+    if (this.serviceScore < 50) {
+      return 'Below Average';
+    }
+
+    if (this.serviceScore < 70) {
+      return 'Average';
+    }
+
+    if (this.serviceScore < 90) {
+      return 'Above Average';
+    }
+
+    return 'Excellent!';
+  }
+
+  public getDescriptionForScore(): string {
+    if (this.serviceScore < 50) {
+      return 'Attention is needed to improve the instrumentation of this service so you can start gaining valuable insights from Hypertrace.';
+    }
+
+    if (this.serviceScore < 70) {
+      return 'There is considerable scope for improvement. Please see the sections below to learn how to improve the instrumentation of this service.';
+    }
+
+    if (this.serviceScore < 90) {
+      return 'This service has good instrumentation, but you can still make improvements to gain more valuable insights from Hypertrace.';
+    }
+
+    return 'Great job! This service has been instrumented using best practices.';
+  }
 }

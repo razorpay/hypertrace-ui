@@ -1,0 +1,16 @@
+@import 'font';
+
+.service-instrumentation-total-score {
+  display: flex;
+
+  .heading {
+    @include header-4();
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    width: 400px;
+    @include subtitle-3();
+    text-align: justify;
+  }
+}

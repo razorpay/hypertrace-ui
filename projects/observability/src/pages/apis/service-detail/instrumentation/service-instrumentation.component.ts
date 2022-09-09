@@ -11,10 +11,13 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ServiceInstrumentationService],
   template: `
-    <main class="service-instrumentation">
+    <main
+      class="service-instrumentation"
+      [style.visibility]="(this.serviceScoreSubject | async) ? 'visible' : 'hidden'"
+    >
       <section class="overview">
         <ht-service-instrumentation-total-score
-          [serviceScore]="this.serviceScoreSubject | async"
+          [serviceScore]="(this.serviceScoreSubject | async)?.aggregatedWeightedScore"
         ></ht-service-instrumentation-total-score>
         <div>org scores</div>
       </section>

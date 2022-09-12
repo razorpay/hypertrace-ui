@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { BreadcrumbsService } from '@hypertrace/components';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ServiceInstrumentationService } from './service-instrumentation.service';
-import { ServiceScoreResponse } from './service-instrumentation.types';
+import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
 
 @Component({
   styleUrls: ['./service-instrumentation.component.scss'],
@@ -19,7 +19,10 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
         <ht-service-instrumentation-total-score
           [serviceScore]="(this.serviceScoreSubject | async)?.aggregatedWeightedScore"
         ></ht-service-instrumentation-total-score>
-        <div>org scores</div>
+
+        <ht-service-instrumentation-org-score
+          [orgScore]="(this.orgScoreResponse$ | async)?.aggregatedWeightedScore"
+        ></ht-service-instrumentation-org-score>
       </section>
 
       <section class="checks-container">
@@ -36,6 +39,8 @@ export class ServiceInstrumentationComponent {
     ServiceScoreResponse | undefined
   >(undefined);
 
+  public orgScoreResponse$: Observable<OrgScoreResponse>;
+
   public constructor(
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly serviceInstrumentationService: ServiceInstrumentationService
@@ -47,5 +52,7 @@ export class ServiceInstrumentationComponent {
           .getServiceScore(serviceName!)
           .subscribe(serviceScore => this.serviceScoreSubject.next(serviceScore));
       });
+
+    this.orgScoreResponse$ = this.serviceInstrumentationService.getOrgScore();
   }
 }

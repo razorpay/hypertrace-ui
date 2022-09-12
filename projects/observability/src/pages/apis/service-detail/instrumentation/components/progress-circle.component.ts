@@ -13,7 +13,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
           cy="80"
           r="58"
           [ngStyle]="{
-            stroke: this.getColor().inner
+            stroke: this.colorLight
           }"
         ></circle>
         <circle
@@ -22,12 +22,12 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
           cy="80"
           r="58"
           [ngStyle]="{
-            stroke: this.getColor().outer,
+            stroke: this.colorDark,
             'stroke-dasharray': this.getDashLength()
           }"
         ></circle>
       </svg>
-      <div class="progress-text">{{ this.getRoundedPercent() }}</div>
+      <div class="progress-text">{{ this.percent | number: '1.0-0' }}</div>
     </div>
   `
 })
@@ -35,35 +35,15 @@ export class ProgressCircleComponent {
   @Input()
   public percent: number = 0;
 
-  public getColor(): { inner: string; outer: string } {
-    // Shades taken from Radix Colors
-    if (this.percent < 50) {
-      return {
-        inner: '#ffe5e5', // Red4
-        outer: '#dc3d43' // Red10
-      };
-    }
+  @Input()
+  public colorLight: string = '#e1f0ff';
 
-    if (this.percent < 70) {
-      return {
-        inner: '#ffecbc', // Amber4
-        outer: '#ffa01c' // Amber10
-      };
-    }
-
-    return {
-      inner: '#dff3df', // Grass4
-      outer: '#3d9a50' // Grass10
-    };
-  }
+  @Input()
+  public colorDark: string = '#0081f1';
 
   public getDashLength(): string {
     const dashLength = (364 * this.percent) / 100;
 
     return `${dashLength} 999`;
-  }
-
-  public getRoundedPercent(): number {
-    return Math.round(this.percent);
   }
 }

@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ServiceInstrumentationService } from '../service-instrumentation.service';
 
 @Component({
   styleUrls: ['./total-score.component.scss'],
@@ -6,10 +7,15 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="service-instrumentation-total-score">
-      <ht-progress-circle [percent]="serviceScore"></ht-progress-circle>
+      <ht-progress-circle
+        [percent]="serviceScore"
+        [colorLight]="scoreColors?.light"
+        [colorDark]="scoreColors?.dark"
+      ></ht-progress-circle>
 
       <div>
-        <h4 class="heading">{{ this.getHeadingForScore() }}</h4>
+        <h4 class="heading">{{ this.getScoreLabel() }}</h4>
+
         <p class="description">
           {{ this.getDescriptionForScore() }}
         </p>
@@ -34,24 +40,20 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     </div>
   `
 })
-export class TotalScoreComponent {
+export class TotalScoreComponent implements OnChanges {
   @Input()
   public serviceScore: number = 0;
 
-  public getHeadingForScore(): string {
-    if (this.serviceScore < 50) {
-      return 'Below Average';
-    }
+  public scoreColors: { light: string; dark: string } | undefined;
 
-    if (this.serviceScore < 70) {
-      return 'Average';
-    }
+  public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {}
 
-    if (this.serviceScore < 90) {
-      return 'Above Average';
-    }
+  public ngOnChanges(): void {
+    this.scoreColors = this.serviceInstrumentationService.getColorForScore(this.serviceScore);
+  }
 
-    return 'Excellent!';
+  public getScoreLabel(): string {
+    return this.serviceInstrumentationService.getLabelForScore(this.serviceScore);
   }
 
   public getDescriptionForScore(): string {

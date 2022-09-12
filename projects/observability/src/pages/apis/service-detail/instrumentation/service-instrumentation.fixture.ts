@@ -46,7 +46,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
       ]
     }
   ],
-  aggregatedWeightedScore: 80.5
+  aggregatedWeightedScore: 60.5
 };
 
 export const orgScoreResponse: OrgScoreResponse = {

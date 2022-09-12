@@ -27,7 +27,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
           }"
         ></circle>
       </svg>
-      <div class="progress-text">{{ this.getRoundedPercent() }}</div>
+      <div class="progress-text">{{ this.percent | number: '1.0-0' }}</div>
     </div>
   `
 })
@@ -61,9 +61,5 @@ export class ProgressCircleComponent {
     const dashLength = (364 * this.percent) / 100;
 
     return `${dashLength} 999`;
-  }
-
-  public getRoundedPercent(): number {
-    return Math.round(this.percent);
   }
 }

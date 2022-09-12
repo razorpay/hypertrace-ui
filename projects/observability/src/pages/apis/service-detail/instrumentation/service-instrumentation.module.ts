@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ProgressCircleComponent } from './components/progress-circle.component';
-import { TotalScoreComponent } from './components/total-score.component';
+import { OrgScoreComponent, ProgressCircleComponent, TotalScoreComponent } from './components';
 import { ServiceInstrumentationComponent } from './service-instrumentation.component';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [ServiceInstrumentationComponent, TotalScoreComponent, ProgressCircleComponent],
+  declarations: [ServiceInstrumentationComponent, TotalScoreComponent, ProgressCircleComponent, OrgScoreComponent],
   exports: [ServiceInstrumentationComponent]
 })
 export class ServiceInstrumentationModule {}

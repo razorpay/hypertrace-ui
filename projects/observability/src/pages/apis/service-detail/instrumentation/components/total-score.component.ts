@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
 
 @Component({
@@ -7,12 +7,14 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="service-instrumentation-total-score">
-      <ht-progress-circle [percent]="serviceScore"></ht-progress-circle>
+      <ht-progress-circle
+        [percent]="serviceScore"
+        [colorLight]="scoreColors?.light"
+        [colorDark]="scoreColors?.dark"
+      ></ht-progress-circle>
 
       <div>
-        <h4 class="heading">
-          {{ this.getScoreLabel() }}
-        </h4>
+        <h4 class="heading">{{ this.getScoreLabel() }}</h4>
 
         <p class="description">
           {{ this.getDescriptionForScore() }}
@@ -38,11 +40,17 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
     </div>
   `
 })
-export class TotalScoreComponent {
+export class TotalScoreComponent implements OnChanges {
   @Input()
   public serviceScore: number = 0;
 
+  public scoreColors: { light: string; dark: string } | undefined;
+
   public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {}
+
+  public ngOnChanges(): void {
+    this.scoreColors = this.serviceInstrumentationService.getColorForScore(this.serviceScore);
+  }
 
   public getScoreLabel(): string {
     return this.serviceInstrumentationService.getLabelForScore(this.serviceScore);

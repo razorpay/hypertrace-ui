@@ -21,19 +21,9 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
         </p>
 
         <div class="legend">
-          <div class="dot">
-            <span [style.background-color]="'#dc3d43'"></span>
-            <label>0-49</label>
-          </div>
-
-          <div class="dot">
-            <span [style.background-color]="'#ffa01c'"></span>
-            <label>50-69</label>
-          </div>
-
-          <div class="dot">
-            <span [style.background-color]="'#3d9a50'"></span>
-            <label>70-100</label>
+          <div class="dot" *ngFor="let legendColor of this.legendColors; index as i">
+            <span [style.background-color]="legendColor"></span>
+            <label>{{ this.legendLabels[i] }}</label>
           </div>
         </div>
       </div>
@@ -45,6 +35,9 @@ export class TotalScoreComponent implements OnChanges {
   public serviceScore: number = 0;
 
   public scoreColors: { light: string; dark: string } | undefined;
+
+  public legendColors: string[] = ['#dc3d43', '#ffa01c', '#3d9a50'];
+  public legendLabels: string[] = ['0-49', '50-69', '70-100'];
 
   public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {}
 

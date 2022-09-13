@@ -26,10 +26,9 @@ import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentatio
       </section>
 
       <section class="checks-container">
-        <div>card1</div>
-        <div>card2</div>
-        <div>card3</div>
-        <div>card4</div>
+        <ht-service-instrumentation-category-card
+          *ngFor="let categoryScore of (serviceScoreSubject | async)?.qoiTypeScores"
+        ></ht-service-instrumentation-category-card>
       </section>
     </main>
   `

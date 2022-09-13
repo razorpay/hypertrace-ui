@@ -30,7 +30,39 @@ export const serviceScoreResponse: ServiceScoreResponse = {
       ]
     },
     {
+      qoiType: 'Completeness',
+      score: 90.0,
+      description: 'Trace Security refers to the quality of the existing metadata in spans/traces.',
+      qoiParamScores: [
+        {
+          description: 'Single paragraph description for this heuristic.',
+          qoiParam: 'HasNoTokens',
+          evalTimestamp: 1658434128,
+          score: 90.0,
+          sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
+          sampleSize: 100,
+          failureCount: 90
+        }
+      ]
+    },
+    {
       qoiType: 'Security',
+      score: 90.0,
+      description: 'Trace Security refers to the quality of the existing metadata in spans/traces.',
+      qoiParamScores: [
+        {
+          description: 'Single paragraph description for this heuristic.',
+          qoiParam: 'HasNoTokens',
+          evalTimestamp: 1658434128,
+          score: 90.0,
+          sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
+          sampleSize: 100,
+          failureCount: 90
+        }
+      ]
+    },
+    {
+      qoiType: 'Noise',
       score: 90.0,
       description: 'Trace Security refers to the quality of the existing metadata in spans/traces.',
       qoiParamScores: [

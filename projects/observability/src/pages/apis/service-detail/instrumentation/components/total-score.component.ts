@@ -13,7 +13,7 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
         [colorDark]="scoreColors?.dark"
       ></ht-progress-circle>
 
-      <div>
+      <div class="info-container">
         <h4 class="heading">{{ this.getScoreLabel() }}</h4>
 
         <p class="description">

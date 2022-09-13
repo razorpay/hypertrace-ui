@@ -3,6 +3,10 @@
 .service-instrumentation-total-score {
   display: flex;
 
+  .info-container {
+    padding-left: 12px;
+  }
+
   .heading {
     @include header-4();
     margin-bottom: 1rem;

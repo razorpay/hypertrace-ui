@@ -42,7 +42,8 @@ export class ProgressCircleComponent {
   public colorDark: string = '#0081f1';
 
   public getDashLength(): string {
-    const dashLength = (364 * this.percent) / 100;
+    const perimeter = 2 * Math.PI * 58;
+    const dashLength = perimeter * (this.percent / 100);
 
     return `${dashLength} 999`;
   }

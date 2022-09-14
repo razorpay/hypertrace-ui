@@ -63,7 +63,7 @@ describe('ServiceDetailComponent', () => {
     });
   });
 
-  test('Does not show tabs for disabled fetures', () => {
+  test('Does not show tabs for disabled features', () => {
     TestBed.configureTestingModule({
       declarations: [ServiceDetailComponent],
       imports: [RouterTestingModule, ServiceDetailModule],

@@ -1,0 +1,16 @@
+@import 'font';
+@import 'color-palette';
+
+.service-instrumentation-progress-bar {
+  .score-info {
+    display: flex;
+    justify-content: space-between;
+    @include subtitle-3;
+
+    .score {
+      color: $gray-6;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+}

@@ -10,6 +10,10 @@ import { QoiTypeScore } from '../service-instrumentation.types';
     <div class="service-instrumentation-category-card" [style.border-top-color]="this.scoreColor">
       <h5 class="heading">{{ this.categoryScore?.qoiType }}</h5>
       <p class="checks-status">0/6 checks passing</p>
+
+      <ht-service-instrumentation-progress-bar
+        [categoryScore]="this.categoryScore?.score"
+      ></ht-service-instrumentation-progress-bar>
     </div>
   `
 })

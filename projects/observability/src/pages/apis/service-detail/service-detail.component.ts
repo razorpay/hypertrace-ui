@@ -66,6 +66,7 @@ export class ServiceDetailComponent {
           this.tabs.push(this.featureFlaggedTabs[index]);
         }
       });
+
       return this.tabs;
     })
   );

@@ -1,12 +1,8 @@
 .ht-progress-circle {
   position: relative;
-  height: 160px;
-  width: 160px;
-  margin-left: -8px;
 
   .progress-circle {
     transform: rotate(-90deg);
-    margin-top: -40px;
   }
 
   .progress-circle-back {
@@ -25,9 +21,9 @@
   .progress-text {
     width: 100%;
     position: absolute;
-    top: 35%;
+    top: calc(50% - 1.4rem);
     text-align: center;
-    font-size: 2em;
+    font-size: 2rem;
     font-weight: 600;
   }
 }

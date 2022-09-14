@@ -6,26 +6,27 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'ht-progress-circle',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="ht-progress-circle">
-      <svg class="progress-circle" width="200px" height="200px" xmlns="http://www.w3.org/2000/svg">
+    <div class="ht-progress-circle" [style.height]="this.getWidth()">
+      <svg
+        class="progress-circle"
+        [attr.width]="this.getWidth()"
+        [attr.height]="this.getWidth()"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <circle
           class="progress-circle-back"
-          cx="80"
-          cy="80"
-          r="58"
-          [ngStyle]="{
-            stroke: this.colorLight
-          }"
+          cx="50%"
+          cy="50%"
+          [attr.r]="this.radius"
+          [attr.stroke]="this.colorLight"
         ></circle>
         <circle
           class="progress-circle-prog"
-          cx="80"
-          cy="80"
-          r="58"
-          [ngStyle]="{
-            stroke: this.colorDark,
-            'stroke-dasharray': this.dashLengthSubject | async
-          }"
+          cx="50%"
+          cy="50%"
+          [attr.r]="this.radius"
+          [attr.stroke]="this.colorDark"
+          [attr.stroke-dasharray]="this.dashLengthSubject | async"
         ></circle>
       </svg>
       <div class="progress-text">{{ this.percent | number: '1.0-0' }}</div>
@@ -42,6 +43,13 @@ export class ProgressCircleComponent implements OnInit {
   @Input()
   public colorDark: string = '#0081f1';
 
+  @Input()
+  public radius: number = 50;
+
+  public getWidth(): string {
+    return `${this.radius * 2 + 16}px`;
+  }
+
   public dashLengthSubject: BehaviorSubject<string> = new BehaviorSubject<string>('0 999');
 
   public ngOnInit(): void {
@@ -51,7 +59,7 @@ export class ProgressCircleComponent implements OnInit {
   }
 
   public getDashLength(): void {
-    const perimeter = 2 * Math.PI * 58;
+    const perimeter = 2 * Math.PI * this.radius;
     const dashLength = perimeter * (this.percent / 100);
     this.dashLengthSubject.next(`${dashLength} 999`);
   }

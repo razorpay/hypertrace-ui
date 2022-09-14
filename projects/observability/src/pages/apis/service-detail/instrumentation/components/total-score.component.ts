@@ -11,6 +11,7 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
         [percent]="serviceScore"
         [colorLight]="scoreColors?.light"
         [colorDark]="scoreColors?.dark"
+        [radius]="58"
       ></ht-progress-circle>
 
       <div class="info-container">

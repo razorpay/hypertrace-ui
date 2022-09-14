@@ -66,8 +66,8 @@ export class ServiceDetailComponent {
           this.tabs.push(this.featureFlaggedTabs[index]);
         }
       });
-    }),
-    map(() => this.tabs)
+      return this.tabs;
+    })
   );
 
   public constructor(private readonly featureStateResolver: FeatureStateResolver) {}

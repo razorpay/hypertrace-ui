@@ -11,10 +11,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentatio
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ServiceInstrumentationService],
   template: `
-    <main
-      class="service-instrumentation"
-      [style.visibility]="(this.serviceScoreSubject | async) ? 'visible' : 'hidden'"
-    >
+    <main class="service-instrumentation" *ngIf="this.serviceScoreSubject | async">
       <section class="overview">
         <ht-service-instrumentation-total-score
           [serviceScore]="(this.serviceScoreSubject | async)?.aggregatedWeightedScore"

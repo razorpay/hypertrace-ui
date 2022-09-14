@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   styleUrls: ['./progress-circle.component.scss'],
@@ -23,7 +24,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
           r="58"
           [ngStyle]="{
             stroke: this.colorDark,
-            'stroke-dasharray': this.getDashLength()
+            'stroke-dasharray': this.dashLengthSubject | async
           }"
         ></circle>
       </svg>
@@ -31,7 +32,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
     </div>
   `
 })
-export class ProgressCircleComponent {
+export class ProgressCircleComponent implements OnInit {
   @Input()
   public percent: number = 0;
 
@@ -41,10 +42,17 @@ export class ProgressCircleComponent {
   @Input()
   public colorDark: string = '#0081f1';
 
-  public getDashLength(): string {
+  public dashLengthSubject: BehaviorSubject<string> = new BehaviorSubject<string>('0 999');
+
+  public ngOnInit(): void {
+    setTimeout(() => {
+      this.getDashLength();
+    }, 0);
+  }
+
+  public getDashLength(): void {
     const perimeter = 2 * Math.PI * 58;
     const dashLength = perimeter * (this.percent / 100);
-
-    return `${dashLength} 999`;
+    this.dashLengthSubject.next(`${dashLength} 999`);
   }
 }

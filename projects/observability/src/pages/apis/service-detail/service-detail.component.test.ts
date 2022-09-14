@@ -28,7 +28,7 @@ describe('ServiceDetailComponent', () => {
   let component: ServiceDetailComponent;
   let fixture: ComponentFixture<ServiceDetailComponent>;
 
-  test("Component exists and doesn't display Instrumentation tab when feature flag is disabled", () => {
+  test('Component exists and shows tabs for enabled features', () => {
     TestBed.configureTestingModule({
       declarations: [ServiceDetailComponent],
       imports: [RouterTestingModule, ServiceDetailModule],
@@ -63,7 +63,7 @@ describe('ServiceDetailComponent', () => {
     });
   });
 
-  test('Shows Deployments tab when it"s feature flag is enabled', () => {
+  test('Does not show tabs for disabled fetures', () => {
     TestBed.configureTestingModule({
       declarations: [ServiceDetailComponent],
       imports: [RouterTestingModule, ServiceDetailModule],

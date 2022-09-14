@@ -52,4 +52,20 @@ export class ServiceInstrumentationService {
       dark: '#3d9a50' // Grass10
     };
   }
+
+  public getDescriptionForScore(score: number): string {
+    if (score < 50) {
+      return 'Attention is needed to improve the instrumentation of this service so you can start gaining valuable insights from Hypertrace.';
+    }
+
+    if (score < 70) {
+      return 'There is considerable scope for improvement. Please see the sections below to learn how to improve the instrumentation of this service.';
+    }
+
+    if (score < 90) {
+      return 'This service has good instrumentation, but you can still make improvements to gain more valuable insights from Hypertrace.';
+    }
+
+    return 'Great job! This service has been instrumented using best practices.';
+  }
 }

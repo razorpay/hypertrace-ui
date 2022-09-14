@@ -17,7 +17,7 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
         <h4 class="heading">{{ this.getScoreLabel() }}</h4>
 
         <p class="description">
-          {{ this.getDescriptionForScore() }}
+          {{ this.getScoreDescription() }}
         </p>
 
         <div class="legend">
@@ -49,19 +49,7 @@ export class TotalScoreComponent implements OnChanges {
     return this.serviceInstrumentationService.getLabelForScore(this.serviceScore);
   }
 
-  public getDescriptionForScore(): string {
-    if (this.serviceScore < 50) {
-      return 'Attention is needed to improve the instrumentation of this service so you can start gaining valuable insights from Hypertrace.';
-    }
-
-    if (this.serviceScore < 70) {
-      return 'There is considerable scope for improvement. Please see the sections below to learn how to improve the instrumentation of this service.';
-    }
-
-    if (this.serviceScore < 90) {
-      return 'This service has good instrumentation, but you can still make improvements to gain more valuable insights from Hypertrace.';
-    }
-
-    return 'Great job! This service has been instrumented using best practices.';
+  public getScoreDescription(): string {
+    return this.serviceInstrumentationService.getDescriptionForScore(this.serviceScore);
   }
 }

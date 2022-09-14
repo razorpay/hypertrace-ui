@@ -8,7 +8,7 @@ interface QoiParamScore {
   failureCount: number;
 }
 
-interface QoiTypeScore {
+export interface QoiTypeScore {
   qoiType: string;
   score: number;
   description?: string;

@@ -1,30 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
+import { QoiTypeScore } from '../service-instrumentation.types';
 
 @Component({
+  styleUrls: ['./category-card.component.scss'],
   selector: 'ht-service-instrumentation-category-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="service-instrumentation-org-score">
-      <div>
-        <h5 class="heading">Razorpay Average</h5>
-        <p class="score">
-          {{ this.orgScore | number: '1.0-0' }}
-          <span class="label" [style.color]="this.scoreColor">{{ this.scoreLabel }}</span>
-        </p>
-      </div>
+    <div class="service-instrumentation-category-card" [style.border-top-color]="this.scoreColor">
+      <h5 class="heading">{{ this.categoryScore?.qoiType }}</h5>
+      <p class="checks-status">0/6 checks passing</p>
     </div>
   `
 })
-export class CategoryCardComponent {
+export class CategoryCardComponent implements OnInit {
   @Input()
-  public orgScore: number = 0;
+  public categoryScore: QoiTypeScore | undefined;
 
-  public scoreLabel: string = '';
   public scoreColor: string = '';
 
-  public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {
-    this.scoreLabel = this.serviceInstrumentationService.getLabelForScore(this.orgScore);
-    this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.orgScore).dark;
+  public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {}
+
+  public ngOnInit(): void {
+    this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.categoryScore?.score ?? 0).dark;
   }
 }

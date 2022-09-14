@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-import { BreadcrumbsService } from '@hypertrace/components';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { BreadcrumbsService } from '@hypertrace/components';
 import { ServiceInstrumentationService } from './service-instrumentation.service';
 import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
 
@@ -25,6 +25,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentatio
       <section class="checks-container">
         <ht-service-instrumentation-category-card
           *ngFor="let categoryScore of (serviceScoreSubject | async)?.qoiTypeScores"
+          [categoryScore]="categoryScore"
         ></ht-service-instrumentation-category-card>
       </section>
     </main>

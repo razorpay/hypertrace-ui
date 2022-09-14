@@ -6,7 +6,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
   qoiTypeScores: [
     {
       qoiType: 'Quality',
-      score: 22.5,
+      score: 52.5,
       description: 'Trace quality refers to the quality of the existing metadata in spans/traces.',
       qoiParamScores: [
         {
@@ -31,7 +31,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
     },
     {
       qoiType: 'Completeness',
-      score: 90.0,
+      score: 30.0,
       description: 'Trace Security refers to the quality of the existing metadata in spans/traces.',
       qoiParamScores: [
         {
@@ -47,7 +47,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
     },
     {
       qoiType: 'Security',
-      score: 90.0,
+      score: 70.0,
       description: 'Trace Security refers to the quality of the existing metadata in spans/traces.',
       qoiParamScores: [
         {

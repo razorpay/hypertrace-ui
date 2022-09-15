@@ -6,11 +6,34 @@
     display: flex;
     justify-content: space-between;
     @include subtitle-3;
+    margin-bottom: 4px;
 
     .score {
       color: $gray-6;
       font-weight: bold;
       margin: 0;
+    }
+  }
+
+  .progress {
+    height: 4px;
+    background: $gray-1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 2px;
+
+    span {
+      display: block;
+      height: 100%;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+      animation: expandWidth 1s;
+    }
+  }
+
+  @keyframes expandWidth {
+    0% {
+      width: 0;
     }
   }
 }

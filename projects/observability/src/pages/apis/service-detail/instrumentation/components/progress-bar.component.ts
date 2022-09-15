@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
 
 @Component({
@@ -10,21 +10,25 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
       <div class="score-info">
         <label>Score</label>
         <p class="score">
-          {{ this.categoryScore | number: '1.0-0' }}
+          {{ this.score | number: '1.0-0' }}
         </p>
       </div>
 
-      <div>bar</div>
+      <div class="progress">
+        <span [style.width]="this.score + '%'" [style.background-color]="this.scoreColor"></span>
+      </div>
     </div>
   `
 })
-export class ProgressBarComponent {
+export class ProgressBarComponent implements OnInit {
   @Input()
-  public categoryScore: number = 0;
+  public score: number = 0;
 
   public scoreColor: string = '';
 
-  public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {
-    this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.categoryScore).dark;
+  public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {}
+
+  public ngOnInit(): void {
+    this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.score).dark;
   }
 }

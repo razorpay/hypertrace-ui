@@ -12,7 +12,7 @@ import { QoiTypeScore } from '../service-instrumentation.types';
       <p class="checks-status">0/6 checks passing</p>
 
       <ht-service-instrumentation-progress-bar
-        [categoryScore]="this.categoryScore?.score"
+        [score]="this.categoryScore?.score"
       ></ht-service-instrumentation-progress-bar>
     </div>
   `

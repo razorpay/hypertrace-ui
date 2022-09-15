@@ -8,7 +8,7 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
   template: `
     <div class="service-instrumentation-progress-bar">
       <div class="score-info">
-        <label>Score</label>
+        <label>{{ this.label }}</label>
         <p class="score">
           {{ this.score | number: '1.0-0' }}
         </p>
@@ -23,6 +23,9 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
 export class ProgressBarComponent implements OnInit {
   @Input()
   public score: number = 0;
+
+  @Input()
+  public label: string = 'Score';
 
   public scoreColor: string = '';
 

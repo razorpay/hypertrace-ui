@@ -9,9 +9,16 @@ import { QoiTypeScore } from '../service-instrumentation.types';
   template: `
     <div class="service-instrumentation-category-card" [style.border-top-color]="this.scoreColor">
       <h5 class="heading">{{ this.categoryScore?.qoiType }}</h5>
-      <p class="checks-status">0/6 checks passing</p>
+      <p class="checks-status">
+        {{ this.noOfChecksPassing() }}/{{ this.categoryScore?.qoiParamScores.length }} checks passing
+      </p>
 
       <ht-service-instrumentation-progress-bar
+        [score]="this.categoryScore?.score"
+      ></ht-service-instrumentation-progress-bar>
+
+      <ht-service-instrumentation-progress-bar
+        label="Razorpay Average"
         [score]="this.categoryScore?.score"
       ></ht-service-instrumentation-progress-bar>
     </div>
@@ -27,5 +34,14 @@ export class CategoryCardComponent implements OnInit {
 
   public ngOnInit(): void {
     this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.categoryScore?.score ?? 0).dark;
+  }
+
+  public noOfChecksPassing(): number {
+    return (
+      this.categoryScore?.qoiParamScores?.reduce(
+        (accumulator, currentParam) => (currentParam.score >= 70 ? accumulator + 1 : accumulator),
+        0
+      ) ?? 0
+    );
   }
 }

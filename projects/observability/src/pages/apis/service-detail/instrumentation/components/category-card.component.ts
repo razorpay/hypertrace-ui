@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+
+import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
 import { QoiTypeScore } from '../service-instrumentation.types';
 
@@ -19,14 +21,26 @@ import { QoiTypeScore } from '../service-instrumentation.types';
 
       <ht-service-instrumentation-progress-bar
         label="Razorpay Average"
-        [score]="this.categoryScore?.score"
+        [score]="this.getOrgScoreForCategory()"
       ></ht-service-instrumentation-progress-bar>
+
+      <p class="description">{{ categoryScore?.description }}</p>
+
+      <ht-button
+        [label]="this.getButtonLabel()"
+        role="${ButtonRole.Tertiary}"
+        display="${ButtonStyle.Bordered}"
+        width="100%"
+      ></ht-button>
     </div>
   `
 })
 export class CategoryCardComponent implements OnInit {
   @Input()
   public categoryScore: QoiTypeScore | undefined;
+
+  @Input()
+  public orgCategoryScores: QoiTypeScore[] | undefined;
 
   public scoreColor: string = '';
 
@@ -43,5 +57,13 @@ export class CategoryCardComponent implements OnInit {
         0
       ) ?? 0
     );
+  }
+
+  public getOrgScoreForCategory(): number {
+    return this.orgCategoryScores?.find(score => score.qoiType === this.categoryScore?.qoiType)?.score ?? 0;
+  }
+
+  public getButtonLabel(): string {
+    return Number(this.categoryScore?.score) >= 90 ? 'See details' : 'Learn how to improve';
   }
 }

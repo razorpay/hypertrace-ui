@@ -14,9 +14,7 @@ import { ServiceInstrumentationService } from '../service-instrumentation.servic
         </p>
       </div>
 
-      <div class="progress">
-        <span [style.width]="this.score + '%'" [style.background-color]="this.scoreColor"></span>
-      </div>
+      <ht-progress-bar [percent]="this.score" [fillColor]="this.scoreColor"></ht-progress-bar>
     </div>
   `
 })

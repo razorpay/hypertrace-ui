@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ButtonModule, ProgressCircleModule } from '@hypertrace/components';
+import { ButtonModule, ProgressBarModule, ProgressCircleModule } from '@hypertrace/components';
 import {
   CategoryCardComponent,
   CategoryDetailsComponent,
@@ -12,7 +12,7 @@ import {
 import { ServiceInstrumentationComponent } from './service-instrumentation.component';
 
 @NgModule({
-  imports: [ButtonModule, CommonModule, ProgressCircleModule],
+  imports: [ButtonModule, CommonModule, ProgressBarModule, ProgressCircleModule],
   declarations: [
     ServiceInstrumentationComponent,
     CategoryCardComponent,

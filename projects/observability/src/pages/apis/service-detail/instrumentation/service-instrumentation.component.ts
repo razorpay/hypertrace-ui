@@ -29,6 +29,8 @@ import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentatio
           [orgCategoryScores]="(orgScoreResponse$ | async)?.qoiTypeScores"
         ></ht-service-instrumentation-category-card>
       </section>
+
+      <ht-service-instrumentation-category-details></ht-service-instrumentation-category-details>
     </main>
   `
 })

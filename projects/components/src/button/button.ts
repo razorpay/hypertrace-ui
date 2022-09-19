@@ -1,11 +1,11 @@
 export const enum ButtonRole {
   // These values are used as css classes
-  Primary = 'primary', // blue
-  Secondary = 'secondary', // black
-  Tertiary = 'tertiary', // white
-  Quaternary = 'quaternary', // light blue
-  Destructive = 'destructive', // red
-  Additive = 'additive' // green
+  Primary = 'primary', // Blue
+  Secondary = 'secondary', // Black
+  Tertiary = 'tertiary', // White
+  Quaternary = 'quaternary', // Light blue
+  Destructive = 'destructive', // Red
+  Additive = 'additive' // Green
 }
 
 export const enum ButtonSize {

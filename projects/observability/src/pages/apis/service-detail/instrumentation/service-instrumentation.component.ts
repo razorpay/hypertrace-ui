@@ -30,7 +30,9 @@ import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentatio
         ></ht-service-instrumentation-category-card>
       </section>
 
-      <ht-service-instrumentation-category-details></ht-service-instrumentation-category-details>
+      <ht-service-instrumentation-category-details
+        [categoryScore]="(serviceScoreSubject | async)?.qoiTypeScores[0]"
+      ></ht-service-instrumentation-category-details>
     </main>
   `
 })

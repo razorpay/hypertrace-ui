@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
@@ -31,6 +32,7 @@ import { QoiTypeScore } from '../service-instrumentation.types';
         role="${ButtonRole.Tertiary}"
         display="${ButtonStyle.Bordered}"
         width="100%"
+        (click)="this.onClickButton()"
       ></ht-button>
     </div>
   `
@@ -44,7 +46,11 @@ export class CategoryCardComponent implements OnInit {
 
   public scoreColor: string = '';
 
-  public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {}
+  public constructor(
+    private readonly serviceInstrumentationService: ServiceInstrumentationService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.categoryScore?.score ?? 0).dark;
@@ -65,5 +71,9 @@ export class CategoryCardComponent implements OnInit {
 
   public getButtonLabel(): string {
     return Number(this.categoryScore?.score) >= 90 ? 'See details' : 'Learn how to improve';
+  }
+
+  public onClickButton(): void {
+    this.router.navigate([this.categoryScore?.qoiType.toLowerCase()], { relativeTo: this.route });
   }
 }

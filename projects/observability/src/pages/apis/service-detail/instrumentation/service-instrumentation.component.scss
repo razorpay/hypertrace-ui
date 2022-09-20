@@ -1,15 +1,3 @@
 .service-instrumentation {
   padding: 1.2rem 1.8rem;
-
-  .overview {
-    display: flex;
-    gap: 2rem;
-  }
-
-  .checks-container {
-    margin-top: 2rem;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
-  }
 }

@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BreadcrumbsService } from '@hypertrace/components';
 import { ServiceInstrumentationService } from './service-instrumentation.service';
-import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
+import { ServiceScoreResponse } from './service-instrumentation.types';
 
 @Component({
   styleUrls: ['./service-instrumentation.component.scss'],
@@ -12,49 +12,29 @@ import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentatio
   providers: [ServiceInstrumentationService],
   template: `
     <main class="service-instrumentation" *ngIf="this.serviceScoreSubject | async">
-      <section class="overview">
-        <ht-service-instrumentation-total-score
-          [serviceScore]="(this.serviceScoreSubject | async)?.aggregatedWeightedScore"
-        ></ht-service-instrumentation-total-score>
-
-        <ht-service-instrumentation-org-score
-          [orgScore]="(this.orgScoreResponse$ | async)?.aggregatedWeightedScore"
-        ></ht-service-instrumentation-org-score>
-      </section>
-
-      <section class="checks-container">
-        <ht-service-instrumentation-category-card
-          *ngFor="let categoryScore of (serviceScoreSubject | async)?.qoiTypeScores"
-          [categoryScore]="categoryScore"
-          [orgCategoryScores]="(orgScoreResponse$ | async)?.qoiTypeScores"
-        ></ht-service-instrumentation-category-card>
-      </section>
-
-      <ht-service-instrumentation-category-details
-        [categoryScore]="(serviceScoreSubject | async)?.qoiTypeScores[0]"
-      ></ht-service-instrumentation-category-details>
+      <router-outlet></router-outlet>
     </main>
   `
 })
-export class ServiceInstrumentationComponent {
+export class ServiceInstrumentationComponent implements OnInit {
   public serviceScoreSubject: BehaviorSubject<ServiceScoreResponse | undefined> = new BehaviorSubject<
     ServiceScoreResponse | undefined
   >(undefined);
-
-  public orgScoreResponse$: Observable<OrgScoreResponse>;
 
   public constructor(
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly serviceInstrumentationService: ServiceInstrumentationService
   ) {
+    this.serviceScoreSubject = this.serviceInstrumentationService.serviceScoreSubject;
+  }
+
+  public ngOnInit(): void {
     this.breadcrumbsService.breadcrumbs$
       .pipe(map(breadcrumbs => (breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1]?.label : undefined)))
       .subscribe(serviceName => {
         this.serviceInstrumentationService
           .getServiceScore(serviceName!)
-          .subscribe(serviceScore => this.serviceScoreSubject.next(serviceScore));
+          .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore));
       });
-
-    this.orgScoreResponse$ = this.serviceInstrumentationService.getOrgScore();
   }
 }

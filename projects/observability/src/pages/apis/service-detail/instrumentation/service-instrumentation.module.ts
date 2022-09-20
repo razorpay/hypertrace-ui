@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { ButtonModule, ProgressBarModule, ProgressCircleModule } from '@hypertrace/components';
 import {
   CategoryCardComponent,
-  CategoryDetailsComponent,
+  InstrumentationDetailsComponent,
+  InstrumentationOverviewComponent,
   OrgScoreComponent,
   ProgressBarComponent,
   TotalScoreComponent
@@ -12,11 +14,12 @@ import {
 import { ServiceInstrumentationComponent } from './service-instrumentation.component';
 
 @NgModule({
-  imports: [ButtonModule, CommonModule, ProgressBarModule, ProgressCircleModule],
+  imports: [ButtonModule, CommonModule, ProgressBarModule, ProgressCircleModule, RouterModule],
   declarations: [
     ServiceInstrumentationComponent,
     CategoryCardComponent,
-    CategoryDetailsComponent,
+    InstrumentationDetailsComponent,
+    InstrumentationOverviewComponent,
     OrgScoreComponent,
     ProgressBarComponent,
     TotalScoreComponent

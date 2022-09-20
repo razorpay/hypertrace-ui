@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NavigationService } from '@hypertrace/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
@@ -48,7 +48,8 @@ export class CategoryCardComponent implements OnInit {
 
   public constructor(
     private readonly serviceInstrumentationService: ServiceInstrumentationService,
-    private readonly navigationService: NavigationService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -73,6 +74,6 @@ export class CategoryCardComponent implements OnInit {
   }
 
   public onClickButton(): void {
-    this.navigationService.addQueryParametersToUrl({ category: 'quality' });
+    this.router.navigate([this.categoryScore?.qoiType.toLowerCase()], { relativeTo: this.route });
   }
 }

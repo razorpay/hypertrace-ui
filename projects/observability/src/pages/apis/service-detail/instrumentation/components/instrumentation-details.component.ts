@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { BehaviorSubject } from 'rxjs';
@@ -12,7 +12,12 @@ import { QoiTypeScore } from '../service-instrumentation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="service-instrumentation-category-details">
-      <ht-button label="← Back to overview" role="${ButtonRole.Primary}" display="${ButtonStyle.PlainText}"></ht-button>
+      <ht-button
+        label="← Back to overview"
+        role="${ButtonRole.Primary}"
+        display="${ButtonStyle.PlainText}"
+        (click)="this.onClickBack()"
+      ></ht-button>
       <h4>{{ (this.categoryScoreSubject | async)?.qoiType }}</h4>
       <p class="description">{{ (this.categoryScoreSubject | async)?.description }}</p>
     </div>
@@ -25,7 +30,8 @@ export class InstrumentationDetailsComponent {
 
   public constructor(
     private readonly serviceInstrumentationService: ServiceInstrumentationService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly router: Router
   ) {
     this.route.url.subscribe(url => {
       this.serviceInstrumentationService.serviceScoreSubject.subscribe(serviceScore => {
@@ -34,5 +40,9 @@ export class InstrumentationDetailsComponent {
         );
       });
     });
+  }
+
+  public onClickBack(): void {
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

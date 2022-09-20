@@ -6,6 +6,7 @@ import {
   InstrumentationDetailsComponent,
   InstrumentationOverviewComponent,
   ServiceApisListComponent,
+  ServiceDeploymentsComponent,
   ServiceDetailComponent,
   ServiceDetailModule,
   ServiceInstrumentationComponent,
@@ -47,6 +48,10 @@ const ROUTE_CONFIG: HtRoute[] = [
           { path: '', component: InstrumentationOverviewComponent },
           { path: ':category', component: InstrumentationDetailsComponent }
         ]
+      },
+      {
+        path: 'deployments',
+        component: ServiceDeploymentsComponent
       }
     ]
   }

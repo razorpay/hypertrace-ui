@@ -11,7 +11,7 @@ import { QoiTypeScore } from '../service-instrumentation.types';
   selector: 'ht-service-instrumentation-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="service-instrumentation-category-details">
+    <div class="service-instrumentation-details">
       <ht-button
         label="← Back to overview"
         role="${ButtonRole.Primary}"

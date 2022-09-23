@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { BreadcrumbsService } from '@hypertrace/components';
 import { ServiceInstrumentationService } from './service-instrumentation.service';
@@ -23,13 +22,11 @@ export class ServiceInstrumentationComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.breadcrumbsService.breadcrumbs$
-      .pipe(map(breadcrumbs => (breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1]?.label : undefined)))
-      .subscribe(serviceName => {
-        this.serviceInstrumentationService
-          .getServiceScore(serviceName!)
-          .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore));
-      });
+    this.breadcrumbsService.getLastBreadCrumbString().subscribe(serviceName => {
+      this.serviceInstrumentationService
+        .getServiceScore(serviceName!)
+        .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore));
+    });
   }
 
   public getServiceScore(): BehaviorSubject<ServiceScoreResponse | undefined> {

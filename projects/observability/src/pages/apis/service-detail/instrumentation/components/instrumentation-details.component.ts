@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
-import { BehaviorSubject } from 'rxjs';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
 import { QoiTypeScore } from '../service-instrumentation.types';
 
@@ -12,21 +11,21 @@ import { QoiTypeScore } from '../service-instrumentation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="service-instrumentation-details">
-      <ht-button
-        label="← Back to overview"
-        role="${ButtonRole.Primary}"
-        display="${ButtonStyle.PlainText}"
-        (click)="this.onClickBack()"
-      ></ht-button>
-      <h4>{{ (this.categoryScoreSubject | async)?.qoiType }}</h4>
-      <p class="description">{{ (this.categoryScoreSubject | async)?.description }}</p>
+      <div class="button-container">
+        <ht-button
+          label="← Back to overview"
+          role="${ButtonRole.Primary}"
+          display="${ButtonStyle.PlainText}"
+          (click)="this.onClickBack()"
+        ></ht-button>
+      </div>
+      <h4>{{ this.categoryScore?.qoiType }}</h4>
+      <p class="description">{{ this.categoryScore?.description }}</p>
     </div>
   `
 })
 export class InstrumentationDetailsComponent {
-  public categoryScoreSubject: BehaviorSubject<QoiTypeScore | undefined> = new BehaviorSubject<
-    QoiTypeScore | undefined
-  >(undefined);
+  public categoryScore: QoiTypeScore | undefined;
 
   public constructor(
     private readonly serviceInstrumentationService: ServiceInstrumentationService,
@@ -35,8 +34,8 @@ export class InstrumentationDetailsComponent {
   ) {
     this.route.url.subscribe(url => {
       this.serviceInstrumentationService.serviceScoreSubject.subscribe(serviceScore => {
-        this.categoryScoreSubject.next(
-          serviceScore?.qoiTypeScores.find(category => category.qoiType.toLowerCase() === url[0].path)
+        this.categoryScore = serviceScore?.qoiTypeScores.find(
+          category => category.qoiType.toLowerCase() === url[0].path
         );
       });
     });

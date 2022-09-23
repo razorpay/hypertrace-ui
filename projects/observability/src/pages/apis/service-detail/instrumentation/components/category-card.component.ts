@@ -28,7 +28,7 @@ import { QoiTypeScore } from '../service-instrumentation.types';
       <p class="description">{{ categoryScore?.description }}</p>
 
       <ht-button
-        [label]="this.getButtonLabel()"
+        [label]="this.getButtonLabel(this.categoryScore?.score ?? 90)"
         role="${ButtonRole.Tertiary}"
         display="${ButtonStyle.Bordered}"
         width="100%"
@@ -69,8 +69,8 @@ export class CategoryCardComponent implements OnInit {
     return this.orgCategoryScores?.find(score => score.qoiType === this.categoryScore?.qoiType)?.score ?? 0;
   }
 
-  public getButtonLabel(): string {
-    return Number(this.categoryScore?.score) >= 90 ? 'See details' : 'Learn how to improve';
+  public getButtonLabel(score: number): string {
+    return score >= 90 ? 'See details' : 'Learn how to improve';
   }
 
   public onClickButton(): void {

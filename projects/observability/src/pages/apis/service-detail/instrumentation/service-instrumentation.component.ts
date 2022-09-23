@@ -24,7 +24,7 @@ export class ServiceInstrumentationComponent implements OnInit {
   public ngOnInit(): void {
     this.breadcrumbsService.getLastBreadCrumbString().subscribe(serviceName => {
       this.serviceInstrumentationService
-        .getServiceScore(serviceName!)
+        .getServiceScore(serviceName)
         .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore));
     });
   }

@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ht-progress-bar">
-      <span [style.width.%]="this.percent" [style.background-color]="this.fillColor"></span>
+      <span [ngStyle]="{ 'width.%': this.percent, 'background-color': this.fillColor }"></span>
     </div>
   `
 })

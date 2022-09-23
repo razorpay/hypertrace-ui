@@ -11,22 +11,16 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ServiceInstrumentationService],
   template: `
-    <main class="service-instrumentation" *ngIf="this.serviceScoreSubject | async">
+    <main class="service-instrumentation" *ngIf="this.getServiceScore() | async">
       <router-outlet></router-outlet>
     </main>
   `
 })
 export class ServiceInstrumentationComponent implements OnInit {
-  public serviceScoreSubject: BehaviorSubject<ServiceScoreResponse | undefined> = new BehaviorSubject<
-    ServiceScoreResponse | undefined
-  >(undefined);
-
   public constructor(
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly serviceInstrumentationService: ServiceInstrumentationService
-  ) {
-    this.serviceScoreSubject = this.serviceInstrumentationService.serviceScoreSubject;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.breadcrumbsService.breadcrumbs$
@@ -36,5 +30,9 @@ export class ServiceInstrumentationComponent implements OnInit {
           .getServiceScore(serviceName!)
           .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore));
       });
+  }
+
+  public getServiceScore(): BehaviorSubject<ServiceScoreResponse | undefined> {
+    return this.serviceInstrumentationService.serviceScoreSubject;
   }
 }

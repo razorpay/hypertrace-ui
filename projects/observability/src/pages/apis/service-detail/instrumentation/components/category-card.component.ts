@@ -13,7 +13,7 @@ import { QoiTypeScore } from '../service-instrumentation.types';
     <div class="service-instrumentation-category-card" [style.border-top-color]="this.scoreColor">
       <h5 class="heading">{{ this.categoryScore?.qoiType }}</h5>
       <p class="checks-status">
-        {{ this.noOfChecksPassing() }}/{{ this.categoryScore?.qoiParamScores.length }} checks passing
+        {{ this.getNoOfChecksPassing() }}/{{ this.categoryScore?.qoiParamScores.length }} checks passing
       </p>
 
       <ht-service-instrumentation-progress-bar
@@ -56,7 +56,7 @@ export class CategoryCardComponent implements OnInit {
     this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.categoryScore?.score ?? 0).dark;
   }
 
-  public noOfChecksPassing(): number {
+  public getNoOfChecksPassing(): number {
     return (
       this.categoryScore?.qoiParamScores?.reduce(
         (accumulator, currentParam) => (currentParam.score >= 70 ? accumulator + 1 : accumulator),

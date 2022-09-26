@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 // Todo: Temporary Mock
 import { orgScoreResponse, serviceScoreResponse } from './service-instrumentation.fixture';
@@ -12,7 +13,7 @@ export class ServiceInstrumentationService {
   >(undefined);
 
   public getServiceScore(serviceName: string): Observable<ServiceScoreResponse> {
-    return of({ ...serviceScoreResponse, serviceName: serviceName });
+    return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(2000));
   }
 
   public getOrgScore(): Observable<OrgScoreResponse> {

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { IconType } from '@hypertrace/assets-library';
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
 import { QoiTypeScore } from '../service-instrumentation.types';
@@ -21,6 +22,38 @@ import { QoiTypeScore } from '../service-instrumentation.types';
       </div>
       <h4>{{ this.categoryScore?.qoiType }}</h4>
       <p class="description">{{ this.categoryScore?.description }}</p>
+
+      <mat-accordion class="heuristics">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <ht-icon class="status-icon" icon="${IconType.Checkmark}"></ht-icon> This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description> This is a summary of the content </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <ht-icon class="status-icon" icon="${IconType.Checkmark}"></ht-icon> This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description> This is a summary of the content </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <ht-icon class="status-icon" icon="${IconType.Checkmark}"></ht-icon> This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description> This is a summary of the content </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
   `
 })

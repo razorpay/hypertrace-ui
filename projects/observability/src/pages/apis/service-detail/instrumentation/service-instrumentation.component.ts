@@ -10,9 +10,11 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ServiceInstrumentationService],
   template: `
-    <main class="service-instrumentation" *ngIf="this.getServiceScore() | async">
+    <main class="service-instrumentation" *ngIf="this.getServiceScore() | async; else loader">
       <router-outlet></router-outlet>
     </main>
+
+    <ng-template #loader> <ht-loader></ht-loader></ng-template>
   `
 })
 export class ServiceInstrumentationComponent implements OnInit {

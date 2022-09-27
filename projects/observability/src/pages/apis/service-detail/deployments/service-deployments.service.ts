@@ -13,7 +13,7 @@ export const DEPLOYMENT_SERVICE_OPTIONS = new InjectionToken<TokenOptions>('DEPL
 @Injectable({ providedIn: 'root' })
 export class ServiceDeploymentsService {
   public BASE_URL: string;
-  public ENDPOINT: string = '/v1/deploy';
+  public ENDPOINT: string = '/v1/deploy/';
 
   public constructor(
     private readonly http: HttpClient,

@@ -105,8 +105,8 @@ export class ServiceDeploymentsListComponent {
 
   private formatResponseToTableFormat(response: DeploymentsResponse): TableDataResponse<DeploymentDataRow> {
     return {
-      data: response.payload.deployments,
-      totalCount: response.payload.deployments.length ?? 0
+      data: response.payload.deployments ?? [],
+      totalCount: response.payload.deployments?.length ?? 0
     };
   }
 }

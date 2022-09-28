@@ -49,7 +49,7 @@ export class ServiceDeploymentsListComponent {
       id: 'commit',
       name: 'commit',
       title: 'Commit',
-      display: CoreTableCellRendererType.Text,
+      display: CoreTableCellRendererType.TextWithCopyAction,
       visible: true
     },
     {

@@ -33,6 +33,10 @@ describe('InstrumentationDetailsComponent', () => {
     expect(component.getIconColor(50)).toBe('#ffa01c');
   });
 
+  test('assigns correct type to icon', () => {
+    expect(component.getHeaderIcon(50)).toBe('svg:warning');
+  });
+
   test('shows correct header summary', () => {
     expect(
       component.getHeaderSummary({

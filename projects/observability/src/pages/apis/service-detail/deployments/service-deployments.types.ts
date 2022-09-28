@@ -6,8 +6,8 @@ export interface DeploymentDataRow extends TableRow {
   type: string;
   status: string;
   triggeredBy: string;
-  StartTime: number;
-  EndTime: number;
+  startTime: number;
+  endTime: number;
   commit?: string;
 }
 

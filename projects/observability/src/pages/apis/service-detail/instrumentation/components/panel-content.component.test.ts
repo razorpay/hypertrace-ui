@@ -19,4 +19,10 @@ describe('PanelContentComponent', () => {
   test('should be created successfully', () => {
     expect(component).toBeDefined();
   });
+
+  test('navigates to Explorer page with trace ID filled', () => {
+    expect(component.getExampleLink('1')).toBe(
+      '/explorer?time=1h&scope=endpoint-traces&series=column:count(calls)&filter=traceId_eq_1'
+    );
+  });
 });

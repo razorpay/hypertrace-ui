@@ -25,6 +25,8 @@
 
     .header-title {
       width: 360px; /* This fixes the position of the header description */
+      @include body-1-medium;
+      line-height: 1.4rem;
     }
   }
 }

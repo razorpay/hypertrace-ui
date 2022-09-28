@@ -36,7 +36,9 @@ import { HeuristicClassScoreInfo, HeuristicScoreInfo } from '../service-instrume
             </mat-panel-title>
             <mat-panel-description> {{ this.getHeaderSummary(heuristicScore) }} </mat-panel-description>
           </mat-expansion-panel-header>
-          <p>This is the primary content of the panel.</p>
+          <ht-service-instrumentation-panel-content
+            [heuristicScore]="heuristicScore"
+          ></ht-service-instrumentation-panel-content>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

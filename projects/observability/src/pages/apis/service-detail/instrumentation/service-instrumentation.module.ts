@@ -15,6 +15,7 @@ import {
   InstrumentationDetailsComponent,
   InstrumentationOverviewComponent,
   OrgScoreComponent,
+  PanelContentComponent,
   ProgressBarComponent,
   TotalScoreComponent
 } from './components';
@@ -37,6 +38,7 @@ import { ServiceInstrumentationComponent } from './service-instrumentation.compo
     InstrumentationDetailsComponent,
     InstrumentationOverviewComponent,
     OrgScoreComponent,
+    PanelContentComponent,
     ProgressBarComponent,
     TotalScoreComponent
   ],

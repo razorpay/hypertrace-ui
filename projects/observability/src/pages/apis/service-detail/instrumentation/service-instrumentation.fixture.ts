@@ -74,12 +74,13 @@ export const serviceScoreResponse: ServiceScoreResponse = {
           failureCount: '50'
         },
         {
-          description: 'Single paragraph description for this heuristic.',
+          description:
+            'Single paragraph description for this heuristic. Single paragraph description for this heuristic. Single paragraph description for this heuristic.',
           name: 'ThirdHeuristic',
           evalTimestamp: '1658434128',
           score: 30.0,
-          sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
-          sampleType: 'span',
+          sampleIds: ['m5dea7728fd91c8', 'n1235dea74asdas1'],
+          sampleType: 'trace',
           sampleSize: '100',
           failureCount: '70'
         }

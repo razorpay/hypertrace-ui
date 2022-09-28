@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IconType } from '@hypertrace/assets-library';
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
-import { QoiTypeScore } from '../service-instrumentation.types';
+import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
 
 @Component({
   styleUrls: ['./instrumentation-details.component.scss'],
@@ -20,15 +20,15 @@ import { QoiTypeScore } from '../service-instrumentation.types';
           (click)="this.onClickBack()"
         ></ht-button>
       </div>
-      <h4>{{ this.categoryScore?.qoiType }}</h4>
-      <p class="description">{{ this.categoryScore?.description }}</p>
+      <h4>{{ this.heuristicClassScore?.name }}</h4>
+      <p class="description">{{ this.heuristicClassScore?.description }}</p>
 
       <mat-accordion class="heuristics">
-        <mat-expansion-panel *ngFor="let qoiParamScore of this.categoryScore?.qoiParamScores">
+        <mat-expansion-panel *ngFor="let heuristicScore of this.heuristicClassScore?.heuristicScoreInfo">
           <mat-expansion-panel-header>
             <mat-panel-title class="header-title">
               <ht-icon class="status-icon" icon="${IconType.Checkmark}" color="green"></ht-icon
-              >{{ qoiParamScore.qoiParam }}
+              >{{ heuristicScore.name }}
             </mat-panel-title>
             <mat-panel-description> This is a summary of the content </mat-panel-description>
           </mat-expansion-panel-header>
@@ -39,7 +39,7 @@ import { QoiTypeScore } from '../service-instrumentation.types';
   `
 })
 export class InstrumentationDetailsComponent {
-  public categoryScore: QoiTypeScore | undefined;
+  public heuristicClassScore: HeuristicClassScoreInfo | undefined;
 
   public constructor(
     private readonly serviceInstrumentationService: ServiceInstrumentationService,
@@ -48,8 +48,8 @@ export class InstrumentationDetailsComponent {
   ) {
     this.route.url.subscribe(url => {
       this.serviceInstrumentationService.serviceScoreSubject.subscribe(serviceScore => {
-        this.categoryScore = serviceScore?.qoiTypeScores.find(
-          category => category.qoiType.toLowerCase() === url[0].path
+        this.heuristicClassScore = serviceScore?.heuristicClassScoreInfo.find(
+          category => category.name.toLowerCase() === url[0].path
         );
       });
     });

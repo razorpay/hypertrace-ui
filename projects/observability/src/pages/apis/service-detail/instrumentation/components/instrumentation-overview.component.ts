@@ -21,8 +21,8 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
 
     <section class="checks-container">
       <ht-service-instrumentation-category-card
-        *ngFor="let categoryScore of (serviceScoreSubject | async)?.qoiTypeScores"
-        [categoryScore]="categoryScore"
+        *ngFor="let heuristicClassScore of (serviceScoreSubject | async)?.heuristicClassScoreInfo"
+        [heuristicClassScore]="heuristicClassScore"
         [orgCategoryScores]="(orgScoreResponse$ | async)?.qoiTypeScores"
       ></ht-service-instrumentation-category-card>
     </section>

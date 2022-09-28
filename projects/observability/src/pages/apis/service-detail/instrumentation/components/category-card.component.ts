@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
-import { QoiTypeScore } from '../service-instrumentation.types';
+import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
 
 @Component({
   styleUrls: ['./category-card.component.scss'],
@@ -11,13 +11,13 @@ import { QoiTypeScore } from '../service-instrumentation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="service-instrumentation-category-card" [style.border-top-color]="this.scoreColor">
-      <h5 class="heading">{{ this.categoryScore?.qoiType }}</h5>
+      <h5 class="heading">{{ this.heuristicClassScore?.name }}</h5>
       <p class="checks-status">
-        {{ this.getNoOfChecksPassing() }}/{{ this.categoryScore?.qoiParamScores.length }} checks passing
+        {{ this.getNoOfChecksPassing() }}/{{ this.heuristicClassScore?.heuristicScoreInfo.length }} checks passing
       </p>
 
       <ht-service-instrumentation-progress-bar
-        [score]="this.categoryScore?.score"
+        [score]="this.heuristicClassScore?.score"
       ></ht-service-instrumentation-progress-bar>
 
       <ht-service-instrumentation-progress-bar
@@ -25,10 +25,10 @@ import { QoiTypeScore } from '../service-instrumentation.types';
         [score]="this.getOrgScoreForCategory()"
       ></ht-service-instrumentation-progress-bar>
 
-      <p class="description">{{ categoryScore?.description }}</p>
+      <p class="description">{{ this.heuristicClassScore?.description }}</p>
 
       <ht-button
-        [label]="this.getButtonLabel(this.categoryScore?.score ?? 90)"
+        [label]="this.getButtonLabel(this.heuristicClassScore?.score ?? 90)"
         role="${ButtonRole.Tertiary}"
         display="${ButtonStyle.Bordered}"
         width="100%"
@@ -39,10 +39,10 @@ import { QoiTypeScore } from '../service-instrumentation.types';
 })
 export class CategoryCardComponent implements OnInit {
   @Input()
-  public categoryScore: QoiTypeScore | undefined;
+  public heuristicClassScore: HeuristicClassScoreInfo | undefined;
 
   @Input()
-  public orgCategoryScores: QoiTypeScore[] | undefined;
+  public orgCategoryScores: HeuristicClassScoreInfo[] | undefined;
 
   public scoreColor: string = '';
 
@@ -53,12 +53,12 @@ export class CategoryCardComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.categoryScore?.score ?? 0).dark;
+    this.scoreColor = this.serviceInstrumentationService.getColorForScore(this.heuristicClassScore?.score ?? 0).dark;
   }
 
   public getNoOfChecksPassing(): number {
     return (
-      this.categoryScore?.qoiParamScores?.reduce(
+      this.heuristicClassScore?.heuristicScoreInfo?.reduce(
         (accumulator, currentParam) => (currentParam.score >= 70 ? accumulator + 1 : accumulator),
         0
       ) ?? 0
@@ -66,7 +66,7 @@ export class CategoryCardComponent implements OnInit {
   }
 
   public getOrgScoreForCategory(): number {
-    return this.orgCategoryScores?.find(score => score.qoiType === this.categoryScore?.qoiType)?.score ?? 0;
+    return this.orgCategoryScores?.find(score => score.name === this.heuristicClassScore?.name)?.score ?? 0;
   }
 
   public getButtonLabel(score: number): string {
@@ -74,6 +74,6 @@ export class CategoryCardComponent implements OnInit {
   }
 
   public onClickButton(): void {
-    this.router.navigate([this.categoryScore?.qoiType.toLowerCase()], { relativeTo: this.route });
+    this.router.navigate([this.heuristicClassScore?.name.toLowerCase()], { relativeTo: this.route });
   }
 }

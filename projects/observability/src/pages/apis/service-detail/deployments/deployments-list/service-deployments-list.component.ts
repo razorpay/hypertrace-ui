@@ -74,16 +74,16 @@ export class ServiceDeploymentsListComponent {
       visible: true
     },
     {
-      id: 'StartTime',
-      name: 'StartTime',
+      id: 'startTime',
+      name: 'startTime',
       title: 'Started At',
       display: CoreTableCellRendererType.Timestamp,
       visible: true,
       sortable: true
     },
     {
-      id: 'EndTime',
-      name: 'EndTime',
+      id: 'endTime',
+      name: 'endTime',
       title: 'Completed At',
       display: CoreTableCellRendererType.Timestamp,
       visible: true,

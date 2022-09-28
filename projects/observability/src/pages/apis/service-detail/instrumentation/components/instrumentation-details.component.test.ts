@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { mockProvider } from '@ngneat/spectator/jest';
 
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
-import { HeuristicScoreInfo } from '../service-instrumentation.types';
 import { InstrumentationDetailsComponent } from './instrumentation-details.component';
 
 describe('InstrumentationDetailsComponent', () => {
@@ -36,7 +35,16 @@ describe('InstrumentationDetailsComponent', () => {
 
   test('shows correct header summary', () => {
     expect(
-      component.getHeaderSummary({ sampleSize: '10', failureCount: '9', sampleType: 'span' } as HeuristicScoreInfo)
+      component.getHeaderSummary({
+        sampleSize: '10',
+        failureCount: '9',
+        sampleType: 'span',
+        name: '',
+        description: '',
+        evalTimestamp: '',
+        sampleIds: [],
+        score: 0
+      })
     ).toBe('90% of spans failed this check');
   });
 });

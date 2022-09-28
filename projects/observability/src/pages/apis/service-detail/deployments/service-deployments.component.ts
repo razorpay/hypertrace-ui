@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
     <main class="service-deployments">
       <div *ngIf="serviceName$ | async as serviceName; else loading">
         <p>Here is the list of your deployments in last 24 hours for {{ serviceName }}</p>
-        <section>
+        <section class="deployments-list-section">
           <ht-service-deployments-list [serviceName]="serviceName"> </ht-service-deployments-list>
         </section>
       </div>

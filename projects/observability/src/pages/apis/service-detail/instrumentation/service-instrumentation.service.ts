@@ -13,7 +13,7 @@ export class ServiceInstrumentationService {
   >(undefined);
 
   public getServiceScore(serviceName: string): Observable<ServiceScoreResponse> {
-    return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(2000));
+    return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(1000));
   }
 
   public getOrgScore(): Observable<OrgScoreResponse> {

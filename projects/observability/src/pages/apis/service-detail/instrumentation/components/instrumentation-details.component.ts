@@ -27,7 +27,11 @@ import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
         <mat-expansion-panel *ngFor="let heuristicScore of this.heuristicClassScore?.heuristicScoreInfo">
           <mat-expansion-panel-header>
             <mat-panel-title class="header-title">
-              <ht-icon class="status-icon" icon="${IconType.Checkmark}" color="green"></ht-icon
+              <ht-icon
+                class="status-icon"
+                [icon]="this.getHeaderIcon(heuristicScore.score)"
+                [color]="this.getIconColor(heuristicScore.score)"
+              ></ht-icon
               >{{ heuristicScore.name }}
             </mat-panel-title>
             <mat-panel-description> This is a summary of the content </mat-panel-description>
@@ -59,7 +63,19 @@ export class InstrumentationDetailsComponent {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
-  public getHeaderIcon(_score: number): string {
+  public getHeaderIcon(score: number): string {
+    if (score < 50) {
+      return IconType.Close;
+    }
+
+    if (score < 70) {
+      return IconType.Warning;
+    }
+
     return IconType.Checkmark;
+  }
+
+  public getIconColor(score: number): string {
+    return this.serviceInstrumentationService.getColorForScore(score).dark;
   }
 }

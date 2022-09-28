@@ -13,7 +13,11 @@ describe('InstrumentationDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [InstrumentationDetailsComponent],
       imports: [RouterTestingModule],
-      providers: [mockProvider(ServiceInstrumentationService, {})]
+      providers: [
+        mockProvider(ServiceInstrumentationService, {
+          getColorForScore: () => ({ dark: '#ffa01c' })
+        })
+      ]
     });
     fixture = TestBed.createComponent(InstrumentationDetailsComponent);
     component = fixture.componentInstance;
@@ -23,5 +27,9 @@ describe('InstrumentationDetailsComponent', () => {
 
   test('should be created successfully', () => {
     expect(component).toBeDefined();
+  });
+
+  test('assigns correct color to icon', () => {
+    expect(component.getIconColor(50)).toBe('#ffa01c');
   });
 });

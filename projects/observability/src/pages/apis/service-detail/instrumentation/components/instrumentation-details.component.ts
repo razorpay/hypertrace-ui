@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IconType } from '@hypertrace/assets-library';
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
-import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
+import { HeuristicClassScoreInfo, HeuristicScoreInfo } from '../service-instrumentation.types';
 
 @Component({
   styleUrls: ['./instrumentation-details.component.scss'],
@@ -34,7 +34,7 @@ import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
               ></ht-icon
               >{{ heuristicScore.name }}
             </mat-panel-title>
-            <mat-panel-description> This is a summary of the content </mat-panel-description>
+            <mat-panel-description> {{ this.getHeaderSummary(heuristicScore) }} </mat-panel-description>
           </mat-expansion-panel-header>
           <p>This is the primary content of the panel.</p>
         </mat-expansion-panel>
@@ -77,5 +77,13 @@ export class InstrumentationDetailsComponent {
 
   public getIconColor(score: number): string {
     return this.serviceInstrumentationService.getColorForScore(score).dark;
+  }
+
+  public getHeaderSummary(heuristicScore: HeuristicScoreInfo): string {
+    const sampleSize = Number(heuristicScore.sampleSize);
+    const failureCount = Number(heuristicScore.failureCount);
+    const percentFailed = (failureCount / sampleSize) * 100;
+
+    return `${percentFailed}% of ${heuristicScore.sampleType}s failed this check`;
   }
 }

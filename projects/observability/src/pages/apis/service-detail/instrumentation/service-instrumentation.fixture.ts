@@ -61,7 +61,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
           sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
           sampleType: 'span',
           sampleSize: '100',
-          failureCount: '90'
+          failureCount: '30'
         },
         {
           description: 'Single paragraph description for this heuristic.',
@@ -71,7 +71,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
           sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
           sampleType: 'span',
           sampleSize: '100',
-          failureCount: '90'
+          failureCount: '50'
         },
         {
           description: 'Single paragraph description for this heuristic.',
@@ -81,7 +81,7 @@ export const serviceScoreResponse: ServiceScoreResponse = {
           sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
           sampleType: 'span',
           sampleSize: '100',
-          failureCount: '90'
+          failureCount: '70'
         }
       ]
     },

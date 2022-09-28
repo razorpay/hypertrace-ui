@@ -23,6 +23,8 @@ import { HeuristicClassScoreInfo, HeuristicScoreInfo } from '../service-instrume
       <h4>{{ this.heuristicClassScore?.name }}</h4>
       <p class="description">{{ this.heuristicClassScore?.description }}</p>
 
+      <h5>Checks</h5>
+
       <mat-accordion class="heuristics">
         <mat-expansion-panel *ngFor="let heuristicScore of this.heuristicClassScore?.heuristicScoreInfo">
           <mat-expansion-panel-header>

@@ -7,9 +7,14 @@
   }
 
   h4 {
-    @include header-4();
+    @include header-4;
     margin-top: 8px;
     margin-bottom: 8px;
+  }
+
+  h5 {
+    @include subtitle-2;
+    margin-bottom: 16px;
   }
 
   .description {

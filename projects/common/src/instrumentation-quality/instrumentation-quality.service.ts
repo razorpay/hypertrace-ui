@@ -17,7 +17,7 @@ export class InstrumentationQualityService {
     private readonly http: HttpClient,
     @Inject(INSTRUMENTATION_QUALITY_OPTIONS) tokenOptions: TokenOptions
   ) {
-    this.BASE_URL = tokenOptions.uri;
+    this.BASE_URL = `${tokenOptions.uri}/v1/score`;
   }
 
   public get<T>(endPoint: string = ''): Observable<T> {

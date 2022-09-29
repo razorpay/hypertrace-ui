@@ -18,7 +18,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
 
         <ht-service-instrumentation-org-score
           [orgScore]="(this.orgScoreResponse$ | async)?.aggregatedWeightedScore"
-          *ngIf="this.showOrgScoresSubject.getValue()"
+          *ngIf="this.showOrgScores"
         ></ht-service-instrumentation-org-score>
       </div>
 
@@ -34,9 +34,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
       <ht-service-instrumentation-category-card
         *ngFor="let heuristicClassScore of (serviceScoreSubject | async)?.heuristicClassScoreInfo"
         [heuristicClassScore]="heuristicClassScore"
-        [orgCategoryScores]="
-          this.showOrgScoresSubject.getValue() && (orgScoreResponse$ | async)?.heuristicClassScoreInfo
-        "
+        [orgCategoryScores]="this.showOrgScores && (orgScoreResponse$ | async)?.heuristicClassScoreInfo"
       ></ht-service-instrumentation-category-card>
     </section>
   `
@@ -47,7 +45,7 @@ export class InstrumentationOverviewComponent {
   >(undefined);
 
   public orgScoreResponse$: Observable<OrgScoreResponse>;
-  public showOrgScoresSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public showOrgScores: boolean = false;
 
   public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {
     this.serviceScoreSubject = this.serviceInstrumentationService.serviceScoreSubject;
@@ -55,10 +53,10 @@ export class InstrumentationOverviewComponent {
   }
 
   public onClickShowOrgScores(): void {
-    this.showOrgScoresSubject.next(!this.showOrgScoresSubject.getValue());
+    this.showOrgScores = !this.showOrgScores;
   }
 
   public getToggleLabel(): string {
-    return `${this.showOrgScoresSubject.getValue() ? 'Hide' : 'Show'} organization scores`;
+    return `${this.showOrgScores ? 'Hide' : 'Show'} organization scores`;
   }
 }

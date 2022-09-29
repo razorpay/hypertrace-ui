@@ -35,7 +35,7 @@ describe('InstrumentationDetailsComponent', () => {
     expect(component.getHeaderIcon(70)).toBe('checkmark');
   });
 
-  test('shows correct header summary', () => {
+  test('shows correct header summary when check is eligible', () => {
     expect(
       component.getHeaderSummary({
         sampleSize: '10',
@@ -48,5 +48,20 @@ describe('InstrumentationDetailsComponent', () => {
         score: 0
       })
     ).toBe('90% of spans failed this check');
+  });
+
+  test('shows correct header summary when check is not eligible', () => {
+    expect(
+      component.getHeaderSummary({
+        sampleSize: '10',
+        failureCount: '9',
+        sampleType: 'span',
+        name: '',
+        description: '',
+        evalTimestamp: '',
+        sampleIds: [],
+        score: -1.0
+      })
+    ).toBe('Check skipped as no eligible spans in this run');
   });
 });

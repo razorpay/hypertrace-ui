@@ -84,6 +84,10 @@ export class InstrumentationDetailsComponent {
   }
 
   public getHeaderSummary(heuristicScore: HeuristicScoreInfo): string {
+    if (heuristicScore.score < 0) {
+      return 'Check skipped as no eligible spans in this run';
+    }
+
     const sampleSize = Number(heuristicScore.sampleSize);
     const failureCount = Number(heuristicScore.failureCount);
     const percentFailed = (failureCount / sampleSize) * 100;

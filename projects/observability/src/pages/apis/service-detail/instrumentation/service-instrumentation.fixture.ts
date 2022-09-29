@@ -99,13 +99,13 @@ export const serviceScoreResponse: ServiceScoreResponse = {
           sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
           sampleType: 'span',
           sampleSize: '100',
-          failureCount: '90'
+          failureCount: '10'
         },
         {
           description: 'Single paragraph description for this heuristic.',
-          name: 'HasNoTokens',
+          name: 'SecondHeuristic',
           evalTimestamp: '1658434128',
-          score: 90.0,
+          score: -1.0,
           sampleIds: ['m5dea7728fd91c7', 'n1235dea74asdas1'],
           sampleType: 'span',
           sampleSize: '100',

@@ -34,7 +34,9 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
       <ht-service-instrumentation-category-card
         *ngFor="let heuristicClassScore of (serviceScoreSubject | async)?.heuristicClassScoreInfo"
         [heuristicClassScore]="heuristicClassScore"
-        [orgCategoryScores]="(orgScoreResponse$ | async)?.qoiTypeScores"
+        [orgCategoryScores]="
+          this.showOrgScoresSubject.getValue() && (orgScoreResponse$ | async)?.heuristicClassScoreInfo
+        "
       ></ht-service-instrumentation-category-card>
     </section>
   `

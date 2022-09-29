@@ -23,7 +23,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
       </div>
 
       <ht-button
-        label="Show organization scores"
+        [label]="this.getToggleLabel()"
         role="${ButtonRole.Primary}"
         display="${ButtonStyle.PlainText}"
         (click)="this.onClickShowOrgScores()"
@@ -56,5 +56,9 @@ export class InstrumentationOverviewComponent {
 
   public onClickShowOrgScores(): void {
     this.showOrgScoresSubject.next(!this.showOrgScoresSubject.getValue());
+  }
+
+  public getToggleLabel(): string {
+    return `${this.showOrgScoresSubject.getValue() ? 'Hide' : 'Show'} organization scores`;
   }
 }

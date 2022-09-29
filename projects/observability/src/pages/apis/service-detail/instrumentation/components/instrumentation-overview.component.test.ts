@@ -22,4 +22,10 @@ describe('InstrumentationOverviewComponent', () => {
   test('should be created successfully', () => {
     expect(component).toBeDefined();
   });
+
+  test('shows correct toggle label', () => {
+    expect(component.getToggleLabel()).toBe('Show organization scores');
+    component.showOrgScoresSubject.next(true);
+    expect(component.getToggleLabel()).toBe('Hide organization scores');
+  });
 });

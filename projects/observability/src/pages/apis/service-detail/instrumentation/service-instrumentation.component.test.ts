@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { InstrumentationQualityService } from '@hypertrace/common';
 import { mockProvider } from '@ngneat/spectator/jest';
-import { BehaviorSubject } from 'rxjs';
 
 import { ServiceInstrumentationComponent } from './service-instrumentation.component';
 import { ServiceInstrumentationService } from './service-instrumentation.service';
@@ -14,11 +14,7 @@ describe('ServiceInstrumentationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ServiceInstrumentationComponent],
       imports: [RouterTestingModule],
-      providers: [
-        mockProvider(ServiceInstrumentationService, {
-          serviceScoreSubject: new BehaviorSubject(undefined)
-        })
-      ]
+      providers: [mockProvider(ServiceInstrumentationService), mockProvider(InstrumentationQualityService)]
     });
     fixture = TestBed.createComponent(ServiceInstrumentationComponent);
     component = fixture.componentInstance;

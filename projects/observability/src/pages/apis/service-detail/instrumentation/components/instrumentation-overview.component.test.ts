@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { mockProvider } from '@ngneat/spectator/jest';
+import { of } from 'rxjs';
 
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
 import { InstrumentationOverviewComponent } from './instrumentation-overview.component';
@@ -11,7 +12,7 @@ describe('InstrumentationOverviewComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [InstrumentationOverviewComponent],
-      providers: [mockProvider(ServiceInstrumentationService, {})]
+      providers: [mockProvider(ServiceInstrumentationService, { getOrgScore: () => of({}) })]
     });
     fixture = TestBed.createComponent(InstrumentationOverviewComponent);
     component = fixture.componentInstance;
@@ -25,7 +26,7 @@ describe('InstrumentationOverviewComponent', () => {
 
   test('shows correct toggle label', () => {
     expect(component.getToggleLabel()).toBe('Show organization scores');
-    component.showOrgScoresSubject.next(true);
+    component.showOrgScores = true;
     expect(component.getToggleLabel()).toBe('Hide organization scores');
   });
 });

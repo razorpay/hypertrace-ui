@@ -30,7 +30,7 @@ export class ServiceInstrumentationService {
       return of(orgScoreResponse);
     }
 
-    return this.queryService.get<OrgScoreResponse>();
+    return this.queryService.getOrgScore<OrgScoreResponse>();
   }
 
   public getLabelForScore(score: number): string {

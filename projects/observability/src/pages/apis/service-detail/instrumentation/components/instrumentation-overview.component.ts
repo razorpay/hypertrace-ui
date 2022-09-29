@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { ButtonRole, ButtonStyle } from '@hypertrace/components';
 import { ServiceInstrumentationService } from '../service-instrumentation.service';
@@ -17,7 +17,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
         ></ht-service-instrumentation-total-score>
 
         <ht-service-instrumentation-org-score
-          [orgScore]="(this.orgScoreResponse$ | async)?.aggregatedWeightedScore"
+          [orgScore]="this.orgScoreResponse?.aggregatedWeightedScore"
           *ngIf="this.showOrgScores"
         ></ht-service-instrumentation-org-score>
       </div>
@@ -34,7 +34,7 @@ import { OrgScoreResponse, ServiceScoreResponse } from '../service-instrumentati
       <ht-service-instrumentation-category-card
         *ngFor="let heuristicClassScore of (serviceScoreSubject | async)?.heuristicClassScoreInfo"
         [heuristicClassScore]="heuristicClassScore"
-        [orgCategoryScores]="this.showOrgScores && (orgScoreResponse$ | async)?.heuristicClassScoreInfo"
+        [orgCategoryScores]="this.showOrgScores && orgScoreResponse?.heuristicClassScoreInfo"
       ></ht-service-instrumentation-category-card>
     </section>
   `
@@ -44,12 +44,12 @@ export class InstrumentationOverviewComponent {
     ServiceScoreResponse | undefined
   >(undefined);
 
-  public orgScoreResponse$: Observable<OrgScoreResponse>;
+  public orgScoreResponse: OrgScoreResponse | undefined;
   public showOrgScores: boolean = false;
 
   public constructor(private readonly serviceInstrumentationService: ServiceInstrumentationService) {
     this.serviceScoreSubject = this.serviceInstrumentationService.serviceScoreSubject;
-    this.orgScoreResponse$ = this.serviceInstrumentationService.getOrgScore();
+    this.serviceInstrumentationService.getOrgScore().subscribe(data => (this.orgScoreResponse = data));
   }
 
   public onClickShowOrgScores(): void {

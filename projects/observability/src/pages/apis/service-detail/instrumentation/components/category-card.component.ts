@@ -29,7 +29,7 @@ import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
       <p class="description">{{ this.heuristicClassScore?.description }}</p>
 
       <ht-button
-        [label]="this.getButtonLabel(this.heuristicClassScore?.score ?? 90)"
+        label="See details"
         role="${ButtonRole.Tertiary}"
         display="${ButtonStyle.Bordered}"
         width="100%"
@@ -68,10 +68,6 @@ export class CategoryCardComponent implements OnInit {
 
   public getOrgScoreForCategory(): number {
     return this.orgCategoryScores?.find(score => score.name === this.heuristicClassScore?.name)?.score ?? 0;
-  }
-
-  public getButtonLabel(score: number): string {
-    return score >= 90 ? 'See details' : 'Learn how to improve';
   }
 
   public onClickButton(): void {

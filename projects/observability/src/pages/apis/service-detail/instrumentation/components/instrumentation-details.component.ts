@@ -68,11 +68,11 @@ export class InstrumentationDetailsComponent {
   }
 
   public getHeaderIcon(score: number): string {
-    if (score < 50) {
+    if (score < 50 && score > -1) {
       return IconType.Close;
     }
 
-    if (score < 70) {
+    if (score < 70 && score > -1) {
       return IconType.Warning;
     }
 
@@ -80,6 +80,10 @@ export class InstrumentationDetailsComponent {
   }
 
   public getIconColor(score: number): string {
+    if (score < 0) {
+      return '#b7bfc2'; // $gray-3
+    }
+
     return this.serviceInstrumentationService.getColorForScore(score).dark;
   }
 

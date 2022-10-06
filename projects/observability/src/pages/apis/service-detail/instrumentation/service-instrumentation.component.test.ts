@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InstrumentationQualityService } from '@hypertrace/common';
 import { mockProvider } from '@ngneat/spectator/jest';
+import { of } from 'rxjs';
 
 import { ServiceInstrumentationComponent } from './service-instrumentation.component';
+import { serviceScoreResponse } from './service-instrumentation.fixture';
 import { ServiceInstrumentationService } from './service-instrumentation.service';
 
 describe('ServiceInstrumentationComponent', () => {
@@ -14,7 +16,12 @@ describe('ServiceInstrumentationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ServiceInstrumentationComponent],
       imports: [RouterTestingModule],
-      providers: [mockProvider(ServiceInstrumentationService), mockProvider(InstrumentationQualityService)]
+      providers: [
+        mockProvider(ServiceInstrumentationService),
+        mockProvider(InstrumentationQualityService, {
+          getServiceScore: () => of(serviceScoreResponse)
+        })
+      ]
     });
     fixture = TestBed.createComponent(ServiceInstrumentationComponent);
     component = fixture.componentInstance;
@@ -27,6 +34,6 @@ describe('ServiceInstrumentationComponent', () => {
   });
 
   test('uses subject from common service', () => {
-    expect(component.getServiceScore().getValue()).toBe(undefined);
+    expect(component.getServiceScore().getValue()?.serviceName).toBe('metro');
   });
 });

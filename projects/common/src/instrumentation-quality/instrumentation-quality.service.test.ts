@@ -49,7 +49,7 @@ describe('InstrumentationQuality', () => {
 
   test('GET service score', () => {
     const getFnMock = mockGetMethod();
-    spectator.service.get('/test').subscribe();
+    spectator.service.getServiceScore('/test').subscribe();
     expect(getFnMock).toHaveBeenCalled();
   });
 

@@ -4,8 +4,7 @@
 .service-instrumentation-category-card {
   @include dropdown-box-shadow;
   @include raised-shadow-hover;
-  max-width: 320px;
-  min-height: 290px;
+  max-width: 330px;
 
   border-top-width: 8px;
   border-top-style: solid;
@@ -29,6 +28,7 @@
     @include subtitle-3;
     padding-top: 8px;
     padding-bottom: 42px;
+    min-height: 138px;
   }
 
   .button-container {

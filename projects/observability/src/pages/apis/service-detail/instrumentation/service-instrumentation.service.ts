@@ -22,7 +22,7 @@ export class ServiceInstrumentationService {
       return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(1000));
     }
 
-    return this.queryService.get<ServiceScoreResponse>(`/${serviceName}`);
+    return this.queryService.getServiceScore<ServiceScoreResponse>(`/${serviceName}`);
   }
 
   public getOrgScore(options: { mock: boolean } = { mock: false }): Observable<OrgScoreResponse> {

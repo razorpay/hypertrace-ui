@@ -22,8 +22,8 @@ export class InstrumentationQualityService {
     this.BASE_URL = `${tokenOptions.uri}/v1/score`;
   }
 
-  public get<T>(endPoint: string = ''): Observable<T> {
-    return this.http.get<T>(this.BASE_URL + endPoint);
+  public getServiceScore<T>(serviceName: string): Observable<T> {
+    return this.http.get<T>(this.BASE_URL + serviceName);
   }
 
   public getOrgScore<T>(): Observable<T> {

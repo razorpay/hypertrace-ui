@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { InstrumentationQualityService } from '@hypertrace/common';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import { orgScoreResponse, serviceScoreResponse } from './service-instrumentation.fixture';
 import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
 
 @Injectable()
@@ -14,22 +12,13 @@ export class ServiceInstrumentationService {
 
   public constructor(private readonly queryService: InstrumentationQualityService) {}
 
-  public getServiceScore(
-    serviceName: string,
-    options: { mock: boolean } = { mock: false }
-  ): Observable<ServiceScoreResponse> {
-    if (options.mock) {
-      return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(1000));
-    }
-
+  public getServiceScore(serviceName: string): Observable<ServiceScoreResponse> {
+    // Return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(1000)); // mock
     return this.queryService.getServiceScore<ServiceScoreResponse>(`/${serviceName}`);
   }
 
-  public getOrgScore(options: { mock: boolean } = { mock: false }): Observable<OrgScoreResponse> {
-    if (options.mock) {
-      return of(orgScoreResponse);
-    }
-
+  public getOrgScore(): Observable<OrgScoreResponse> {
+    // Return of(orgScoreResponse); // mock
     return this.queryService.getOrgScore<OrgScoreResponse>();
   }
 

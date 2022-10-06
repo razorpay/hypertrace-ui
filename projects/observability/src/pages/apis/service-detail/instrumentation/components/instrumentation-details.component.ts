@@ -92,6 +92,10 @@ export class InstrumentationDetailsComponent {
       return 'This check was skipped as no eligible spans were present in the last evaluation.';
     }
 
+    if (heuristicScore.failureCount === '0') {
+      return 'No spans failed this check';
+    }
+
     const sampleSize = Number(heuristicScore.sampleSize);
     const failureCount = Number(heuristicScore.failureCount);
     const percentFailed = Math.round((failureCount / sampleSize) * 100);

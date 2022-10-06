@@ -23,7 +23,7 @@ describe('ServiceInstrumentationService', () => {
   });
 
   test('returns correct label for score', () => {
-    expect(service.getLabelForScore(50)).toBe('Average');
+    expect(service.getLabelForScore(50)).toBe('Need Improvement');
   });
 
   test('returns correct color for score', () => {

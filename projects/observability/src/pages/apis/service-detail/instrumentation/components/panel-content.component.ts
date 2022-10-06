@@ -10,7 +10,7 @@ import { HeuristicScoreInfo } from '../service-instrumentation.types';
     <p class="description">{{ this.heuristicScore?.description }}</p>
     <p class="metric"><b>Sample size:</b> {{ this.heuristicScore?.sampleSize }}</p>
     <p class="metric"><b>Failures:</b> {{ this.heuristicScore?.failureCount }}</p>
-    <p class="metric">
+    <p class="metric" *ngIf="this.heuristicScore?.sampleIds.length > 0">
       <b>Example {{ this.heuristicScore?.sampleType }}s: </b>
       <span *ngFor="let exampleId of this.heuristicScore?.sampleIds; let i = index">
         <a title="Open in Explorer" [href]="this.getExampleLink(exampleId)">{{ exampleId }}</a>

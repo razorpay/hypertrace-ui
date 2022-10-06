@@ -28,13 +28,15 @@ import { HeuristicClassScoreInfo } from '../service-instrumentation.types';
 
       <p class="description">{{ this.heuristicClassScore?.description }}</p>
 
-      <ht-button
-        label="See details"
-        role="${ButtonRole.Tertiary}"
-        display="${ButtonStyle.Bordered}"
-        width="100%"
-        (click)="this.onClickButton()"
-      ></ht-button>
+      <div class="button-container">
+        <ht-button
+          label="See details"
+          role="${ButtonRole.Tertiary}"
+          display="${ButtonStyle.Bordered}"
+          width="100%"
+          (click)="this.onClickButton()"
+        ></ht-button>
+      </div>
     </div>
   `
 })

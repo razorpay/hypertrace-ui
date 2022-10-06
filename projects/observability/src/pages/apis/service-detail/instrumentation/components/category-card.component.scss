@@ -5,12 +5,14 @@
   @include dropdown-box-shadow;
   @include raised-shadow-hover;
   max-width: 320px;
+  min-height: 266px;
 
   border-top-width: 8px;
   border-top-style: solid;
   border-radius: 6px;
 
   padding: 16px 16px 20px;
+  position: relative;
 
   .heading {
     @include body-1-semibold;
@@ -26,5 +28,11 @@
 
   .description {
     @include subtitle-3;
+  }
+
+  .button-container {
+    position: absolute;
+    bottom: 20px;
+    width: calc(100% - 32px);
   }
 }

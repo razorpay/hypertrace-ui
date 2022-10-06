@@ -11,7 +11,13 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
   providers: [ServiceInstrumentationService],
   template: `
     <main class="service-instrumentation" *ngIf="this.getServiceScore() | async; else loader">
-      <router-outlet></router-outlet>
+      <ng-container *ngIf="(this.getServiceScore() | async)?.heuristicClassScoreInfo.length > 0; else noData">
+        <router-outlet></router-outlet>
+      </ng-container>
+
+      <ng-template #noData>
+        Quality evaluation has not been done yet for this service. Please check back later.
+      </ng-template>
     </main>
 
     <ng-template #loader> <ht-loader></ht-loader></ng-template>

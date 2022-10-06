@@ -25,9 +25,9 @@ export class PanelContentComponent {
 
   public getExampleLink(id: string): string {
     if (this.heuristicScore?.sampleType === 'span') {
-      return `/explorer?time=1h&scope=spans&series=column:count(spans)&filter=id_eq_${id}`;
+      return `/explorer?time=1d&scope=spans&series=column:count(spans)&filter=id_eq_${id}`;
     }
 
-    return `/explorer?time=1h&scope=endpoint-traces&series=column:count(calls)&filter=traceId_eq_${id}`;
+    return `/explorer?time=1d&scope=endpoint-traces&series=column:count(calls)&filter=traceId_eq_${id}`;
   }
 }

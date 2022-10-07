@@ -17,6 +17,7 @@ import { HeuristicScoreInfo } from '../service-instrumentation.types';
         <span *ngIf="i < this.heuristicScore?.sampleIds.length - 1">, </span>
       </span>
     </p>
+    <p class="metric"><b>Evaluated on:</b> {{ this.getEvaluationDate() }}</p>
   `
 })
 export class PanelContentComponent {
@@ -29,5 +30,11 @@ export class PanelContentComponent {
     }
 
     return `/explorer?time=1d&scope=endpoint-traces&series=column:count(calls)&filter=traceId_eq_${id}`;
+  }
+
+  public getEvaluationDate(): string {
+    const [day, month, date, year] = new Date(Number(this.heuristicScore?.evalTimestamp)).toDateString().split(' ');
+
+    return `${day}, ${date} ${month} ${year}`;
   }
 }

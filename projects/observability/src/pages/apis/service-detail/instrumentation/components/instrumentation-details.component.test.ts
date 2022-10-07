@@ -64,4 +64,19 @@ describe('InstrumentationDetailsComponent', () => {
       })
     ).toBe('This check was skipped as no eligible spans were present in the last evaluation');
   });
+
+  test('shows correct header summary when all spans passed check', () => {
+    expect(
+      component.getHeaderSummary({
+        sampleSize: '10',
+        failureCount: '0',
+        sampleType: 'span',
+        name: '',
+        description: '',
+        evalTimestamp: '',
+        sampleIds: [],
+        score: 1
+      })
+    ).toBe('All spans passed this check');
+  });
 });

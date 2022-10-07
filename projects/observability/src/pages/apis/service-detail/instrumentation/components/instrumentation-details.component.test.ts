@@ -26,6 +26,7 @@ describe('InstrumentationDetailsComponent', () => {
   });
 
   test('assigns correct color to icon', () => {
+    expect(component.getIconColor(-1)).toBe('#b7bfc2');
     expect(component.getIconColor(30)).toBe('#dc3d43');
   });
 

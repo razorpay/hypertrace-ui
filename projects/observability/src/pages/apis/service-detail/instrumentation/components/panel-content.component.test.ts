@@ -28,7 +28,7 @@ describe('PanelContentComponent', () => {
 
   test('shows correct evaluation date', () => {
     component.heuristicScore = {
-      evalTimestamp: '1665124368778',
+      evalTimestamp: '1665124368',
       name: '',
       sampleIds: [],
       description: '',

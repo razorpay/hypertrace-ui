@@ -33,7 +33,9 @@ export class PanelContentComponent {
   }
 
   public getEvaluationDate(): string {
-    const [day, month, date, year] = new Date(Number(this.heuristicScore?.evalTimestamp)).toDateString().split(' ');
+    const [day, month, date, year] = new Date(Number(this.heuristicScore?.evalTimestamp) * 1000)
+      .toDateString()
+      .split(' ');
 
     return `${day}, ${date} ${month} ${year}`;
   }

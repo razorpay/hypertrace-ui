@@ -62,6 +62,6 @@ describe('InstrumentationDetailsComponent', () => {
         sampleIds: [],
         score: -1.0
       })
-    ).toBe('This check was skipped as no eligible spans were present in the last evaluation.');
+    ).toBe('This check was skipped as no eligible spans were present in the last evaluation');
   });
 });

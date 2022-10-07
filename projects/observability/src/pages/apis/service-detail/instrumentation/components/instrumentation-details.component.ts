@@ -89,11 +89,11 @@ export class InstrumentationDetailsComponent {
 
   public getHeaderSummary(heuristicScore: HeuristicScoreInfo): string {
     if (heuristicScore.score < 0) {
-      return 'This check was skipped as no eligible spans were present in the last evaluation.';
+      return 'This check was skipped as no eligible spans were present in the last evaluation';
     }
 
     if (heuristicScore.failureCount === '0') {
-      return 'No spans failed this check';
+      return 'All spans passed this check';
     }
 
     const sampleSize = Number(heuristicScore.sampleSize);

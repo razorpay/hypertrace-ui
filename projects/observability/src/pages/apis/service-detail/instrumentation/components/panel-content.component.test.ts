@@ -25,4 +25,19 @@ describe('PanelContentComponent', () => {
       '/explorer?time=1d&scope=endpoint-traces&series=column:count(calls)&filter=traceId_eq_1'
     );
   });
+
+  test('shows correct evaluation date', () => {
+    component.heuristicScore = {
+      evalTimestamp: '1665124368778',
+      name: '',
+      sampleIds: [],
+      description: '',
+      score: 0,
+      sampleType: 'span',
+      sampleSize: '0',
+      failureCount: '0'
+    };
+
+    expect(component.getEvaluationDate()).toBe('Fri, 07 Oct 2022');
+  });
 });

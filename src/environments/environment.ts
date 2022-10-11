@@ -8,6 +8,7 @@ export const environment = {
   graphqlUri: 'http://localhost:2020/graphql',
   userPreferencesUri: 'http://localhost:2020/user-preferences',
   deploymentServiceUri: 'http://localhost:2020/deployments',
+  instrumentationQualityUri: 'http://localhost:2020/qoi',
   appTitle: 'Hypertrace'
 };
 

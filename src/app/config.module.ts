@@ -4,6 +4,7 @@ import {
   APP_TITLE,
   DEFAULT_COLOR_PALETTE,
   DynamicConfigurationModule,
+  INSTRUMENTATION_QUALITY_OPTIONS,
   UserPreferenceModule,
   USER_PREFERENCES_OPTIONS
 } from '@hypertrace/common';
@@ -33,6 +34,12 @@ import { FeatureResolverModule } from './shared/feature-resolver/feature-resolve
       provide: DEPLOYMENT_SERVICE_OPTIONS,
       useValue: {
         uri: environment.deploymentServiceUri
+      }
+    },
+    {
+      provide: INSTRUMENTATION_QUALITY_OPTIONS,
+      useValue: {
+        uri: environment.instrumentationQualityUri
       }
     },
     {

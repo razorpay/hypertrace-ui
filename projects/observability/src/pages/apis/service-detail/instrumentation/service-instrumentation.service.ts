@@ -1,31 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { InstrumentationQualityService } from '@hypertrace/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-// Todo: Temporary Mock
-import { orgScoreResponse, serviceScoreResponse } from './service-instrumentation.fixture';
 import { OrgScoreResponse, ServiceScoreResponse } from './service-instrumentation.types';
 
 @Injectable()
 export class ServiceInstrumentationService {
+  public serviceScoreSubject: BehaviorSubject<ServiceScoreResponse | undefined> = new BehaviorSubject<
+    ServiceScoreResponse | undefined
+  >(undefined);
+
+  public constructor(private readonly queryService: InstrumentationQualityService) {}
+
   public getServiceScore(serviceName: string): Observable<ServiceScoreResponse> {
-    return of({ ...serviceScoreResponse, serviceName: serviceName });
+    // Return of({ ...serviceScoreResponse, serviceName: serviceName }).pipe(delay(1000)); // mock
+    return this.queryService.getServiceScore<ServiceScoreResponse>(`/${serviceName}`);
   }
 
   public getOrgScore(): Observable<OrgScoreResponse> {
-    return of(orgScoreResponse);
+    // Return of(orgScoreResponse); // mock
+    return this.queryService.getOrgScore<OrgScoreResponse>();
   }
 
   public getLabelForScore(score: number): string {
     if (score < 50) {
-      return 'Below Average';
+      return 'Below Expectation';
     }
 
     if (score < 70) {
-      return 'Average';
+      return 'Need Improvement';
     }
 
     if (score < 90) {
-      return 'Above Average';
+      return 'Good';
     }
 
     return 'Excellent!';

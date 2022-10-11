@@ -1,5 +1,9 @@
 .service-deployments {
   padding: 1rem 1.6rem;
+  .information-message {
+    font-style: italic;
+    margin-bottom: 12px;
+  }
 }
 
 .deployments-list-section {

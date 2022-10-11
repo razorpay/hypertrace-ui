@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ReplayObservable, TimeRange, TimeRangeService } from '@hypertrace/common';
 
 import { BreadcrumbsService } from '@hypertrace/components';
 import { Observable } from 'rxjs';
@@ -9,10 +10,13 @@ import { Observable } from 'rxjs';
   template: `
     <main class="service-deployments">
       <div *ngIf="serviceName$ | async as serviceName; else loading">
-        <p>Here is the list of your deployments in last 24 hours for {{ serviceName }}</p>
         <section class="deployments-list-section">
-          <ht-service-deployments-list [serviceName]="serviceName"> </ht-service-deployments-list>
+          <ht-service-deployments-list [serviceName]="serviceName" [timeRange]="this.currentTimeRange$ | async">
+          </ht-service-deployments-list>
         </section>
+        <p class="information-message">
+          Note: Please read this <a>doc</a> to understand how we extract the deployments for different services
+        </p>
       </div>
       <ng-template #loading> Loading stuff... </ng-template>
     </main>
@@ -20,5 +24,11 @@ import { Observable } from 'rxjs';
 })
 export class ServiceDeploymentsComponent {
   public serviceName$: Observable<string> = this.breadcrumbsService.getLastBreadCrumbString();
-  public constructor(protected readonly breadcrumbsService: BreadcrumbsService) {}
+  public currentTimeRange$: ReplayObservable<TimeRange>;
+  public constructor(
+    protected readonly breadcrumbsService: BreadcrumbsService,
+    private readonly timeRangeService: TimeRangeService
+  ) {
+    this.currentTimeRange$ = this.timeRangeService.getTimeRangeAndChanges();
+  }
 }

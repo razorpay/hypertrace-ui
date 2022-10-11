@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { RelativeTimeRange, TimeDuration, TimeUnit } from '@hypertrace/common';
+import { TimeRange } from '@hypertrace/common';
 import { Observable } from 'rxjs';
 import { DeploymentsResponse } from './service-deployments.types';
 
@@ -22,8 +22,7 @@ export class ServiceDeploymentsService {
     this.BASE_URL = injectedOptions.uri;
   }
 
-  public getAllServiceDeployments(serviceName: string): Observable<DeploymentsResponse> {
-    const timeRange = new RelativeTimeRange(new TimeDuration(1, TimeUnit.Day));
+  public getAllServiceDeployments(serviceName: string, timeRange: TimeRange): Observable<DeploymentsResponse> {
     const params = new HttpParams().appendAll({
       service: serviceName,
       startTime: timeRange.startTime.getTime(),

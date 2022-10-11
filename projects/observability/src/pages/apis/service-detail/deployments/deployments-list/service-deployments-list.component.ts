@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import {
   CoreTableCellRendererType,
@@ -11,7 +11,9 @@ import {
 
 import { map } from 'rxjs/operators';
 import { ServiceDeploymentsService } from '../service-deployments.service';
-import { DeploymentDataRow, DeploymentsResponse } from '../service-deployments.types';
+import { DeploymentsResponse, DeploymentsResponseRow } from '../service-deployments.types';
+
+import { TimeRange } from '@hypertrace/common';
 
 @Component({
   styleUrls: [],
@@ -31,24 +33,33 @@ import { DeploymentDataRow, DeploymentsResponse } from '../service-deployments.t
     </div>
 
     <ng-template #childDetail let-row="row">
-      <p>Hello from {{ row.type }}</p>
+      <ht-service-deployments-expanded-control
+        [deploymentEndTime]="row.endTime"
+      ></ht-service-deployments-expanded-control>
     </ng-template>
   `,
   selector: 'ht-service-deployments-list'
 })
-export class ServiceDeploymentsListComponent {
-  public constructor(private readonly serviceDeploymentsService: ServiceDeploymentsService) {
-    this.buildDataSource();
+export class ServiceDeploymentsListComponent implements OnChanges {
+  public constructor(private readonly serviceDeploymentsService: ServiceDeploymentsService) {}
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.timeRange?.currentValue !== undefined) {
+      this.buildDataSource();
+    }
   }
 
   @Input()
   public serviceName: string = '';
 
+  @Input()
+  public timeRange!: TimeRange;
+
   public columnConfigs: TableColumnConfig[] = [
     {
       id: 'commit',
       name: 'commit',
-      title: 'Commit',
+      title: 'Version',
       display: CoreTableCellRendererType.TextWithCopyAction,
       visible: true
     },
@@ -70,7 +81,12 @@ export class ServiceDeploymentsListComponent {
       id: 'triggeredBy',
       name: 'triggeredBy',
       title: 'Triggered By',
-      display: CoreTableCellRendererType.Text,
+      display: CoreTableCellRendererType.OpenInNewTab,
+      rendererConfiguration: {
+        showLinkText: true,
+        openInNewTab: true,
+        linkPrefix: 'https://github.com/'
+      },
       visible: true
     },
     {
@@ -91,19 +107,19 @@ export class ServiceDeploymentsListComponent {
     }
   ];
 
-  public dataSource$?: TableDataSource<DeploymentDataRow>;
+  public dataSource$?: TableDataSource<DeploymentsResponseRow>;
 
   public buildDataSource(): void {
     this.dataSource$ = {
       getData: () =>
         this.serviceDeploymentsService
-          .getAllServiceDeployments(this.serviceName)
+          .getAllServiceDeployments(this.serviceName, this.timeRange)
           .pipe(map(res => this.formatResponseToTableFormat(res))),
       getScope: () => undefined
     };
   }
 
-  private formatResponseToTableFormat(response: DeploymentsResponse): TableDataResponse<DeploymentDataRow> {
+  private formatResponseToTableFormat(response: DeploymentsResponse): TableDataResponse<DeploymentsResponseRow> {
     return {
       data: response.payload.deployments ?? [],
       totalCount: response.payload.deployments?.length ?? 0

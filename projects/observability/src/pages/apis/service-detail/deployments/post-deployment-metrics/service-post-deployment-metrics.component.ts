@@ -24,7 +24,7 @@ import { postDeploymentMetricsJson } from './service-post-deployment-metrics.das
   `,
   selector: 'ht-service-post-deployment-metrics'
 })
-export class ServicePostDeploymentMetrics implements OnChanges {
+export class ServicePostDeploymentMetricsComponent implements OnChanges {
   public readonly filterConfig$: ReplayObservable<NavigableDashboardFilterConfig>;
   public dashboardRef: Dashboard | undefined = undefined;
   public constructor(

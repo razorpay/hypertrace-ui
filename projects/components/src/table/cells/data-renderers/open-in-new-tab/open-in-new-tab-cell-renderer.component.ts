@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ExternalNavigationParams, ExternalNavigationWindowHandling, NavigationParamsType } from '@hypertrace/common';
-import { IconSize } from 'projects/components/src/public-api';
+import { IconSize } from '../../../../public-api';
 import { TableCellRenderer } from '../../table-cell-renderer';
 import { TableCellRendererBase } from '../../table-cell-renderer-base';
 import { CoreTableCellParserType } from '../../types/core-table-cell-parser-type';

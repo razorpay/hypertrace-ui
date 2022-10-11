@@ -38,7 +38,7 @@ import { PredefinedTimeDurationService } from '@hypertrace/components';
   `,
   selector: 'ht-service-deployments-expanded-control'
 })
-export class ServiceDeploymentsExpandedControl {
+export class ServiceDeploymentsExpandedControlComponent {
   public predefinedTimeDurations: TimeDuration[] = this.predefinedTimeDurationService.getPredefinedTimeDurations();
   public selectedTimeDuration: TimeDuration = this.predefinedTimeDurations[0];
 

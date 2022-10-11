@@ -59,6 +59,7 @@ export abstract class TableCellRendererBase<TCellData, TValue = TCellData> imple
     return this._tooltip;
   }
 
+  // tslint:disable:no-any
   public get rendererConfiguration(): Dictionary<any> | undefined {
     return this?._rendererConfiguration;
   }

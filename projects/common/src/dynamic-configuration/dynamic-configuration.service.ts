@@ -32,6 +32,7 @@ export class DynamicConfigurationService {
   public setupAnalyticsConfig(): void {
     (window as CustomWindow).analyticsConfig = this.config?.analyticsConfig;
   }
+  // tslint:disable:no-any
   public getConfigurationForFeature(feature: ApplicationFeatureValues): any {
     return this.config.featureConfig[feature];
   }
@@ -48,6 +49,7 @@ interface UiConfiguration {
 type FlagsConfig = Record<ApplicationFeatureValues, boolean>;
 
 interface UrlConfig {
+  // tslint:disable:no-any
   [key: string]: any;
 }
 
@@ -56,4 +58,5 @@ interface AnalyticsConfig {
   rudderstack_dataplane_url: string;
 }
 
+// tslint:disable:no-any
 type FeatureConfig = Record<ApplicationFeatureValues, any>;

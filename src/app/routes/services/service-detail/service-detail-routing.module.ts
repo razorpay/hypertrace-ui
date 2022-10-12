@@ -12,7 +12,8 @@ import {
   ServiceInstrumentationComponent,
   ServiceMetricsComponent,
   ServiceOverviewComponent,
-  ServiceTraceListComponent
+  ServiceTraceListComponent,
+  ServiceDependencyGraphComponent
 } from '@hypertrace/observability';
 
 const ROUTE_CONFIG: HtRoute[] = [
@@ -52,6 +53,10 @@ const ROUTE_CONFIG: HtRoute[] = [
       {
         path: 'deployments',
         component: ServiceDeploymentsComponent
+      },
+      {
+        path: 'dependency-graph',
+        component: ServiceDependencyGraphComponent
       }
     ]
   }

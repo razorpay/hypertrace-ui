@@ -6,14 +6,14 @@ import {
   InstrumentationDetailsComponent,
   InstrumentationOverviewComponent,
   ServiceApisListComponent,
+  ServiceDependencyGraphComponent,
   ServiceDeploymentsComponent,
   ServiceDetailComponent,
   ServiceDetailModule,
   ServiceInstrumentationComponent,
   ServiceMetricsComponent,
   ServiceOverviewComponent,
-  ServiceTraceListComponent,
-  ServiceDependencyGraphComponent
+  ServiceTraceListComponent
 } from '@hypertrace/observability';
 
 const ROUTE_CONFIG: HtRoute[] = [

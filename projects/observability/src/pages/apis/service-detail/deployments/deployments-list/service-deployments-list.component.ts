@@ -9,8 +9,8 @@ import {
   TableStyle
 } from '@hypertrace/components';
 
+import { DeploymentsResponse, DeploymentsResponseRow, DeploymentsService, TimeRange } from '@hypertrace/common';
 import { map } from 'rxjs/operators';
-import { DeploymentsService, TimeRange, DeploymentsResponse, DeploymentsResponseRow } from '@hypertrace/common';
 
 @Component({
   styleUrls: [],

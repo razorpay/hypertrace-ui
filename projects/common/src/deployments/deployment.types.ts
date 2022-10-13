@@ -1,3 +1,4 @@
+// tslint:disable-next-line: import-blacklist
 import { TableRow } from '../../../components/src/public-api';
 
 export interface DeploymentsResponse {

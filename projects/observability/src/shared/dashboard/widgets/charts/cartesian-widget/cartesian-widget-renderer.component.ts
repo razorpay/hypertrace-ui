@@ -58,6 +58,7 @@ export class CartesianWidgetRendererComponent<TSeriesInterval, TData> extends In
 
   public selectedInterval?: IntervalValue;
   public intervalOptions?: IntervalValue[];
+  // tslint:disable:no-any
   public additionalSeries$?: Observable<any>;
   private fetcher?: CartesianDataFetcher<TSeriesInterval>;
 

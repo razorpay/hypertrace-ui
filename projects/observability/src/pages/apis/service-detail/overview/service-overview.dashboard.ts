@@ -29,7 +29,7 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
       'row-dimensions': [
         {
           type: 'dimension-model',
-          dimension: 1084,
+          dimension: 600,
           unit: 'PX'
         }
       ],
@@ -85,12 +85,12 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
             },
             {
               type: 'dimension-model',
-              dimension: 320,
+              dimension: 20,
               unit: 'PX'
             },
             {
               type: 'dimension-model',
-              dimension: 640,
+              dimension: 320,
               unit: 'PX'
             }
           ],
@@ -122,6 +122,13 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
               'col-end': 3,
               'row-start': 2,
               'row-end': 3
+            },
+            {
+              type: 'cell-span-model',
+              'col-start': 0,
+              'col-end': 3,
+              'row-start': 3,
+              'row-end': 4
             }
           ]
         },
@@ -242,6 +249,13 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                 }
               }
             ]
+          },
+          {
+            type: 'legend-widget',
+            color: 'pink',
+            displayText: 'Deployment Markers',
+            prefixText: 'denotes',
+            suffixText: 'in all charts'
           },
           {
             type: 'container-widget',

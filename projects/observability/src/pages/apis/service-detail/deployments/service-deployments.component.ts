@@ -15,10 +15,13 @@ import { Observable } from 'rxjs';
           </ht-service-deployments-list>
         </section>
         <p class="information-message">
-          Note: Please read this <a>doc</a> to understand how we extract the deployments for different services
+          <span
+            >Note: The criteria for deployments to be scraped from Spinnaker and shown here is having suffix
+            "<code>prod</code>" in Spinnaker Application Name (different from pipeline name)</span
+          >
         </p>
       </div>
-      <ng-template #loading> Loading stuff... </ng-template>
+      <ng-template #loading> Loading deployments... </ng-template>
     </main>
   `
 })

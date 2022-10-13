@@ -9,7 +9,6 @@ import { ServiceDeploymentsExpandedControlComponent } from './deployments-expand
 import { ServiceDeploymentsListComponent } from './deployments-list/service-deployments-list.component';
 import { ServicePostDeploymentMetricsComponent } from './post-deployment-metrics/service-post-deployment-metrics.component';
 import { ServiceDeploymentsComponent } from './service-deployments.component';
-import { ServiceDeploymentsService } from './service-deployments.service';
 
 @NgModule({
   imports: [
@@ -28,6 +27,6 @@ import { ServiceDeploymentsService } from './service-deployments.service';
     ServicePostDeploymentMetricsComponent
   ],
   exports: [ServiceDeploymentsComponent],
-  providers: [ServiceDeploymentsService]
+  providers: []
 })
 export class ServiceDeploymentsModule {}

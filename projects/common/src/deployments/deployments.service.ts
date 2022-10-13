@@ -1,8 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { TimeRange } from '@hypertrace/common';
+import { TimeRange } from '../public-api';
+
 import { Observable } from 'rxjs';
-import { DeploymentsResponse } from './service-deployments.types';
+
+import { DeploymentsResponse } from './deployment.types';
 
 interface TokenOptions {
   uri: string;
@@ -11,7 +13,7 @@ interface TokenOptions {
 export const DEPLOYMENT_SERVICE_OPTIONS = new InjectionToken<TokenOptions>('DEPLOYMENT_SERVICE_OPTIONS');
 
 @Injectable({ providedIn: 'root' })
-export class ServiceDeploymentsService {
+export class DeploymentsService {
   public BASE_URL: string;
   public ENDPOINT: string = '/v1/deploy/';
 

@@ -10,10 +10,7 @@ import {
 } from '@hypertrace/components';
 
 import { map } from 'rxjs/operators';
-import { ServiceDeploymentsService } from '../service-deployments.service';
-import { DeploymentsResponse, DeploymentsResponseRow } from '../service-deployments.types';
-
-import { TimeRange } from '@hypertrace/common';
+import { DeploymentsService, TimeRange, DeploymentsResponse, DeploymentsResponseRow } from '@hypertrace/common';
 
 @Component({
   styleUrls: [],
@@ -41,7 +38,7 @@ import { TimeRange } from '@hypertrace/common';
   selector: 'ht-service-deployments-list'
 })
 export class ServiceDeploymentsListComponent implements OnChanges {
-  public constructor(private readonly serviceDeploymentsService: ServiceDeploymentsService) {}
+  public constructor(private readonly deploymentsService: DeploymentsService) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeRange?.currentValue !== undefined) {
@@ -112,7 +109,7 @@ export class ServiceDeploymentsListComponent implements OnChanges {
   public buildDataSource(): void {
     this.dataSource$ = {
       getData: () =>
-        this.serviceDeploymentsService
+        this.deploymentsService
           .getAllServiceDeployments(this.serviceName, this.timeRange)
           .pipe(map(res => this.formatResponseToTableFormat(res))),
       getScope: () => undefined

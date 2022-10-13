@@ -1,4 +1,4 @@
-import { TableRow } from '@hypertrace/components';
+import { TableRow } from '../../../components/src/public-api';
 
 export interface DeploymentsResponse {
   payload: {

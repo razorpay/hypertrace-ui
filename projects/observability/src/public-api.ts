@@ -237,7 +237,6 @@ export * from './pages/apis/service-detail/service-detail.service';
 export * from './pages/apis/service-detail/service-detail-breadcrumb.resolver';
 export * from './pages/apis/service-detail/instrumentation/service-instrumentation.component';
 export * from './pages/apis/service-detail/deployments/service-deployments.component';
-export * from './pages/apis/service-detail/deployments/service-deployments.service';
 export * from './pages/apis/service-detail/dependency-graph/service-dependency-graph.component';
 export * from './pages/apis/service-detail/metrics/service-metrics.component';
 export * from './pages/apis/service-detail/overview/service-overview.component';

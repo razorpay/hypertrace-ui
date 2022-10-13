@@ -5,11 +5,12 @@ import {
   DEFAULT_COLOR_PALETTE,
   DynamicConfigurationModule,
   INSTRUMENTATION_QUALITY_OPTIONS,
-  UserPreferenceModule,
-  USER_PREFERENCES_OPTIONS
+  USER_PREFERENCES_OPTIONS,
+  DEPLOYMENT_SERVICE_OPTIONS,
+  UserPreferenceModule
 } from '@hypertrace/common';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
-import { DEPLOYMENT_SERVICE_OPTIONS, ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';
+import { ENTITY_METADATA, RED_COLOR_PALETTE } from '@hypertrace/observability';
 import { environment } from '../environments/environment';
 import { entityMetadata } from './entity-metadata';
 import { FeatureResolverModule } from './shared/feature-resolver/feature-resolver.module';

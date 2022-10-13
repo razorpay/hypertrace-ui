@@ -27,7 +27,7 @@ export const serviceDependencyGraphDashboard: DashboardDefaultConfiguration = {
       'row-dimensions': [
         {
           type: 'dimension-model',
-          dimension: 1084,
+          dimension: 500,
           unit: 'PX'
         }
       ],

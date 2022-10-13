@@ -271,6 +271,7 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                 title: 'Latency',
                 'selectable-interval': true,
                 'legend-position': LegendPosition.None,
+                'show-deployment-markers': true,
                 'x-axis': {
                   type: 'cartesian-axis',
                   'show-grid-lines': false
@@ -369,6 +370,7 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                 title: 'Errors',
                 'selectable-interval': true,
                 'legend-position': LegendPosition.None,
+                'show-deployment-markers': true,
                 'x-axis': {
                   type: 'cartesian-axis',
                   'show-grid-lines': false
@@ -467,6 +469,7 @@ export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
                 title: 'Calls',
                 'selectable-interval': true,
                 'legend-position': LegendPosition.None,
+                'show-deployment-markers': true,
                 'x-axis': {
                   type: 'cartesian-axis',
                   'show-grid-lines': false

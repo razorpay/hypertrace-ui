@@ -27,7 +27,7 @@ import { PredefinedTimeDurationService } from '@hypertrace/components';
         </ht-service-post-deployment-metrics>
       </div>
       <div class="after-deployment-metrics">
-        <p>Metrics {{ this.selectedTimeDuration.toLongString() }} since deployment completion</p>
+        <p>Metrics {{ this.selectedTimeDuration.toLongString() }} after deployment completion</p>
         <ht-service-post-deployment-metrics
           [startTime]="this.deploymentEndTime"
           [endTime]="this.getTimeAfterDeployment()"

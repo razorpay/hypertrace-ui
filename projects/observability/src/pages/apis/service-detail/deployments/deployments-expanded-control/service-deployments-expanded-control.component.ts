@@ -12,7 +12,7 @@ import { PredefinedTimeDurationService } from '@hypertrace/components';
         <ht-select-option
           *ngFor="let timeDuration of this.predefinedTimeDurations"
           [value]="timeDuration"
-          [label]="timeDuration.toRelativeString()"
+          [label]="timeDuration.toLongString()"
         >
         </ht-select-option>
       </ht-select>

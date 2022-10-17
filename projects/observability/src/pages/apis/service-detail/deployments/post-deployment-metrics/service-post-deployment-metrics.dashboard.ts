@@ -66,6 +66,7 @@ export const postDeploymentMetricsJson: ModelJson = {
           type: 'metric-display-widget',
           title: 'P99 Latency',
           subscript: 'ms',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {
@@ -79,6 +80,7 @@ export const postDeploymentMetricsJson: ModelJson = {
           type: 'metric-display-widget',
           title: 'P95 Latency',
           subscript: 'ms',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {
@@ -92,6 +94,7 @@ export const postDeploymentMetricsJson: ModelJson = {
           type: 'metric-display-widget',
           title: 'P50 Latency',
           subscript: 'ms',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {
@@ -113,7 +116,8 @@ export const postDeploymentMetricsJson: ModelJson = {
       children: [
         {
           type: 'metric-display-widget',
-          title: 'Errors/Second',
+          title: 'Errors/Sec',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {
@@ -125,7 +129,8 @@ export const postDeploymentMetricsJson: ModelJson = {
         },
         {
           type: 'metric-display-widget',
-          title: 'Total',
+          title: 'Total Errors',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {
@@ -147,7 +152,8 @@ export const postDeploymentMetricsJson: ModelJson = {
       children: [
         {
           type: 'metric-display-widget',
-          title: 'Calls/Second',
+          title: 'Calls/Sec',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {
@@ -159,7 +165,8 @@ export const postDeploymentMetricsJson: ModelJson = {
         },
         {
           type: 'metric-display-widget',
-          title: 'Total',
+          title: 'Total Calls',
+          size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
             metric: {

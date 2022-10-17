@@ -15,7 +15,7 @@ import { TableCellAlignmentType } from '../../types/table-cell-alignment-type';
     <ht-open-in-new-tab
       [showLinkText]="this.getShowLinkText()"
       [linkPrefix]="this.getLinkPrefix()"
-      iconSize="${IconSize.Small}"
+      iconSize="${IconSize.ExtraSmall}"
       [paramsOrUrl]="this.getParamsOrUrl()"
     >
     </ht-open-in-new-tab>

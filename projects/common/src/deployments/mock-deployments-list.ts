@@ -47,5 +47,5 @@ export const mockResponse: DeploymentsResponse = {
     ]
   },
   success: true,
-  errors: null
+  errors: undefined
 };

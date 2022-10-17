@@ -25,4 +25,11 @@ export class MetricDisplayComponent {
 
   @Input()
   public subscript: string = '';
+
+  @Input()
+  public size?: 'small' | 'regular' = 'regular';
+
+  public constructor() {
+    console.log('this.size ', this.size);
+  }
 }

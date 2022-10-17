@@ -8,7 +8,7 @@ import { IconSize } from '../icon/icon-size';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./open-in-new-tab.component.scss'],
   template: `
-    <div *ngIf="this.paramsOrUrl" class="open-in-new-tab" htTooltip="Open in a new tab">
+    <div *ngIf="this.paramsOrUrl" class="open-in-new-tab" [htTooltip]="this.getTextToDisplay()">
       <ht-link [paramsOrUrl]="this.getParamsOrUrl()">
         <span class="text" *ngIf="this.showLinkText">{{ this.getTextToDisplay() }}</span>
         <ht-icon icon="${IconType.OpenInNewTab}" [size]="this.iconSize"></ht-icon>

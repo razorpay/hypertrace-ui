@@ -13,7 +13,7 @@ import { DeploymentsResponse, DeploymentsResponseRow, DeploymentsService, TimeRa
 import { map } from 'rxjs/operators';
 
 @Component({
-  styleUrls: [],
+  styleUrls: ['./service-deployments-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div>
@@ -31,8 +31,13 @@ import { map } from 'rxjs/operators';
 
     <ng-template #childDetail let-row="row">
       <ht-service-deployments-expanded-control
+        *ngIf="this.showControls(row); else running"
         [deploymentEndTime]="row.endTime"
       ></ht-service-deployments-expanded-control>
+    </ng-template>
+
+    <ng-template #running>
+      <span class="deployment-ongoing-message">Deployment is still ongoing, please check later</span>
     </ng-template>
   `,
   selector: 'ht-service-deployments-list'
@@ -65,14 +70,16 @@ export class ServiceDeploymentsListComponent implements OnChanges {
       name: 'type',
       title: 'Type',
       display: CoreTableCellRendererType.Text,
-      visible: true
+      visible: true,
+      width: '80px'
     },
     {
       id: 'status',
       name: 'status',
       title: 'Status',
       display: CoreTableCellRendererType.Text,
-      visible: true
+      visible: true,
+      width: '120px'
     },
     {
       id: 'triggeredBy',
@@ -91,16 +98,14 @@ export class ServiceDeploymentsListComponent implements OnChanges {
       name: 'startTime',
       title: 'Started At',
       display: CoreTableCellRendererType.Timestamp,
-      visible: true,
-      sortable: true
+      visible: true
     },
     {
       id: 'endTime',
       name: 'endTime',
       title: 'Completed At',
       display: CoreTableCellRendererType.Timestamp,
-      visible: true,
-      sortable: true
+      visible: true
     }
   ];
 
@@ -121,5 +126,9 @@ export class ServiceDeploymentsListComponent implements OnChanges {
       data: response.payload.deployments ?? [],
       totalCount: response.payload.deployments?.length ?? 0
     };
+  }
+
+  public showControls(row: DeploymentsResponseRow): boolean {
+    return row.status !== 'RUNNING' && row.endTime !== 0;
   }
 }

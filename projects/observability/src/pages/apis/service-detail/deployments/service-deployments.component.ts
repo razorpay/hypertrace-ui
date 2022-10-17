@@ -10,16 +10,16 @@ import { Observable } from 'rxjs';
   template: `
     <main class="service-deployments">
       <div *ngIf="serviceName$ | async as serviceName; else loading">
+        <p class="information-message">
+          <span
+            >Note: The criteria for deployments to be scraped from Spinnaker and shown here is having suffix
+            "<code>prod</code>" in Spinnaker Application Name (diff from pipeline name)</span
+          >
+        </p>
         <section class="deployments-list-section">
           <ht-service-deployments-list [serviceName]="serviceName" [timeRange]="this.currentTimeRange$ | async">
           </ht-service-deployments-list>
         </section>
-        <p class="information-message">
-          <span
-            >Note: The criteria for deployments to be scraped from Spinnaker and shown here is having suffix
-            "<code>prod</code>" in Spinnaker Application Name (different from pipeline name)</span
-          >
-        </p>
       </div>
       <ng-template #loading> Loading deployments... </ng-template>
     </main>

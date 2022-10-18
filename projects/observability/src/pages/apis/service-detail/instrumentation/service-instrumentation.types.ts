@@ -4,7 +4,7 @@ export interface HeuristicScoreInfo {
   evalTimestamp: string;
   score: number;
   sampleIds: SampleHeuristicEnityId<SAMPLE_HEURISTIC_ENTITY_DELIMETER>[];
-  sampleType: string;
+  sampleType: 'span' | 'trace';
   sampleSize: string;
   failureCount: string;
 }
@@ -30,4 +30,4 @@ export interface OrgScoreResponse {
 
 export type SampleHeuristicEnityId<Delimeter extends string> = `${string}${Delimeter}${string}`;
 
-export type SAMPLE_HEURISTIC_ENTITY_DELIMETER = ':' | ',';
+export type SAMPLE_HEURISTIC_ENTITY_DELIMETER = ':' | ', ';

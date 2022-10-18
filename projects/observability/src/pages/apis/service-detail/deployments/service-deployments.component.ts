@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
       <div *ngIf="serviceName$ | async as serviceName; else loading">
         <p class="information-message">
           <span
-            >Note: The criteria for deployments to be scraped from Spinnaker and shown here is having suffix
+            >Note: The criteria for deployments to be scraped from Spinnaker and shown here is having prefix
             "<code>prod</code>" in Spinnaker Application Name (diff from pipeline name)</span
           >
         </p>

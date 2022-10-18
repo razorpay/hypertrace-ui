@@ -46,22 +46,28 @@ export class PanelContentComponent {
   }
 
   public getExampleLink(id: SampleHeuristicEnityId<SAMPLE_HEURISTIC_ENTITY_DELIMETER>): string {
+    const [heuristicEntityId, heuristicEntityStartTime] = id.split(this.SAMPLE_DELIMETER);
     const exampleGeneratedUrl =
       this.heuristicScore?.sampleType === 'span'
         ? `/explorer?time=${this.timeDuration}&scope=spans&series=column:count(spans)`
         : `/explorer?time=${this.timeDuration}&scope=endpoint-traces&series=column:count(calls)`;
 
-    const [heuristicEntityId, heuristicEntityStartTime] = id.split(this.SAMPLE_DELIMETER);
-    const filtersToApply = [
-      { key: 'id', value: heuristicEntityId, operator: 'eq' },
+    const explorerFiltersToApply = [
       { key: 'serviceName', value: this.serviceName, operator: 'eq' },
-      { key: 'startTime', value: heuristicEntityStartTime, operator: 'eq' }
+      { key: 'startTime', value: heuristicEntityStartTime, operator: 'eq' },
+      { key: 'id', value: heuristicEntityId, operator: 'eq', scope: 'span' },
+      { key: 'traceId', value: heuristicEntityId, operator: 'eq', scope: 'trace' }
     ];
 
-    return filtersToApply.reduce(
-      (previousValue, currValue) => `${previousValue}&filter=${currValue.key}_${currValue.operator}_${currValue.value}`,
-      exampleGeneratedUrl
-    );
+    return explorerFiltersToApply
+      .filter(
+        explorerFilter => explorerFilter.scope === undefined || explorerFilter.scope === this.heuristicScore?.sampleType
+      )
+      .reduce(
+        (previousValue, currValue) =>
+          `${previousValue}&filter=${currValue.key}_${currValue.operator}_${currValue.value}`,
+        exampleGeneratedUrl
+      );
   }
 
   public getEvaluationDate(): string {

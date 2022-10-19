@@ -89,7 +89,9 @@ export class ServiceDeploymentsListComponent implements OnChanges {
       rendererConfiguration: {
         showLinkText: true,
         openInNewTab: true,
-        linkPrefix: 'https://github.com/'
+        linkPrefix: 'https://github.com/',
+        replacementTextIfRegexMatches: 'Service Account',
+        regexToMatchForHiddenLink: new RegExp(/.*service-account/)
       },
       visible: true
     },

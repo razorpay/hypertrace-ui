@@ -17,6 +17,8 @@ import { TableCellAlignmentType } from '../../types/table-cell-alignment-type';
       [linkPrefix]="this.getLinkPrefix()"
       iconSize="${IconSize.ExtraSmall}"
       [paramsOrUrl]="this.getParamsOrUrl()"
+      [regexToMatchForHiddenLink]="this?.rendererConfiguration?.regexToMatchForHiddenLink"
+      [replacementTextIfRegexMatches]="this?.rendererConfiguration?.replacementTextIfRegexMatches"
     >
     </ht-open-in-new-tab>
   `

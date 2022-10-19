@@ -9,10 +9,15 @@ import { IconSize } from '../icon/icon-size';
   styleUrls: ['./open-in-new-tab.component.scss'],
   template: `
     <div *ngIf="this.paramsOrUrl" class="open-in-new-tab" [htTooltip]="this.getTextToDisplay()">
-      <ht-link [paramsOrUrl]="this.getParamsOrUrl()">
+      <ht-link [paramsOrUrl]="this.getParamsOrUrl()" *ngIf="this.determineDisplayLogic(); else showOnlyText">
         <span class="text" *ngIf="this.showLinkText">{{ this.getTextToDisplay() }}</span>
         <ht-icon icon="${IconType.OpenInNewTab}" [size]="this.iconSize"></ht-icon>
       </ht-link>
+      <ng-template #showOnlyText>
+        <span class="text">
+          {{ this.replacementTextIfRegexMatches ?? this.getTextToDisplay() }}
+        </span>
+      </ng-template>
     </div>
   `
 })
@@ -29,11 +34,18 @@ export class OpenInNewTabComponent {
   @Input()
   public linkPrefix: string = '';
 
+  @Input()
+  public regexToMatchForHiddenLink?: RegExp;
+
+  @Input()
+  public replacementTextIfRegexMatches?: string;
+
   public isNavigationParamsInstance(
     params: ExternalNavigationParams | string | undefined
   ): params is ExternalNavigationParams {
     return typeof params !== 'string';
   }
+
   public getParamsOrUrl(): string | ExternalNavigationParams {
     if (this.isNavigationParamsInstance(this.paramsOrUrl)) {
       return {
@@ -51,5 +63,15 @@ export class OpenInNewTabComponent {
     }
 
     return this.paramsOrUrl ?? '';
+  }
+
+  public determineDisplayLogic(): boolean {
+    if (this.regexToMatchForHiddenLink !== undefined && this.regexToMatchForHiddenLink.test(this.getTextToDisplay())) {
+      // Don't show the link, only show plain text
+      return false;
+    }
+
+    // Show both link and text
+    return true;
   }
 }

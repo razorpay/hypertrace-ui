@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { SubscriptionLifecycle } from '@hypertrace/common';
@@ -24,22 +24,21 @@ import { ServiceScoreResponse } from './service-instrumentation.types';
     <ng-template #loader> <ht-loader></ht-loader></ng-template>
   `
 })
-export class ServiceInstrumentationComponent implements OnInit {
+export class ServiceInstrumentationComponent implements AfterViewInit {
   public constructor(
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly serviceInstrumentationService: ServiceInstrumentationService,
     private readonly subscriptionLifecycle: SubscriptionLifecycle
   ) {}
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.subscriptionLifecycle.add(
       this.breadcrumbsService.getLastBreadCrumbString().subscribe(serviceName => {
-        serviceName !== 'Services' &&
-          this.subscriptionLifecycle.add(
-            this.serviceInstrumentationService
-              .getServiceScore(serviceName)
-              .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore))
-          );
+        this.subscriptionLifecycle.add(
+          this.serviceInstrumentationService
+            .getServiceScore(serviceName)
+            .subscribe(serviceScore => this.serviceInstrumentationService.serviceScoreSubject.next(serviceScore))
+        );
       })
     );
   }

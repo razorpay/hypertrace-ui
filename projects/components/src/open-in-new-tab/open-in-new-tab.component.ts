@@ -72,7 +72,7 @@ export class OpenInNewTabComponent {
       : this.paramsOrUrl ?? '';
 
     if (this.regexToMatchForWordReplacement && this.regexToMatchForWordReplacement.test(textToDisplay)) {
-      if (this.customTextToUseWhenRegexMatches) {
+      if (this.customTextToUseWhenRegexMatches !== undefined) {
         return this.customTextToUseWhenRegexMatches;
       }
 

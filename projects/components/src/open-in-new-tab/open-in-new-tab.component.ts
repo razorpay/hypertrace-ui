@@ -40,6 +40,12 @@ export class OpenInNewTabComponent {
   @Input()
   public replacementTextIfRegexMatches?: string;
 
+  @Input()
+  public showCustomTextForLink?: boolean = false;
+
+  @Input()
+  public customTextForLink?: string = '';
+
   public isNavigationParamsInstance(
     params: ExternalNavigationParams | string | undefined
   ): params is ExternalNavigationParams {
@@ -58,6 +64,10 @@ export class OpenInNewTabComponent {
   }
 
   public getTextToDisplay(): string {
+    if (this.showCustomTextForLink) {
+      return this.customTextForLink ?? '';
+    }
+
     if (this.isNavigationParamsInstance(this.paramsOrUrl)) {
       return this.paramsOrUrl.url;
     }

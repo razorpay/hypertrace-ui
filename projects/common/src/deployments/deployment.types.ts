@@ -18,4 +18,15 @@ export interface DeploymentsResponseRow extends TableRow {
   triggeredBy: string;
   startTime: number;
   endTime: number;
+  commitLink: string;
+  prDetails: PullRequestDetails[];
+}
+
+export interface PullRequestDetails {
+  event_id: string;
+  application: string;
+  pr_link: string;
+  pr_title: string;
+  author: string;
+  jira_id: string;
 }

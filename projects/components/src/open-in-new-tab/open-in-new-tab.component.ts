@@ -41,10 +41,13 @@ export class OpenInNewTabComponent {
   public replacementTextIfRegexMatches?: string;
 
   @Input()
-  public showCustomTextForLink?: boolean = false;
+  public regexToMatchForWordReplacement?: RegExp;
 
   @Input()
-  public customTextForLink?: string = '';
+  public matchIndexToUseWhenRegexMatches?: number;
+
+  @Input()
+  public customTextToUseWhenRegexMatches?: string;
 
   public isNavigationParamsInstance(
     params: ExternalNavigationParams | string | undefined
@@ -64,15 +67,29 @@ export class OpenInNewTabComponent {
   }
 
   public getTextToDisplay(): string {
-    if (this.showCustomTextForLink) {
-      return this.customTextForLink ?? '';
-    }
+    let textToDisplay = '';
 
     if (this.isNavigationParamsInstance(this.paramsOrUrl)) {
-      return this.paramsOrUrl.url;
+      textToDisplay = this.paramsOrUrl.url;
+    } else {
+      textToDisplay = this.paramsOrUrl ?? '';
     }
 
-    return this.paramsOrUrl ?? '';
+    if (
+      this.regexToMatchForWordReplacement &&
+      this.regexToMatchForWordReplacement.test(textToDisplay) &&
+      this.matchIndexToUseWhenRegexMatches !== undefined
+    ) {
+      try {
+        textToDisplay =
+          this.regexToMatchForWordReplacement.exec(textToDisplay)?.[this.matchIndexToUseWhenRegexMatches] ??
+          textToDisplay;
+      } catch (err) {
+        console.error('regex match failed ', err);
+      }
+    }
+
+    return textToDisplay;
   }
 
   public determineDisplayLogic(): boolean {

@@ -32,7 +32,7 @@ import { map } from 'rxjs/operators';
     <ng-template #childDetail let-row="row">
       <ht-service-deployments-expanded-control
         *ngIf="this.showControls(row); else running"
-        [deploymentEndTime]="row.endTime"
+        [deploymentInformation]="row"
       ></ht-service-deployments-expanded-control>
     </ng-template>
 
@@ -59,19 +59,17 @@ export class ServiceDeploymentsListComponent implements OnChanges {
 
   public columnConfigs: TableColumnConfig[] = [
     {
-      id: 'commit',
-      name: 'commit',
+      id: 'commitLink',
+      name: 'commitLink',
       title: 'Version',
-      display: CoreTableCellRendererType.TextWithCopyAction,
-      visible: true
-    },
-    {
-      id: 'type',
-      name: 'type',
-      title: 'Type',
-      display: CoreTableCellRendererType.Text,
+      display: CoreTableCellRendererType.OpenInNewTab,
       visible: true,
-      width: '80px'
+      rendererConfiguration: {
+        showLinkText: true,
+        openInNewTab: true,
+        showCustomTextForLink: true,
+        customTextForLink: 'Version/Commit Link'
+      }
     },
     {
       id: 'status',
@@ -94,6 +92,14 @@ export class ServiceDeploymentsListComponent implements OnChanges {
         regexToMatchForHiddenLink: new RegExp(/.*service-account/)
       },
       visible: true
+    },
+    {
+      id: 'type',
+      name: 'type',
+      title: 'Type',
+      display: CoreTableCellRendererType.Text,
+      visible: false,
+      width: '80px'
     },
     {
       id: 'startTime',

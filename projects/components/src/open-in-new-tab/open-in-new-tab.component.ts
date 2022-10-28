@@ -67,25 +67,24 @@ export class OpenInNewTabComponent {
   }
 
   public getTextToDisplay(): string {
-    let textToDisplay = '';
+    let textToDisplay = this.isNavigationParamsInstance(this.paramsOrUrl)
+      ? this.paramsOrUrl.url
+      : this.paramsOrUrl ?? '';
 
-    if (this.isNavigationParamsInstance(this.paramsOrUrl)) {
-      textToDisplay = this.paramsOrUrl.url;
-    } else {
-      textToDisplay = this.paramsOrUrl ?? '';
-    }
+    if (this.regexToMatchForWordReplacement && this.regexToMatchForWordReplacement.test(textToDisplay)) {
+      if (this.customTextToUseWhenRegexMatches) {
+        return this.customTextToUseWhenRegexMatches;
+      }
 
-    if (
-      this.regexToMatchForWordReplacement &&
-      this.regexToMatchForWordReplacement.test(textToDisplay) &&
-      this.matchIndexToUseWhenRegexMatches !== undefined
-    ) {
-      try {
-        textToDisplay =
-          this.regexToMatchForWordReplacement.exec(textToDisplay)?.[this.matchIndexToUseWhenRegexMatches] ??
-          textToDisplay;
-      } catch (err) {
-        console.error('regex match failed ', err);
+      if (this.matchIndexToUseWhenRegexMatches !== undefined) {
+        try {
+          textToDisplay =
+            this.regexToMatchForWordReplacement.exec(textToDisplay)?.[this.matchIndexToUseWhenRegexMatches] ??
+            textToDisplay;
+        } catch (err) {
+          // tslint:disable:no-console
+          console.error('regex match failed ', err);
+        }
       }
     }
 

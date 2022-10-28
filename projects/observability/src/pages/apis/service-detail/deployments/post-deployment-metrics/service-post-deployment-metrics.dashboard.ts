@@ -1,3 +1,4 @@
+import { GraphQlRequestCacheability } from '@hypertrace/graphql-client';
 import { ModelJson } from '@hypertrace/hyperdash';
 import { MetricAggregationType } from '../../../../../public-api';
 
@@ -69,6 +70,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'duration',
@@ -83,6 +88,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'duration',
@@ -97,6 +106,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'duration',
@@ -120,6 +133,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'errorCount',
@@ -133,6 +150,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'errorCount',
@@ -156,6 +177,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'numCalls',
@@ -169,6 +194,10 @@ export const postDeploymentMetricsJson: ModelJson = {
           size: 'small',
           data: {
             type: 'entity-metric-aggregation-data-source',
+            'request-options': {
+              type: 'request-options',
+              cacheability: GraphQlRequestCacheability.NotCacheable
+            },
             metric: {
               type: 'metric-aggregation',
               metric: 'numCalls',

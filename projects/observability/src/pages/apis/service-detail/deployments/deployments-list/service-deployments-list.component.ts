@@ -67,9 +67,10 @@ export class ServiceDeploymentsListComponent implements OnChanges {
       rendererConfiguration: {
         showLinkText: true,
         openInNewTab: true,
-        showCustomTextForLink: true,
-        customTextForLink: 'Version/Commit Link'
-      }
+        regexToMatchForWordReplacement: new RegExp(/(.*\S)\/(\S+)/),
+        matchIndexToUseWhenRegexMatches: 2
+      },
+      width: '380px'
     },
     {
       id: 'status',

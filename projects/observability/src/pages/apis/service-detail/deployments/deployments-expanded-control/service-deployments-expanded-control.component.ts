@@ -7,15 +7,15 @@ import { PredefinedTimeDurationService } from '@hypertrace/components';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ht-tab-group [activeTabLabel]="this.activeTabLabel" (activeTabLabelChange)="this.onActiveTabLabelChange($event)">
-      <ht-tab label="Associated Pull Requests">
-        <ht-service-pull-requests-list
-          [deploymentInformation]="this.deploymentInformation"
-        ></ht-service-pull-requests-list>
-      </ht-tab>
       <ht-tab label="Post Deployment Metrics Comparison">
         <ht-service-deployment-metrics
           [deploymentEndTime]="this.deploymentInformation.endTime"
         ></ht-service-deployment-metrics>
+      </ht-tab>
+      <ht-tab label="Associated Pull Requests">
+        <ht-service-pull-requests-list
+          [deploymentInformation]="this.deploymentInformation"
+        ></ht-service-pull-requests-list>
       </ht-tab>
     </ht-tab-group>
   `,

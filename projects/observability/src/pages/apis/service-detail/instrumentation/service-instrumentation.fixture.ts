@@ -50,7 +50,6 @@ export const serviceScoreResponse: ServiceScoreResponse = {
     },
     {
       name: 'Security',
-      score: 100.0,
       description: 'Trace security refers to the quality of the existing metadata in spans/traces.',
       heuristicScoreInfo: [
         {
@@ -73,7 +72,8 @@ export const serviceScoreResponse: ServiceScoreResponse = {
           sampleSize: '100',
           failureCount: '1'
         }
-      ]
+      ],
+      score: 99.87
     }
   ],
   aggregatedWeightedScore: 60.5

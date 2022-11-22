@@ -13,7 +13,7 @@ import { DeploymentsResponseRow } from '@hypertrace/common';
         <span class="pull-request-jira"
           ><a
             [href]="pullRequestInfoRow.jira_id"
-            *ngIf="pullRequestInfoRow.jira_id !== 'JIRA not linked'; else noJiraTicket"
+            *ngIf="this.isJiraIdValid(pullRequestInfoRow.jira_id); else noJiraTicket"
             target="_blank"
             >Jira Link</a
           ></span
@@ -32,4 +32,12 @@ import { DeploymentsResponseRow } from '@hypertrace/common';
 export class ServicePullRequestsListComponent {
   @Input()
   public deploymentInformation!: DeploymentsResponseRow;
+
+  public isJiraIdValid(id: string): boolean {
+    if (id === 'JIRA not linked' || id === '') {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -3,7 +3,7 @@ import { TimeDuration } from './time-duration';
 import { TimeUnit } from './time-unit.type';
 
 describe('RelativeTimeRange', () => {
-  let component = new RelativeTimeRange(new TimeDuration(1, TimeUnit.Hour));
+  const component = new RelativeTimeRange(new TimeDuration(1, TimeUnit.Hour));
 
   test('sets seconds & milliseconds to zero by default', () => {
     expect(component.startTime.getSeconds()).toBe(0);

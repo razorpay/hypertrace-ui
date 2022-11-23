@@ -108,6 +108,8 @@ export class TimeRangeComponent {
   }
 
   public setToFixedTimeRange(timeRange: FixedTimeRange): void {
+    timeRange.startTime.setSeconds(0, 0);
+    timeRange.endTime.setSeconds(0, 0);
     this.timeRangeSelected.emit(timeRange);
     this.timeRangeService.setFixedRange(timeRange.startTime, timeRange.endTime);
     this.popoverRef!.close();

@@ -158,7 +158,7 @@ export class CartesianLegend<TData> {
       .append('span')
       .classed('legend-text', true)
       .classed(CartesianLegend.SELECTABLE_CSS_CLASS, this.series.length > 1)
-      .text(series => this.truncateLongText(series.name, 35))
+      .text(series => series.name)
       .attr('title', series => series.name)
       .on('click', series => (this.series.length > 1 ? this.updateActiveSeries(series) : undefined));
 
@@ -292,9 +292,5 @@ export class CartesianLegend<TData> {
 
   private isThisLegendSeriesGroupActive(seriesGroup: Series<TData>[]): boolean {
     return !this.isSelectionModeOn ? false : seriesGroup.every(series => this.activeSeries.includes(series));
-  }
-
-  private truncateLongText(text: string, maxLength: number): string {
-    return text.length > maxLength ? text.slice(0, maxLength - 3).concat('...') : text;
   }
 }

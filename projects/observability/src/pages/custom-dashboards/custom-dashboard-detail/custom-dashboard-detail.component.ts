@@ -22,7 +22,6 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
     <div class="dashboard-viewer">
       <div class="header-container">
         <ht-input
-          [disabled]="!isMyDashboard"
           type="string"
           class="dashboard-name-input"
           appearance="${InputAppearance.Border}"
@@ -69,7 +68,7 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
           </ht-message-display>
         </div>
       </div>
-      <button *ngIf="isMyDashboard" class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
+      <button class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
     </div>
   `
 })
@@ -187,12 +186,11 @@ export class CustomDashboardDetailComponent {
       replaceCurrentHistory: false
     });
   }
+
   public redirectToListing(): void {
-    const confirmation = confirm(`Your unsaved changes will be lost! Discard them anyways?`);
-    if (confirmation) {
-      this.navigateBack();
-    }
+    this.navigateBack();
   }
+
   public navigateBack(): void {
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,

@@ -30,6 +30,8 @@ export class CartesianNoDataMessage {
   }
 
   private seriesContainData(): boolean {
+    // console.log(this.series);
+
     return Array.isArray(this.series) && this.series.some(series => series.data.length > 0);
   }
 }

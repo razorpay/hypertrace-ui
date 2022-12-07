@@ -33,21 +33,30 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
   protected abstract buildRequestState(interval: TimeDuration | 'AUTO'): ExploreRequestState | undefined;
 
   public getData(): Observable<CartesianDataFetcher<ExplorerData>> {
+    console.log('Calling getData from parent class');
+
     return of({
-      getData: (interval: TimeDuration) => this.fetchResults(interval)
+      getData: (interval: TimeDuration) => {
+        console.log('Calling getData from return value of getData in parent class');
+        return this.fetchResults(interval);
+      }
     });
   }
 
   protected fetchResults(interval: TimeDuration | 'AUTO'): Observable<CartesianResult<ExplorerData>> {
     const requestState = this.buildRequestState(interval);
     const timeRange = this.getTimeRangeOrThrow();
+
     if (requestState === undefined) {
       return NEVER;
     }
 
+    console.log('Calling fetchResults from parent class');
+
     return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
       this.buildExploreRequest(requestState, this.getFilters(inheritedFilters), timeRange)
     ).pipe(
+      // check requestState for interval
       mergeMap(response =>
         this.mapResponseData(requestState, response, requestState.interval as TimeDuration, timeRange)
       )
@@ -57,10 +66,17 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
   protected mapResponseData(
     requestState: ExploreRequestState,
     response: GraphQlExploreResponse,
-    interval: TimeDuration,
+    interval: TimeDuration | undefined,
     timeRange: GraphQlTimeRange
   ): Observable<CartesianResult<ExplorerData>> {
+    if (interval === undefined) {
+      // tslint:disable-next-line: ban-ts-ignore
+      // @ts-ignore
+      return of(response.results[0]['count(calls)'].value);
+    }
+
     return this.getAllData(requestState, response, interval, timeRange).pipe(
+      // 2. response structure needs to be mapped
       map(explorerResults => ({
         series: explorerResults,
         bands: []
@@ -138,7 +154,8 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
         name: !isEmpty(result.groupName) ? result.groupName! : obj.specDisplayName,
         groupName:
           !isEmpty(result.groupName) && (request.useGroupName ?? false) ? result.groupName! : obj.specDisplayName,
-        color: color
+        color: color,
+        aggregation: result.spec.aggregation
       }))
     );
   }

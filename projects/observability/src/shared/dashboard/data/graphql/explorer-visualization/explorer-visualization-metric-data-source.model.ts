@@ -13,9 +13,9 @@ import { GraphQlExploreRequest } from '../../../../graphql/request/handlers/expl
 import { CartesianResult } from '../../../widgets/charts/cartesian-widget/cartesian-widget.model';
 import { ExploreCartesianDataSourceModel, ExplorerData } from '../explore/explore-cartesian-data-source.model';
 @Model({
-  type: 'explorer-visualization-cartesian-data-source'
+  type: 'explorer-visualization-metric-data-source'
 })
-export class ExplorerVisualizationCartesianDataSourceModel extends ExploreCartesianDataSourceModel {
+export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesianDataSourceModel {
   public request?: ExploreVisualizationRequest;
 
   protected fetchResults(): Observable<CartesianResult<ExplorerData>> {
@@ -32,9 +32,10 @@ export class ExplorerVisualizationCartesianDataSourceModel extends ExploreCartes
         return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
           this.appendFilters(exploreRequest, this.getFilters(inheritedFilters), timeRange)
         ).pipe(
-          mergeMap(response =>
-            this.mapResponseData(this.request!, response, exploreRequest.interval as TimeDuration, timeRange)
-          )
+          mergeMap(response => {
+            console.log({ response });
+            return this.mapResponseData(this.request!, response, exploreRequest.interval as TimeDuration, timeRange);
+          })
         );
       })
     );

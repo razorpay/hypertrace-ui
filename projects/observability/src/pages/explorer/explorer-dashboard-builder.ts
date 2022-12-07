@@ -15,6 +15,7 @@ import { LegendPosition } from '../../shared/components/legend/legend.component'
 import { ObservabilityTableCellType } from '../../shared/components/table/observability-table-cell-type';
 import { TracingTableCellType } from '../../shared/components/table/tracing-table-cell-type';
 import { ExplorerVisualizationCartesianDataSourceModel } from '../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-cartesian-data-source.model';
+import { ExplorerVisualizationMetricDataSourceModel } from '../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-metric-data-source.model';
 import { GraphQlFilterDataSourceModel } from '../../shared/dashboard/data/graphql/filter/graphql-filter-data-source.model';
 import {
   AttributeMetadata,
@@ -57,6 +58,21 @@ export class ExplorerDashboardBuilder {
   }
 
   private buildVisualizationDashboard(request: ExploreVisualizationRequest): Observable<ExplorerGeneratedDashboard> {
+    if (request.interval === undefined && request.groupBy === undefined) {
+      console.log('Rendering metric widget');
+
+      return of({
+        json: {
+          type: 'metric-display-widget'
+        },
+        onReady: dashboard => {
+          dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationMetricDataSourceModel);
+          const dataSource = dashboard.getRootDataSource<ExplorerVisualizationMetricDataSourceModel>()!;
+          dataSource.request = request;
+        }
+      });
+    }
+
     return of({
       json: {
         type: 'cartesian-widget',
@@ -589,7 +605,7 @@ export class ExplorerDashboardBuilder {
 
 export interface ExplorerGeneratedDashboard {
   json: ModelJson;
-  onReady(dashboard: Dashboard): void;
+  onReady?(dashboard: Dashboard): void;
 }
 
 export type ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api | 'SPAN';

@@ -1,16 +1,21 @@
 import { BOOLEAN_PROPERTY, Model, ModelApi, ModelProperty, STRING_PROPERTY } from '@hypertrace/hyperdash';
 import { ModelInject, MODEL_API } from '@hypertrace/hyperdash-angular';
 import { defaults } from 'lodash-es';
-import { EMPTY, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { MetricAggregation } from '../../../graphql/model/metrics/metric-aggregation';
 import { MetricHealth } from '../../../graphql/model/metrics/metric-health';
 import { EntityMetricAggregationDataSourceModel } from '../../data/graphql/entity/aggregation/entity-metric-aggregation-data-source.model';
 import { EntityAttributeDataSourceModel } from '../../data/graphql/entity/attribute/entity-attribute-data-source.model';
+import { ExplorerVisualizationCartesianDataSourceModel } from '../../data/graphql/explorer-visualization/explorer-visualization-cartesian-data-source.model';
 
 @Model({
   type: 'metric-display-widget',
-  supportedDataSourceTypes: [EntityMetricAggregationDataSourceModel, EntityAttributeDataSourceModel]
+  supportedDataSourceTypes: [
+    EntityMetricAggregationDataSourceModel,
+    EntityAttributeDataSourceModel,
+    ExplorerVisualizationCartesianDataSourceModel
+  ]
 })
 export class MetricDisplayWidgetModel {
   public static readonly METRIC_WIDGET_DEFAULTS: MetricWidgetValueData = {
@@ -66,7 +71,28 @@ export class MetricDisplayWidgetModel {
   public api!: ModelApi;
 
   public getData(): Observable<MetricWidgetValueData> {
-    return this.api.getData<unknown>().pipe(mergeMap(receivedValue => this.normalizeData(receivedValue)));
+    // tslint:disable-next-line: no-console
+    console.log('Calling getData from metric-display-widget model');
+
+    return this.api.getData<unknown>().pipe(
+      // tslint:disable-next-line: arrow-return-shorthand
+      mergeMap(receivedValue => {
+        let data = receivedValue;
+
+        if (typeof receivedValue === 'object') {
+          // tslint:disable-next-line: ban-ts-ignore
+          // @ts-ignore
+          receivedValue.getData().subscribe(value => {
+            console.log({ value });
+            data = value;
+          });
+        }
+
+        console.log({ data });
+
+        return this.normalizeData(data);
+      })
+    );
   }
 
   private normalizeData(metricValue: unknown): Observable<MetricWidgetValueData> {
@@ -82,12 +108,13 @@ export class MetricDisplayWidgetModel {
         )
       );
     } catch (e) {
-      return EMPTY;
+      throw e;
     }
   }
 
   private extractValue(metricValue: unknown): number {
     if (typeof metricValue === 'number') {
+      console.log({ metricValue });
       return metricValue;
     }
     if (this.valueIsMetricAgg(metricValue, 'value')) {

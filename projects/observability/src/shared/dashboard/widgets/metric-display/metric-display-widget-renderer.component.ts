@@ -3,6 +3,7 @@ import { TitlePosition } from '@hypertrace/components';
 import { WidgetRenderer } from '@hypertrace/dashboards';
 import { Renderer } from '@hypertrace/hyperdash';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { MetricDisplayWidgetModel, MetricWidgetValueData } from './metric-display-widget.model';
 
 @Renderer({ modelClass: MetricDisplayWidgetModel })
@@ -33,7 +34,8 @@ export class MetricDisplayWidgetRendererComponent extends WidgetRenderer<
   MetricWidgetValueData
 > {
   protected fetchData(): Observable<MetricWidgetValueData> {
-    return this.model.getData();
+    // this should make the api call
+    return this.model.getData().pipe(tap(val => console.log({ val })));
   }
 
   public getUnits(units: string): string {

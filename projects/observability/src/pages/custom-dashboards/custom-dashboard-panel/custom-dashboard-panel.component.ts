@@ -56,7 +56,6 @@ import { ExploreSpecificationBuilder } from './../../../shared/graphql/request/b
               class="visualization-dashboard"
               [padding]="0"
               [json]="visualizationDashboard.json"
-              (dashboardReady)="visualizationDashboard.onReady($event)"
             >
             </ht-application-aware-dashboard>
           </div>

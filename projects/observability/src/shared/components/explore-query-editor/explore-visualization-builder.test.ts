@@ -10,6 +10,7 @@ import {
   TimeUnit
 } from '@hypertrace/common';
 import { patchRouterNavigateForTest, recordObservable, runFakeRxjs } from '@hypertrace/test-utils';
+import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { createServiceFactory, mockProvider, SpectatorService } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
 import { MetricAggregationType } from '../../graphql/model/metrics/metric-aggregation';
@@ -38,7 +39,14 @@ describe('Explore visualization builder', () => {
       }),
       mockProvider(FeatureStateResolver, {
         getFeatureState: () => of(FeatureState.Enabled)
-      })
+      }),
+      {
+        provide: GRAPHQL_OPTIONS,
+        useValue: {
+          uri: '/graphql',
+          batchSize: 2
+        }
+      }
     ]
   });
 

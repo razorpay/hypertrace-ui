@@ -9,8 +9,8 @@ import {
   TimeRangeService,
   TimeUnit
 } from '@hypertrace/common';
-import { patchRouterNavigateForTest, recordObservable, runFakeRxjs } from '@hypertrace/test-utils';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
+import { patchRouterNavigateForTest, recordObservable, runFakeRxjs } from '@hypertrace/test-utils';
 import { createServiceFactory, mockProvider, SpectatorService } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
 import { MetricAggregationType } from '../../graphql/model/metrics/metric-aggregation';

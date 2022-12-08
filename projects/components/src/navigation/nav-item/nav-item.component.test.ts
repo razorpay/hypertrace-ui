@@ -8,8 +8,8 @@ import {
   NavigationService
 } from '@hypertrace/common';
 import { BetaTagComponent, IconComponent, LinkComponent } from '@hypertrace/components';
-import { createHostFactory, mockProvider, SpectatorHost } from '@ngneat/spectator/jest';
 import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
+import { createHostFactory, mockProvider, SpectatorHost } from '@ngneat/spectator/jest';
 import { MockComponent } from 'ng-mocks';
 import { EMPTY, of } from 'rxjs';
 import { NavItemConfig, NavItemType } from '../navigation.config';

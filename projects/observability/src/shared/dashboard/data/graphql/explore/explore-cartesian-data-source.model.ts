@@ -33,13 +33,8 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
   protected abstract buildRequestState(interval: TimeDuration | 'AUTO'): ExploreRequestState | undefined;
 
   public getData(): Observable<CartesianDataFetcher<ExplorerData>> {
-    console.log('Calling getData from parent class');
-
     return of({
-      getData: (interval: TimeDuration) => {
-        console.log('Calling getData from return value of getData in parent class');
-        return this.fetchResults(interval);
-      }
+      getData: (interval: TimeDuration) => this.fetchResults(interval)
     });
   }
 
@@ -51,12 +46,9 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
       return NEVER;
     }
 
-    console.log('Calling fetchResults from parent class');
-
     return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
       this.buildExploreRequest(requestState, this.getFilters(inheritedFilters), timeRange)
     ).pipe(
-      // check requestState for interval
       mergeMap(response =>
         this.mapResponseData(requestState, response, requestState.interval as TimeDuration, timeRange)
       )

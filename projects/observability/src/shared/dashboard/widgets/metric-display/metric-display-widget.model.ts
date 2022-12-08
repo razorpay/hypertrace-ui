@@ -74,25 +74,7 @@ export class MetricDisplayWidgetModel {
     // tslint:disable-next-line: no-console
     console.log('Calling getData from metric-display-widget model');
 
-    return this.api.getData<unknown>().pipe(
-      // tslint:disable-next-line: arrow-return-shorthand
-      mergeMap(receivedValue => {
-        let data = receivedValue;
-
-        if (typeof receivedValue === 'object') {
-          // tslint:disable-next-line: ban-ts-ignore
-          // @ts-ignore
-          receivedValue.getData().subscribe(value => {
-            console.log({ value });
-            data = value;
-          });
-        }
-
-        console.log({ data });
-
-        return this.normalizeData(data);
-      })
-    );
+    return this.api.getData<unknown>().pipe(mergeMap(receivedValue => this.normalizeData(receivedValue)));
   }
 
   private normalizeData(metricValue: unknown): Observable<MetricWidgetValueData> {
@@ -114,7 +96,6 @@ export class MetricDisplayWidgetModel {
 
   private extractValue(metricValue: unknown): number {
     if (typeof metricValue === 'number') {
-      console.log({ metricValue });
       return metricValue;
     }
     if (this.valueIsMetricAgg(metricValue, 'value')) {

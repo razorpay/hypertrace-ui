@@ -74,7 +74,17 @@ export class MetricDisplayWidgetModel {
     // tslint:disable-next-line: no-console
     console.log('Calling getData from metric-display-widget model');
 
-    return this.api.getData<unknown>().pipe(mergeMap(receivedValue => this.normalizeData(receivedValue)));
+    return this.api.getData<unknown>().pipe(
+      mergeMap(receivedValue => {
+        if (typeof receivedValue === 'object') {
+          const [aggregation, name] = this.title?.split(' ') ?? ['', ''];
+          // @ts-ignore
+          return this.normalizeData(receivedValue[`${name}(${aggregation})`].value);
+        }
+
+        return this.normalizeData(receivedValue);
+      })
+    );
   }
 
   private normalizeData(metricValue: unknown): Observable<MetricWidgetValueData> {

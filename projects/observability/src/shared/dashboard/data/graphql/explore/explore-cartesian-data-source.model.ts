@@ -65,11 +65,7 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
       console.log({ requestState });
       // tslint:disable-next-line: ban-ts-ignore
       // @ts-ignore
-      return of(
-        response.results[0][
-          `${requestState.series[0].specification.aggregation}(${requestState.series[0].specification.name})`
-        ].value
-      );
+      return of(response.results[0]);
     }
 
     return this.getAllData(requestState, response, interval, timeRange).pipe(

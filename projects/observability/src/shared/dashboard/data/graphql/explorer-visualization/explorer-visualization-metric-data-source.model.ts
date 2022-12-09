@@ -34,9 +34,10 @@ export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesian
         return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
           this.appendFilters(exploreRequest, this.getFilters(inheritedFilters), timeRange)
         ).pipe(
-          mergeMap(response =>
-            this.mapResponseData(this.request!, response, exploreRequest.interval as TimeDuration, timeRange)
-          )
+          mergeMap(response => {
+            console.log({ response });
+            return this.mapResponseData(this.request!, response, exploreRequest.interval as TimeDuration, timeRange);
+          })
         );
       })
     );
@@ -59,3 +60,6 @@ export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesian
     return undefined;
   }
 }
+
+// multiple widgets for multiple metrics - not supporting
+// styling changes

@@ -59,7 +59,6 @@ export abstract class WidgetRenderer<TModel extends object, TData = unknown> imp
   }
 
   private fetchAndRunChangeDetection(): void {
-    debugger;
     this.data$ = this.fetchData().pipe(
       shareReplay(),
       takeUntil(this.destroyed$),

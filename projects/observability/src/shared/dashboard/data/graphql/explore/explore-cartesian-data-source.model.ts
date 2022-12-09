@@ -62,9 +62,14 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
     timeRange: GraphQlTimeRange
   ): Observable<CartesianResult<ExplorerData>> {
     if (interval === undefined) {
+      console.log({ requestState });
       // tslint:disable-next-line: ban-ts-ignore
       // @ts-ignore
-      return of(response.results[0]['count(calls)'].value);
+      return of(
+        response.results[0][
+          `${requestState.series[0].specification.aggregation}(${requestState.series[0].specification.name})`
+        ].value
+      );
     }
 
     return this.getAllData(requestState, response, interval, timeRange).pipe(

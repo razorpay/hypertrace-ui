@@ -63,7 +63,111 @@ export class ExplorerDashboardBuilder {
 
       return of({
         json: {
-          type: 'metric-display-widget'
+          type: 'container-widget',
+          layout: {
+            type: 'custom-container-layout',
+            'column-dimensions': [
+              {
+                type: 'dimension-model',
+                dimension: 1,
+                unit: 'FR'
+              },
+              {
+                type: 'dimension-model',
+                dimension: 1,
+                unit: 'FR'
+              },
+              {
+                type: 'dimension-model',
+                dimension: 1,
+                unit: 'FR'
+              },
+              {
+                type: 'dimension-model',
+                dimension: 1,
+                unit: 'FR'
+              }
+            ],
+            'row-dimensions': [
+              {
+                type: 'dimension-model',
+                dimension: 124,
+                unit: 'PX'
+              },
+              {
+                type: 'dimension-model',
+                dimension: 124,
+                unit: 'PX'
+              }
+            ],
+            'cell-spans': [
+              {
+                // First row
+                type: 'cell-span-model',
+                'col-start': 0,
+                'col-end': 1,
+                'row-start': 0,
+                'row-end': 1
+              },
+              {
+                type: 'cell-span-model',
+                'col-start': 1,
+                'col-end': 2,
+                'row-start': 0,
+                'row-end': 1
+              },
+              {
+                type: 'cell-span-model',
+                'col-start': 2,
+                'col-end': 3,
+                'row-start': 0,
+                'row-end': 1
+              },
+              {
+                type: 'cell-span-model',
+                'col-start': 3,
+                'col-end': 4,
+                'row-start': 0,
+                'row-end': 1
+              },
+              {
+                // Second row
+                type: 'cell-span-model',
+                'col-start': 0,
+                'col-end': 1,
+                'row-start': 1,
+                'row-end': 2
+              },
+              {
+                type: 'cell-span-model',
+                'col-start': 1,
+                'col-end': 2,
+                'row-start': 1,
+                'row-end': 2
+              },
+              {
+                type: 'cell-span-model',
+                'col-start': 2,
+                'col-end': 3,
+                'row-start': 1,
+                'row-end': 2
+              },
+              {
+                type: 'cell-span-model',
+                'col-start': 3,
+                'col-end': 4,
+                'row-start': 1,
+                'row-end': 2
+              }
+            ],
+            'enable-style': true,
+            'grid-gap': '0'
+          },
+          children: request.series.map(seriesObject => ({
+            type: 'metric-display-widget',
+            title: `${seriesObject.specification.name} ${seriesObject.specification.aggregation}`,
+            subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined
+          }))
         },
         onReady: dashboard => {
           dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationMetricDataSourceModel);

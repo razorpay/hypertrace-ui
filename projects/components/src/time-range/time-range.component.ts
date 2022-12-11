@@ -127,7 +127,7 @@ export class TimeRangeComponent {
   public getRefreshButtonData = (timeRange: TimeRange): Observable<RefreshButtonData> => {
     const lastRefreshTimeMillis = Date.now();
 
-    const defaultRefreshObservable: Observable<RefreshButtonData> = of({
+    const defaultRefresh$: Observable<RefreshButtonData> = of({
       text$: of('Refresh'),
       role: ButtonRole.Tertiary,
       isEmphasized: false,

@@ -138,7 +138,7 @@ export class TimeRangeComponent {
     // We also keep a timer to tell elapsed time and prompt user to refresh
     if (this.isRelative(timeRange)) {
       return concat(
-        defaultRefreshObservable,
+        defaultRefresh$,
         this.ngZone.runOutsideAngular(() =>
           // Long running timer will prevent zone from stabilizing
           timer(this.refreshDuration.toMillis()).pipe(
@@ -165,7 +165,7 @@ export class TimeRangeComponent {
     // This is to ensure that in case of timeouts, we again query the backend rather than returning error from cache
     this.timeRangeService.clearCache();
 
-    return defaultRefreshObservable;
+    return defaultRefresh$;
   };
 
   private onRefresh(): void {

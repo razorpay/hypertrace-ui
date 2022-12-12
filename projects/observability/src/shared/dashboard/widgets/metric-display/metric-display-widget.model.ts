@@ -75,10 +75,11 @@ export class MetricDisplayWidgetModel {
     console.log('Calling getData from metric-display-widget model');
 
     return this.api.getData<unknown>().pipe(
-      mergeMap(receivedValue => {
-        if (typeof receivedValue === 'object') {
+      // tslint:disable-next-line: no-any
+      mergeMap((receivedValue: any) => {
+        if (typeof receivedValue === 'object' && receivedValue.value === undefined) {
           const [aggregation, name] = this.title?.split(' ') ?? ['', ''];
-          // @ts-ignore
+
           return this.normalizeData(receivedValue[`${name}(${aggregation})`].value);
         }
 

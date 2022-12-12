@@ -23,7 +23,7 @@ import { GraphQlDataSourceModel } from '../graphql-data-source.model';
 import { ExploreResult } from './explore-result';
 
 export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceModel<
-  CartesianDataFetcher<ExplorerData> | CartesianResult<ExplorerData>
+  CartesianDataFetcher<ExplorerData>
 > {
   @ModelInject(ColorService)
   private readonly colorService!: ColorService;
@@ -33,7 +33,7 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
 
   protected abstract buildRequestState(interval: TimeDuration | 'AUTO'): ExploreRequestState | undefined;
 
-  public getData(): Observable<CartesianDataFetcher<ExplorerData>> | Observable<CartesianResult<ExplorerData>> {
+  public getData(): Observable<CartesianDataFetcher<ExplorerData>> {
     return of({
       getData: (interval: TimeDuration) => this.fetchResults(interval)
     });

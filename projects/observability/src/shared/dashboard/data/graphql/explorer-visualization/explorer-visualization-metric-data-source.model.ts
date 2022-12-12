@@ -10,7 +10,7 @@ import { GraphQlFilter } from '../../../../graphql/model/schema/filter/graphql-f
 import { GraphQlTimeRange } from '../../../../graphql/model/schema/timerange/graphql-time-range';
 import { ExploreGraphQlQueryHandlerService } from '../../../../graphql/request/handlers/explore/explore-graphql-query-handler.service';
 import { GraphQlExploreRequest } from '../../../../graphql/request/handlers/explore/explore-query';
-import { CartesianDataFetcher, CartesianResult } from '../../../widgets/charts/cartesian-widget/cartesian-widget.model';
+import { CartesianResult } from '../../../widgets/charts/cartesian-widget/cartesian-widget.model';
 import { ExploreCartesianDataSourceModel, ExplorerData } from '../explore/explore-cartesian-data-source.model';
 @Model({
   type: 'explorer-visualization-metric-data-source'
@@ -18,8 +18,8 @@ import { ExploreCartesianDataSourceModel, ExplorerData } from '../explore/explor
 export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesianDataSourceModel {
   public request?: ExploreVisualizationRequest;
 
-  public getData(): Observable<CartesianDataFetcher<ExplorerData>> {
-    return (this.fetchResults() as unknown) as Observable<CartesianDataFetcher<ExplorerData>>;
+  public getData(): Observable<CartesianResult<ExplorerData>> {
+    return this.fetchResults();
   }
 
   protected fetchResults(): Observable<CartesianResult<ExplorerData>> {
@@ -34,10 +34,15 @@ export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesian
         return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
           this.appendFilters(exploreRequest, this.getFilters(inheritedFilters), timeRange)
         ).pipe(
-          mergeMap(response => {
-            console.log({ response });
-            return this.mapResponseData(this.request!, response, exploreRequest.interval as TimeDuration, timeRange);
-          })
+          mergeMap(
+            response =>
+              this.mapResponseData(
+                this.request!,
+                response,
+                exploreRequest.interval as TimeDuration,
+                timeRange
+              ) as Observable<CartesianResult<ExplorerData>>
+          )
         );
       })
     );
@@ -60,6 +65,3 @@ export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesian
     return undefined;
   }
 }
-
-// multiple widgets for multiple metrics - not supporting
-// styling changes

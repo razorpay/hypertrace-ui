@@ -844,7 +844,7 @@ export class ExplorerDashboardBuilder {
 
 export interface ExplorerGeneratedDashboard {
   json: ModelJson;
-  onReady?(dashboard: Dashboard): void;
+  onReady(dashboard: Dashboard): void;
 }
 
 export type ExplorerGeneratedDashboardContext = ObservabilityTraceType.Api | 'SPAN';

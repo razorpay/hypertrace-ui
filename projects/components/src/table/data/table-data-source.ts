@@ -12,15 +12,24 @@ export interface TableDataRequest<TCol extends TableColumnConfig = TableColumnCo
     startIndex: number;
     limit: number;
   };
-  sort?: {
-    column: TCol;
-    direction: TableSortDirection;
-  };
+  sort?: SortSpecification<TCol>;
   filters?: TableFilter[];
   includeInactive?: boolean;
+  clientSideFilters?: TableFilter[];
+  clientSideSort?: SortSpecification<TCol>;
 }
 
 export interface TableDataResponse<TData> {
   data: TData[];
   totalCount: number;
+}
+
+export interface SortSpecification<T> {
+  column: T;
+  direction: TableSortDirection;
+}
+
+export interface ClientSideSort {
+  direction: TableSortDirection;
+  defaultSortColumnIndex: number;
 }

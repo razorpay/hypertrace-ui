@@ -438,8 +438,6 @@ export class DefaultCartesianChart<TData> implements CartesianChart<TData> {
       return;
     }
 
-    // console.log('here');
-
     new CartesianNoDataMessage(this.chartBackgroundSvgElement, this.activeSeries).updateMessage();
   }
 

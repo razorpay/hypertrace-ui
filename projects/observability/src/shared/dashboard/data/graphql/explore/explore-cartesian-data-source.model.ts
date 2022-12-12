@@ -14,7 +14,8 @@ import { ExploreGraphQlQueryHandlerService } from '../../../../graphql/request/h
 import {
   EXPLORE_GQL_REQUEST,
   GraphQlExploreRequest,
-  GraphQlExploreResponse
+  GraphQlExploreResponse,
+  GraphQlExploreResult
 } from '../../../../graphql/request/handlers/explore/explore-query';
 import { MetadataService } from '../../../../services/metadata/metadata.service';
 import { CartesianDataFetcher, CartesianResult } from '../../../widgets/charts/cartesian-widget/cartesian-widget.model';
@@ -49,8 +50,11 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
     return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
       this.buildExploreRequest(requestState, this.getFilters(inheritedFilters), timeRange)
     ).pipe(
-      mergeMap(response =>
-        this.mapResponseData(requestState, response, requestState.interval as TimeDuration, timeRange)
+      mergeMap(
+        response =>
+          this.mapResponseData(requestState, response, requestState.interval as TimeDuration, timeRange) as Observable<
+            CartesianResult<ExplorerData>
+          >
       )
     );
   }
@@ -60,16 +64,12 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
     response: GraphQlExploreResponse,
     interval: TimeDuration | undefined,
     timeRange: GraphQlTimeRange
-  ): Observable<CartesianResult<ExplorerData>> {
+  ): Observable<CartesianResult<ExplorerData>> | Observable<GraphQlExploreResult> {
     if (interval === undefined) {
-      console.log({ requestState });
-      // tslint:disable-next-line: ban-ts-ignore
-      // @ts-ignore
       return of(response.results[0]);
     }
 
     return this.getAllData(requestState, response, interval, timeRange).pipe(
-      // 2. response structure needs to be mapped
       map(explorerResults => ({
         series: explorerResults,
         bands: []

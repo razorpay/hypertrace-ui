@@ -12,6 +12,7 @@ import {
 } from '../../../../graphql/request/handlers/entities/query/entity/entity-graphql-query-handler.service';
 import { GraphQlDataSourceModel } from '../graphql-data-source.model';
 
+// * This file isn't used for explorer screen calls
 export abstract class EntityValueDataSourceModel<TData, TResponse = TData> extends GraphQlDataSourceModel<TData> {
   protected abstract specification: Specification;
 
@@ -19,8 +20,6 @@ export abstract class EntityValueDataSourceModel<TData, TResponse = TData> exten
     return this.query<EntityGraphQlQueryHandlerService, Entity & Dictionary<T>>(filters =>
       this.buildRequest(specification, filters)
     ).pipe(map(response => response[specification.resultAlias()]));
-    // 1. check what's happening here, find out why call is not being made
-    // * This file isn't getting used for explorer screen calls
   }
 
   private buildRequest(specification: Specification, inheritedFilters: GraphQlFilter[]): GraphQlEntityRequest {

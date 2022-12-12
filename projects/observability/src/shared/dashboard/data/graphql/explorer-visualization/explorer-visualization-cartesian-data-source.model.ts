@@ -19,8 +19,6 @@ export class ExplorerVisualizationCartesianDataSourceModel extends ExploreCartes
   public request?: ExploreVisualizationRequest;
 
   protected fetchResults(): Observable<CartesianResult<ExplorerData>> {
-    console.log('Calling fetchResults from extended class');
-
     if (this.request === undefined) {
       return NEVER;
     }
@@ -32,8 +30,14 @@ export class ExplorerVisualizationCartesianDataSourceModel extends ExploreCartes
         return this.query<ExploreGraphQlQueryHandlerService>(inheritedFilters =>
           this.appendFilters(exploreRequest, this.getFilters(inheritedFilters), timeRange)
         ).pipe(
-          mergeMap(response =>
-            this.mapResponseData(this.request!, response, exploreRequest.interval as TimeDuration, timeRange)
+          mergeMap(
+            response =>
+              this.mapResponseData(
+                this.request!,
+                response,
+                exploreRequest.interval as TimeDuration,
+                timeRange
+              ) as Observable<CartesianResult<ExplorerData>>
           )
         );
       })

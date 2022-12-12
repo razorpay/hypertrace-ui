@@ -21,13 +21,13 @@ export class BackendListComponent {
     id: 'backends-list.table',
     style: TableStyle.FullPage,
     searchAttribute: 'name',
+    pageable: false,
     columns: [
       {
         type: 'table-widget-column',
         title: 'Name',
         display: ObservabilityTableCellType.Entity,
         width: '30%',
-        pageable: false,
         value: {
           type: 'entity-specification',
           'entity-type': ObservabilityEntityType.Backend
@@ -42,7 +42,8 @@ export class BackendListComponent {
         value: {
           type: 'attribute-specification',
           attribute: 'type'
-        }
+        },
+        sortable: false
       },
       {
         type: 'table-widget-column',

@@ -71,9 +71,6 @@ export class MetricDisplayWidgetModel {
   public api!: ModelApi;
 
   public getData(): Observable<MetricWidgetValueData> {
-    // tslint:disable-next-line: no-console
-    console.log('Calling getData from metric-display-widget model');
-
     return this.api.getData<unknown>().pipe(
       // tslint:disable-next-line: no-any
       mergeMap((receivedValue: any) => {

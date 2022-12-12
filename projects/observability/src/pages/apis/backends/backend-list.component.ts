@@ -27,6 +27,7 @@ export class BackendListComponent {
         title: 'Name',
         display: ObservabilityTableCellType.Entity,
         width: '30%',
+        pageable: false,
         value: {
           type: 'entity-specification',
           'entity-type': ObservabilityEntityType.Backend
@@ -106,7 +107,13 @@ export class BackendListComponent {
     ],
     data: {
       type: 'entity-table-data-source',
-      entity: 'BACKEND'
+      entity: 'BACKEND',
+      isClientSideRendered: true,
+      limit: 300,
+      clientSideSort: {
+        direction: TableSortDirection.Descending,
+        defaultSortColumnIndex: 0
+      }
     }
   };
 }

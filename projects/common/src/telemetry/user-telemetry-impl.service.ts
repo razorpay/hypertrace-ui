@@ -71,7 +71,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
       );
   }
 
-  private getDateDiff(timeParamValue: string | undefined): number | undefined {
+  private getDifferenceInDays(timeParamValue: string | undefined): number | undefined {
     if (timeParamValue !== undefined) {
       const timeRangeArray = timeParamValue.split('-');
       const startTime = Number(timeRangeArray[0].trim());
@@ -112,7 +112,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
           url: route.url,
           ...queryParamMap,
           isCustomTime: isCustomTimeSelected,
-          ...(isCustomTimeSelected ? { dateDiff: this.getDateDiff(timeParamValue) } : {}),
+          ...(isCustomTimeSelected ? { diffInDays: this.getDifferenceInDays(timeParamValue) } : {}),
           urlSegments: urlSegments,
           basePath: urlSegments.length >= 0 ? urlSegments[0] : undefined
         });

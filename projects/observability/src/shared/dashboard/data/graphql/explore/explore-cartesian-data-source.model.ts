@@ -65,7 +65,7 @@ export abstract class ExploreCartesianDataSourceModel extends GraphQlDataSourceM
     interval: TimeDuration | undefined,
     timeRange: GraphQlTimeRange
   ): Observable<CartesianResult<ExplorerData>> | Observable<GraphQlExploreResult> {
-    if (interval === undefined) {
+    if (interval === undefined && requestState.groupBy === undefined) {
       return of(response.results[0]);
     }
 

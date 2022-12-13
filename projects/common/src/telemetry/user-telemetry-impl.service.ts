@@ -71,6 +71,20 @@ export class UserTelemetryImplService extends UserTelemetryService {
       );
   }
 
+  private getDateDiff(timeParamValue: string | null | undefined) {
+    if (timeParamValue) {
+      const timeRangeArray = timeParamValue.split('-');
+      const startTime = Number(timeRangeArray[0].trim());
+      const endDate = new Date();
+
+      const diffInTime = endDate.getTime() - startTime;
+      const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+      return diffInDays.toFixed(0);
+    }
+    return null;
+  }
+
   private buildTelemetryProvider(config: UserTelemetryRegistrationConfig<unknown>): UserTelemetryInternalConfig {
     const providerInstance = this.injector.get(config.telemetryProvider);
 
@@ -90,12 +104,14 @@ export class UserTelemetryImplService extends UserTelemetryService {
         const queryParamMap = this.router?.routerState.snapshot.root.queryParamMap;
         // Todo - Read from TimeRangeService.TIME_QUERY_PARAM once root cause for test case failure is identified
         const timeParamValue = queryParamMap?.get('time');
+        const isCustomTimeSelected = isCustomTime(timeParamValue !== null ? timeParamValue : undefined);
         const rootObj = this.router?.parseUrl(route.url).root;
         const urlSegments = rootObj?.children?.primary?.segments.map(segment => segment.path) || [];
         this.trackPageEvent(UserTelemetryEvent.navigate, {
           url: route.url,
           ...queryParamMap,
-          isCustomTime: isCustomTime(timeParamValue !== null ? timeParamValue : undefined),
+          isCustomTime: isCustomTimeSelected,
+          ...(isCustomTimeSelected ? { dateDiff: this.getDateDiff(timeParamValue) } : {}),
           urlSegments: urlSegments,
           basePath: urlSegments.length >= 0 ? urlSegments[0] : undefined
         });

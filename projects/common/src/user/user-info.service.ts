@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { LoggerService } from '../logger/logger.service';
 import { UserTraits } from '../telemetry/telemetry';
-import { InMemoryStorage } from '../utilities/browser/storage/in-memory-storage';
+import { LocalStorage } from '../utilities/browser/storage/local-storage';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class UserInfoService {
   public static readonly DEFAULT_USER: UserTraits = { id: 2, name: 'ht-user', email: 'ht-user@razorpay.com' };
   public constructor(
     private readonly http: HttpClient,
-    private readonly inMemoryStorage: InMemoryStorage,
+    private readonly localStorage: LocalStorage,
     private readonly logger: LoggerService
   ) {}
 
@@ -29,19 +29,18 @@ export class UserInfoService {
     return this.http.get<UserTraits>('/user-info').pipe(
       tap((data: UserTraits) => {
         if (data.email !== '') {
-          this.inMemoryStorage.set(UserInfoService.STORAGE_KEY, JSON.stringify(data));
+          this.localStorage.set(UserInfoService.STORAGE_KEY, JSON.stringify(data));
         }
       }),
       catchError(error => {
         this.logger.error('Something went wrong while fetching /user-info', error);
-
         return of({});
       })
     );
   }
 
   public getUserData(): UserTraits {
-    const user = this.inMemoryStorage.get(UserInfoService.STORAGE_KEY);
+    const user = this.localStorage.get(UserInfoService.STORAGE_KEY);
     if (user !== undefined) {
       return JSON.parse(user);
     }

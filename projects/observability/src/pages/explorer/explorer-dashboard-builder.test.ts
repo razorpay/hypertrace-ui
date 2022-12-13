@@ -1,4 +1,3 @@
-import { TimeDuration, TimeUnit } from '@hypertrace/common';
 import { FilterBuilderLookupService, TableMode, TableStyle } from '@hypertrace/components';
 import { Dashboard } from '@hypertrace/hyperdash';
 import { recordObservable, runFakeRxjs } from '@hypertrace/test-utils';
@@ -34,11 +33,7 @@ describe('Explorer dashboard builder', () => {
     runFakeRxjs(({ expectObservable }) => {
       const dashboardRecording = recordObservable(builder.visualizationDashboard$);
 
-      const mockRequest = {
-        exploreQuery$: of({
-          interval: new TimeDuration(1, TimeUnit.Hour)
-        })
-      };
+      const mockRequest = {};
       builder.updateForRequest(mockRequest as ExploreVisualizationRequest);
 
       expectObservable(dashboardRecording).toBe('x', {

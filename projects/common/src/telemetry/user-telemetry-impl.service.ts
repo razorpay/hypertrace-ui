@@ -74,13 +74,13 @@ export class UserTelemetryImplService extends UserTelemetryService {
   private getDifferenceInDays(timeParamValue: string | undefined): number | undefined {
     if (timeParamValue !== undefined) {
       const timeRangeArray = timeParamValue.split('-');
-      const startTime = Number(timeRangeArray[0].trim());
+      const startTimeInMilliseconds = Number(timeRangeArray[0].trim());
       const endDate = new Date();
 
-      const diffInTime = endDate.getTime() - startTime;
-      const diffInDays = diffInTime / (1000 * 3600 * 24);
+      const differenceInMilliseconds = endDate.getTime() - startTimeInMilliseconds;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
 
-      return Number(diffInDays.toFixed(0));
+      return Number(differenceInDays.toFixed(0));
     }
 
     return timeParamValue;

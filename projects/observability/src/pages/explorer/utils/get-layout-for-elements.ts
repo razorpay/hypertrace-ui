@@ -1,4 +1,4 @@
-const generateColumnDimensions = (columns: number): ColumnDimension[] => {
+function generateColumnDimensions(columns: number): ColumnDimension[] {
   const columnDimensions = [];
 
   for (let i = 0; i < columns; i++) {
@@ -10,9 +10,9 @@ const generateColumnDimensions = (columns: number): ColumnDimension[] => {
   }
 
   return columnDimensions;
-};
+}
 
-const getLayoutForElements = (numberOfElements: number): object => {
+export function getLayoutForElements(numberOfElements: number): object {
   if (numberOfElements < 2) {
     // 3 x 3 grid
     return {
@@ -190,7 +190,7 @@ const getLayoutForElements = (numberOfElements: number): object => {
     'enable-style': true,
     'grid-gap': '0'
   };
-};
+}
 
 interface ColumnDimension {
   type: string;

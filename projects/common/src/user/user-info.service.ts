@@ -11,7 +11,7 @@ import { LocalStorage } from '../utilities/browser/storage/local-storage';
 })
 export class UserInfoService {
   public BASE_URL: string = '/user-preferences';
-  public static readonly STORAGE_KEY: 'user-data';
+  public static readonly STORAGE_KEY: string = 'user-data';
   public static readonly DEFAULT_USER: UserTraits = { id: 2, name: 'ht-user', email: 'ht-user@razorpay.com' };
   public constructor(
     private readonly http: HttpClient,
@@ -26,6 +26,13 @@ export class UserInfoService {
       return of({});
     }
 
+    // Check if user info is already present in local storage
+    // Return the value without making the api call
+    const userInfo = this.getUserData();
+    if (userInfo !== UserInfoService.DEFAULT_USER) {
+      return of(userInfo);
+    }
+
     return this.http.get<UserTraits>('/user-info').pipe(
       tap((data: UserTraits) => {
         if (data.email !== '') {
@@ -34,6 +41,7 @@ export class UserInfoService {
       }),
       catchError(error => {
         this.logger.error('Something went wrong while fetching /user-info', error);
+
         return of({});
       })
     );

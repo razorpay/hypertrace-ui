@@ -297,8 +297,8 @@ export class ExplorerDashboardBuilder {
       return of({
         json: {
           type: 'container-widget',
-          layout: this.getLayoutForElements(request.series.length),
-          children: request.series.map(seriesObject => ({
+          layout: this.getLayoutForElements(request.series?.length),
+          children: request.series?.map(seriesObject => ({
             type: 'metric-display-widget',
             title: `${seriesObject.specification.name} ${seriesObject.specification.aggregation}`,
             subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined

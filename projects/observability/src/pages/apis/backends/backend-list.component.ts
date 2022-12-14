@@ -109,7 +109,7 @@ export class BackendListComponent {
     data: {
       type: 'entity-table-data-source',
       entity: 'BACKEND',
-      isClientSideRendered: true,
+      isClientSideFiltered: true,
       limit: 300,
       clientSideSort: {
         direction: TableSortDirection.Descending,

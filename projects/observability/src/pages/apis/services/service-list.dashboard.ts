@@ -94,7 +94,7 @@ export const serviceListDashboard: DashboardDefaultConfiguration = {
         data: {
           type: 'entity-table-data-source',
           entity: 'SERVICE',
-          isClientSideRendered: true,
+          isClientSideFiltered: true,
           limit: 250,
           clientSideSort: {
             direction: TableSortDirection.Descending,

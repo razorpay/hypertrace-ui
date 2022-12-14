@@ -68,8 +68,7 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
     filters: GraphQlFilter[],
     request: TableDataRequest<SpecificationBackedTableColumnDef>
   ): GraphQlEntitiesQueryRequest {
-    // tslint:disable-next-line: strict-boolean-expressions
-    if (this.isClientSideRendered) {
+    if (this.isClientSideFiltered) {
       request.clientSideFilters = request.filters;
       if (request.sort !== undefined) {
         request.clientSideSort = {
@@ -78,14 +77,14 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
         };
       }
     }
-    const offset = this.isClientSideRendered ? 0 : request.position.startIndex;
+    const offset = this.isClientSideFiltered ? 0 : request.position.startIndex;
 
     let sort = request.sort && {
       direction: request.sort.direction,
       key: request.sort.column.specification
     };
 
-    if (this.isClientSideRendered && this.clientSideSort !== undefined) {
+    if (this.isClientSideFiltered && this.clientSideSort !== undefined) {
       sort = {
         direction: this.clientSideSort.direction,
         key: request.columns[this.clientSideSort.defaultSortColumnIndex].specification
@@ -99,7 +98,7 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
       limit: this.limit ?? request.position.limit * 2, // Prefetch 2 pages,
       offset: offset,
       sort: sort,
-      filters: this.isClientSideRendered ? [] : [...filters, ...this.toGraphQlFilters(request.filters)],
+      filters: this.isClientSideFiltered ? [] : [...filters, ...this.toGraphQlFilters(request.filters)],
       timeRange: this.getTimeRangeOrThrow(),
       includeTotal: true,
       includeInactive: request.includeInactive
@@ -113,12 +112,12 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
     let results: Entity<string>[] = response.results;
 
     /**
-     * This block only runs when the table is client side filtered and rendered.
+     * This block only runs when the table is client side filtered.
      * We run an iteration for every filter and find the respective column specification for which filter is to be applied
      * Then based upon the filter operator, we apply the filter to all the rows
      */
     if (
-      this.isClientSideRendered &&
+      this.isClientSideFiltered &&
       request.clientSideFilters?.length !== undefined &&
       request.clientSideFilters.length > 0
     ) {
@@ -134,11 +133,11 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
     }
 
     /**
-     * This block only runs when client side rendering, filtering and sorting is true
+     * This block only runs when client side filtering and sorting is true
      * For sorting, the column value can either be of Entity type or of Metric Aggregation type.
      * So, based upon the type and the order, we do the sorting for the respective values
      */
-    if (request.clientSideSort !== undefined && this.isClientSideRendered && results.length > 0) {
+    if (request.clientSideSort !== undefined && this.isClientSideFiltered && results.length > 0) {
       if (isMetricAggregation(results[0][request.clientSideSort.column.id])) {
         results.sort((res1, res2) => {
           if (request.clientSideSort!.direction === TableSortDirection.Ascending) {
@@ -170,8 +169,8 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
 
     return {
       data: this.resultsAsTreeRows(results, request, this.childEntityDataSource !== undefined),
-      // In case of client side rendering, we fetch all the results in one go, but in case of server side, we fetch them incrementally
-      totalCount: this.isClientSideRendered ? results.length : response.total ?? 0
+      // In case of client side filtering, we fetch all the results in one go, but in case of server side, we fetch them incrementally via pagination
+      totalCount: this.isClientSideFiltered ? results.length : response.total ?? 0
     };
   }
 
@@ -190,7 +189,7 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
   }
 
   /**
-   * Filters whatever is received in the reponse(with zero filters applied), and then applies the filter on the client side.
+   * Filters whatever is received in the reponse(with no filters applied), and then applies the filter on the client side.
    * This method is called iteratively for each filter with the respective filter operator and respective field name.
    * In the longer run, this method can house all comparable operators for filter and have generic comparators returned which can be directly reused.
    */

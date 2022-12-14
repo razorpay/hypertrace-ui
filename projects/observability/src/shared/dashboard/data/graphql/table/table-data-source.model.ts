@@ -28,11 +28,11 @@ export abstract class TableDataSourceModel extends GraphQlDataSourceModel<TableD
   public limit?: number;
 
   @ModelProperty({
-    key: 'isClientSideRendered',
-    displayName: 'Client Side Rendered',
+    key: 'isClientSideFiltered',
+    displayName: 'Client Side Filtered',
     type: BOOLEAN_PROPERTY.type
   })
-  public isClientSideRendered?: boolean;
+  public isClientSideFiltered?: boolean;
 
   @ModelProperty({
     key: 'clientSideSort',

@@ -111,6 +111,12 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
     request: TableDataRequest<SpecificationBackedTableColumnDef>
   ): TableDataResponse<TableRow> {
     let results: Entity<string>[] = response.results;
+
+    /**
+     * This block only runs when the table is client side filtered and rendered.
+     * We run an iteration for every filter and find the respective column specification for which filter is to be applied
+     * Then based upon the filter operator, we apply the filter to all the rows
+     */
     if (
       this.isClientSideRendered &&
       request.clientSideFilters?.length !== undefined &&
@@ -127,6 +133,11 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
       });
     }
 
+    /**
+     * This block only runs when client side rendering, filtering and sorting is true
+     * For sorting, the column value can either be of Entity type or of Metric Aggregation type.
+     * So, based upon the type and the order, we do the sorting for the respective values
+     */
     if (request.clientSideSort !== undefined && this.isClientSideRendered && results.length > 0) {
       if (isMetricAggregation(results[0][request.clientSideSort.column.id])) {
         results.sort((res1, res2) => {
@@ -159,10 +170,15 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
 
     return {
       data: this.resultsAsTreeRows(results, request, this.childEntityDataSource !== undefined),
+      // In case of client side rendering, we fetch all the results in one go, but in case of server side, we fetch them incrementally
       totalCount: this.isClientSideRendered ? results.length : response.total ?? 0
     };
   }
 
+  /**
+   * The purpose of this function is to find the column configuration for which the client side filter is being applied.
+   * We do so by matching the key name in the filter with a nested entity in the column specification
+   */
   private findMatchingColumnConfigForClientSideFilter(
     filterKeyName: string,
     columnDefs: SpecificationBackedTableColumnDef[]
@@ -173,6 +189,11 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
     );
   }
 
+  /**
+   * Filters whatever is received in the reponse(with zero filters applied), and then applies the filter on the client side.
+   * This method is called iteratively for each filter with the respective filter operator and respective field name.
+   * In the longer run, this method can house all comparable operators for filter and have generic comparators returned which can be directly reused.
+   */
   private filterRespValuesForClientSideFilter(
     columnDef: SpecificationBackedTableColumnDef,
     rows: Entity[],
@@ -185,6 +206,7 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
         return rows.filter(eachRow => ((eachRow[actualKeyNameInRows] as Entity).name as string) === tableFilter.value);
       case FilterOperator.Like:
         const regexExp = new RegExp(tableFilter.value as string);
+
         return rows.filter(eachRow => regexExp.test((eachRow[actualKeyNameInRows] as Entity).name as string));
       case FilterOperator.In:
         return rows.filter(eachRow =>

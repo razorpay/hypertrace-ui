@@ -15,6 +15,8 @@ export interface TableDataRequest<TCol extends TableColumnConfig = TableColumnCo
   sort?: SortSpecification<TCol>;
   filters?: TableFilter[];
   includeInactive?: boolean;
+
+  // New properties solely added for client side filtering specifications
   clientSideFilters?: TableFilter[];
   clientSideSort?: SortSpecification<TCol>;
 }
@@ -29,6 +31,7 @@ export interface SortSpecification<T> {
   direction: TableSortDirection;
 }
 
+// We need this information in the data source layer as the query needs to be reset to the original one to prevent refetch
 export interface ClientSideSort {
   direction: TableSortDirection;
   defaultSortColumnIndex: number;

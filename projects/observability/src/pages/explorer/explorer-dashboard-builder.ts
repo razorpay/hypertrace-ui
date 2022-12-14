@@ -67,7 +67,20 @@ export class ExplorerDashboardBuilder {
           children: request.series?.map(seriesObject => ({
             type: 'metric-display-widget',
             title: `${seriesObject.specification.name} ${seriesObject.specification.aggregation}`,
-            subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined
+            subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined,
+            /*
+             * TODO: Needs refactoring
+             * We shouldn't pass resultAlias directly to a model. A better approach is:
+             * -> Remove the 'metric-key' property from metric-display-widget.model
+             * -> Create a parent component 'metric-group-widget' that renders metric display widgets as children
+             * -> This parent uses the same data source as is being used now
+             * -> Parent receives array of 'titles' of widgets from seriesObject in the json passed here
+             * -> In the mapResponseData method of data source, extract the values from response using resultAlias from requestState
+             * -> Pass the array of these 'values' to the model of the parent
+             * -> Create parent's renderer that uses the 'titles' and 'values' arrays to render metric widgets
+             * -> Optional: Handle layout in the parent renderer so 'container-widget' can be removed
+             */
+            metricKey: seriesObject.specification.resultAlias()
           }))
         },
         onReady: dashboard => {

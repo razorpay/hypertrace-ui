@@ -67,6 +67,13 @@ export class MetricDisplayWidgetModel {
   })
   public size?: string;
 
+  @ModelProperty({
+    key: 'metric-key',
+    type: STRING_PROPERTY.type,
+    required: false
+  })
+  public metricKey?: string;
+
   @ModelInject(MODEL_API)
   public api!: ModelApi;
 
@@ -75,9 +82,7 @@ export class MetricDisplayWidgetModel {
       // tslint:disable-next-line: no-any
       mergeMap((receivedValue: any) => {
         if (typeof receivedValue === 'object' && receivedValue.value === undefined) {
-          const [aggregation, name] = this.title?.split(' ') ?? ['', ''];
-
-          return this.normalizeData(receivedValue[`${name}(${aggregation})`].value);
+          return this.normalizeData(receivedValue[this.metricKey!].value);
         }
 
         return this.normalizeData(receivedValue);

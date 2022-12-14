@@ -179,24 +179,20 @@ export class EntityTableDataSourceModel extends TableDataSourceModel {
     tableFilter: TableFilter
   ): Entity<string>[] {
     const actualKeyNameInRows = columnDef.specification.resultAlias();
-    // tslint:disable-next-line: prefer-switch
-    if (tableFilter.operator === FilterOperator.Equals) {
-      return rows.filter(eachRow => ((eachRow[actualKeyNameInRows] as Entity).name as string) === tableFilter.value);
+
+    switch (tableFilter.operator) {
+      case FilterOperator.Equals:
+        return rows.filter(eachRow => ((eachRow[actualKeyNameInRows] as Entity).name as string) === tableFilter.value);
+      case FilterOperator.Like:
+        const regexExp = new RegExp(tableFilter.value as string);
+        return rows.filter(eachRow => regexExp.test((eachRow[actualKeyNameInRows] as Entity).name as string));
+      case FilterOperator.In:
+        return rows.filter(eachRow =>
+          (tableFilter.value as string[]).includes((eachRow[actualKeyNameInRows] as Entity).name as string)
+        );
+      default:
+        return rows;
     }
-
-    if (tableFilter.operator === FilterOperator.Like) {
-      const regexExp = new RegExp(tableFilter.value as string);
-
-      return rows.filter(eachRow => regexExp.test((eachRow[actualKeyNameInRows] as Entity).name as string));
-    }
-
-    if (tableFilter.operator === FilterOperator.In) {
-      return rows.filter(eachRow =>
-        (tableFilter.value as string[]).includes((eachRow[actualKeyNameInRows] as Entity).name as string)
-      );
-    }
-
-    return rows;
   }
 
   private resultsAsTreeRows(

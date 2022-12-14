@@ -79,6 +79,12 @@ export class ExplorerDashboardBuilder {
              * -> Pass the array of these 'values' to the model of the parent
              * -> Create parent's renderer that uses the 'titles' and 'values' arrays to render metric widgets
              * -> Optional: Handle layout in the parent renderer so 'container-widget' can be removed
+             *
+             * Alternate approach:
+             * Try removing onReady and using data property instead to use 'metric-aggregation-data-source'
+             * Examples can be found in home.dashboard.ts
+             * If this works, ExplorerVisualizationMetricDataSourceModel can be deleted. Also, related "if" blocks in
+             * Metric Display Widget Model and ExploreCartesianDataSourceModel can be deleted.
              */
             metricKey: seriesObject.specification.resultAlias()
           }))

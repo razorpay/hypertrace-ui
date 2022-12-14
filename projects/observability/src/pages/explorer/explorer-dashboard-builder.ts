@@ -86,7 +86,7 @@ export class ExplorerDashboardBuilder {
              * If this works, ExplorerVisualizationMetricDataSourceModel can be deleted. Also, related "if" blocks in
              * Metric Display Widget Model and ExploreCartesianDataSourceModel can be deleted.
              */
-            metricKey: seriesObject.specification.resultAlias()
+            'metric-key': seriesObject.specification.resultAlias()
           }))
         },
         onReady: dashboard => {

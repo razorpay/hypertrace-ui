@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { isEqualIgnoreFunctions, NavigationService } from '@hypertrace/common';
 import { ButtonRole, Filter, InputAppearance, ToggleItem } from '@hypertrace/components';
 import { cloneDeep } from 'lodash-es';
+import { ExplorerVisualizationMetricDataSourceModel } from 'projects/observability/src/shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-metric-data-source.model';
 import { EMPTY, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import {
@@ -16,6 +17,7 @@ import { ObservabilityTraceType } from '../../../shared/graphql/model/schema/obs
 import { SPAN_SCOPE } from '../../../shared/graphql/model/schema/span';
 import { MetadataService } from '../../../shared/services/metadata/metadata.service';
 import { ExplorerGeneratedDashboard } from '../../explorer/explorer-dashboard-builder';
+import { getLayoutForElements } from '../../explorer/utils/get-layout-for-elements';
 import { CustomDashboardStoreService, PanelData } from '../custom-dashboard-store.service';
 import { CustomDashboardService } from '../custom-dashboard.service';
 
@@ -24,7 +26,6 @@ import { CustomDashboardService } from '../custom-dashboard.service';
   styleUrls: ['./custom-dashboard-edit.component.scss'],
   template: `
     <div class="dashboard-editor" *ngIf="state">
-      <!-- <ht-page-header class="explorer-header"></ht-page-header> -->
       <div class="header-container">
         <h3>
           {{ dashboardName }}/
@@ -81,6 +82,7 @@ import { CustomDashboardService } from '../custom-dashboard.service';
 export class CustomDashboardPanelEditComponent {
   public attributes$: Observable<AttributeMetadata[]> = EMPTY;
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
+
   public state: PanelData = {
     context: ObservabilityTraceType.Api,
     resultLimit: 15,
@@ -105,6 +107,7 @@ export class CustomDashboardPanelEditComponent {
       }
     }
   };
+
   public filters: Filter[] = [];
   public visualizationDashboard$: Observable<ExplorerGeneratedDashboard>;
   public dashboardName: string = '';
@@ -176,11 +179,32 @@ export class CustomDashboardPanelEditComponent {
     this.attributes$ = this.metadataService.getFilterAttributes(this.state.context);
   }
   private buildVisualizationDashboard(request: ExploreVisualizationRequest): Observable<ExplorerGeneratedDashboard> {
+    if (request.interval === undefined && request.groupBy === undefined) {
+      return of({
+        json: {
+          type: 'container-widget',
+          layout: getLayoutForElements(request.series?.length),
+          children: request.series?.map(seriesObject => ({
+            type: 'metric-display-widget',
+            title: `${seriesObject.specification.name} ${seriesObject.specification.aggregation}`,
+            subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined
+          }))
+        },
+        onReady: dashboard => {
+          dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationMetricDataSourceModel);
+          const dataSource = dashboard.getRootDataSource<ExplorerVisualizationMetricDataSourceModel>()!;
+          dataSource.request = request;
+        }
+      });
+    }
+
     return of({
       /*
-        The internal hda-dashboard components for rendering checks whether we pass a new json object to trigger a the dashboardReady event where we are handling the changes to filters and other fields.
-        Refer - https://github.com/razorpay/hypertrace-ui/pull/56#discussion_r937394346
-      */
+       * The internal hda-dashboard components for rendering checks whether
+       * we pass a new json object to trigger a the dashboardReady event
+       * where we are handling the changes to filters and other fields.
+       * Refer - https://github.com/razorpay/hypertrace-ui/pull/56#discussion_r937394346
+       */
       json: cloneDeep(this.state.json),
       onReady: dashboard => {
         dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationCartesianDataSourceModel);

@@ -1,6 +1,7 @@
 import { Injectable, Injector, Optional } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { delay, filter } from 'rxjs/operators';
+import { getDifferenceInDays } from '../public-api';
 import { Dictionary } from '../utilities/types/types';
 import { UserTelemetryProvider, UserTelemetryRegistrationConfig, UserTraits } from './telemetry';
 import { UserTelemetryService } from './user-telemetry.service';
@@ -71,21 +72,6 @@ export class UserTelemetryImplService extends UserTelemetryService {
       );
   }
 
-  private getDifferenceInDays(timeParamValue: string | undefined): number | undefined {
-    if (timeParamValue !== undefined) {
-      const timeRangeArray = timeParamValue.split('-');
-      const startTimeInMilliseconds = Number(timeRangeArray[0].trim());
-      const endDate = new Date();
-
-      const differenceInMilliseconds = endDate.getTime() - startTimeInMilliseconds;
-      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-
-      return Number(differenceInDays.toFixed(0));
-    }
-
-    return timeParamValue;
-  }
-
   private buildTelemetryProvider(config: UserTelemetryRegistrationConfig<unknown>): UserTelemetryInternalConfig {
     const providerInstance = this.injector.get(config.telemetryProvider);
 
@@ -112,7 +98,7 @@ export class UserTelemetryImplService extends UserTelemetryService {
           url: route.url,
           ...queryParamMap,
           isCustomTime: isCustomTimeSelected,
-          ...(isCustomTimeSelected ? { diffInDays: this.getDifferenceInDays(timeParamValue) } : {}),
+          ...(isCustomTimeSelected ? { diffInDays: getDifferenceInDays(timeParamValue) } : {}),
           urlSegments: urlSegments,
           basePath: urlSegments.length >= 0 ? urlSegments[0] : undefined
         });

@@ -77,9 +77,7 @@ export class ExplorerDashboardBuilder {
                 metric: seriesObject.specification.name,
                 aggregation: seriesObject.specification.aggregation
               },
-              filters: request.filters
-                ? this.graphqlFilterBuilderService.buildGraphQlFieldFilters(request.filters)
-                : undefined
+              filters: request.filters ? this.graphqlFilterBuilderService.buildGraphQlFieldFilters(request.filters) : []
             }
           }))
         },

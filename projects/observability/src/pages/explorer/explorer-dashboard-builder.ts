@@ -31,14 +31,14 @@ import { getLayoutForElements } from './utils/get-layout-for-elements';
 // tslint:disable: max-file-line-count
 export class ExplorerDashboardBuilder {
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
-  private readonly graphqlFilterBuilderService: GraphQlFilterBuilderService = new GraphQlFilterBuilderService();
 
   public readonly visualizationDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
 
   public constructor(
     private readonly metadataService: MetadataService,
-    private readonly filterBuilderLookupService: FilterBuilderLookupService
+    private readonly filterBuilderLookupService: FilterBuilderLookupService,
+    private readonly graphqlFilterBuilderService: GraphQlFilterBuilderService
   ) {
     // We only want to rebuild a dashboard if we actually have a meaningful request change
     const uniqueRequests$ = this.requestSubject.pipe(distinctUntilChanged(isEqualIgnoreFunctions));

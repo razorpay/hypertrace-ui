@@ -6,6 +6,7 @@ import {
   ExplorerComponent,
   ExplorerDashboardBuilder,
   ExplorerModule,
+  GraphQlFilterBuilderService,
   MetadataService
 } from '@hypertrace/observability';
 
@@ -20,9 +21,12 @@ const ROUTE_CONFIG: HtRoute[] = [
   imports: [
     RouterModule.forChild(ROUTE_CONFIG),
     ExplorerModule.withDashboardBuilderFactory({
-      useFactory: (metadataService: MetadataService, filterBuilderLookupService: FilterBuilderLookupService) =>
-        new ExplorerDashboardBuilder(metadataService, filterBuilderLookupService),
-      deps: [MetadataService, FilterBuilderLookupService]
+      useFactory: (
+        metadataService: MetadataService,
+        filterBuilderLookupService: FilterBuilderLookupService,
+        graphqlFilterBuilderService: GraphQlFilterBuilderService
+      ) => new ExplorerDashboardBuilder(metadataService, filterBuilderLookupService, graphqlFilterBuilderService),
+      deps: [MetadataService, FilterBuilderLookupService, GraphQlFilterBuilderService]
     })
   ]
 })

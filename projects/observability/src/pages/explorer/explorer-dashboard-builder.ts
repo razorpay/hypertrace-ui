@@ -10,6 +10,7 @@ import {
 import { Dashboard, ModelJson } from '@hypertrace/hyperdash';
 import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { GraphQlFilterBuilderService } from '../../public-api';
 import { ExploreVisualizationRequest } from '../../shared/components/explore-query-editor/explore-visualization-builder';
 import { LegendPosition } from '../../shared/components/legend/legend.component';
 import { ObservabilityTableCellType } from '../../shared/components/table/observability-table-cell-type';
@@ -30,6 +31,7 @@ import { getLayoutForElements } from './utils/get-layout-for-elements';
 // tslint:disable: max-file-line-count
 export class ExplorerDashboardBuilder {
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
+  private readonly graphqlFilterBuilderService: GraphQlFilterBuilderService = new GraphQlFilterBuilderService();
 
   public readonly visualizationDashboard$: Observable<ExplorerGeneratedDashboard>;
   public readonly resultsDashboard$: Observable<ExplorerGeneratedDashboard>;
@@ -76,6 +78,8 @@ export class ExplorerDashboardBuilder {
                 aggregation: seriesObject.specification.aggregation
               },
               filters: request.filters
+                ? this.graphqlFilterBuilderService.buildGraphQlFieldFilters(request.filters)
+                : undefined
             }
           }))
         },

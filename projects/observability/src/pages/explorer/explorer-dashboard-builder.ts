@@ -10,7 +10,6 @@ import {
 import { Dashboard, ModelJson } from '@hypertrace/hyperdash';
 import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { MetricAggregationType } from '../../public-api';
 import { ExploreVisualizationRequest } from '../../shared/components/explore-query-editor/explore-visualization-builder';
 import { LegendPosition } from '../../shared/components/legend/legend.component';
 import { ObservabilityTableCellType } from '../../shared/components/table/observability-table-cell-type';
@@ -22,7 +21,7 @@ import {
   AttributeMetadataType,
   toFilterAttributeType
 } from '../../shared/graphql/model/metadata/attribute-metadata';
-import { GraphQlFilter, GraphQlOperatorType } from '../../shared/graphql/model/schema/filter/graphql-filter';
+import { GraphQlFilter } from '../../shared/graphql/model/schema/filter/graphql-filter';
 import { ObservabilityTraceType } from '../../shared/graphql/model/schema/observability-traces';
 import { SPAN_SCOPE } from '../../shared/graphql/model/schema/span';
 import { MetadataService } from '../../shared/services/metadata/metadata.service';
@@ -70,20 +69,13 @@ export class ExplorerDashboardBuilder {
             subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined,
             data: {
               type: 'metric-aggregation-data-source',
-              context: 'API_TRACE',
+              context: request.context,
               metric: {
                 type: 'explore-selection',
-                metric: 'calls',
-                aggregation: MetricAggregationType.Count
+                metric: seriesObject.specification.name,
+                aggregation: seriesObject.specification.aggregation
               },
-              filters: [
-                {
-                  type: 'graphql-key-value-filter',
-                  key: 'duration',
-                  operator: GraphQlOperatorType.GreaterThan,
-                  value: 1000
-                }
-              ]
+              filters: request.filters
             }
           }))
         },

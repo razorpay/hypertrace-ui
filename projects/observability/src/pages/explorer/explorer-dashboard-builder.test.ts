@@ -6,7 +6,9 @@ import { MockService } from 'ng-mocks';
 import { EMPTY, of } from 'rxjs';
 import { CartesianSeriesVisualizationType } from '../../shared/components/cartesian/chart';
 import { ExploreVisualizationRequest } from '../../shared/components/explore-query-editor/explore-visualization-builder';
+/*
 import { ExplorerVisualizationMetricDataSourceModel } from '../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-metric-data-source.model';
+*/
 import { GraphQlFilterDataSourceModel } from '../../shared/dashboard/data/graphql/filter/graphql-filter-data-source.model';
 import { AttributeMetadataType } from '../../shared/graphql/model/metadata/attribute-metadata';
 import { MetricAggregationType } from '../../shared/graphql/model/metrics/metric-aggregation';
@@ -25,7 +27,7 @@ describe('Explorer dashboard builder', () => {
       type: CartesianSeriesVisualizationType.Column
     }
   });
-
+  /*
   test('can build dashboard JSON for visualization', done => {
     const builder = new ExplorerDashboardBuilder(MockService(MetadataService), MockService(FilterBuilderLookupService));
     jest.setTimeout(10000);
@@ -162,7 +164,7 @@ describe('Explorer dashboard builder', () => {
       });
     });
   });
-
+*/
   test('can build dashboard JSON for traces', done => {
     const builder = new ExplorerDashboardBuilder(
       // tslint:disable-next-line: no-object-literal-type-assertion

@@ -1,17 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { isEqualIgnoreFunctions, NavigationService } from '@hypertrace/common';
-import { ButtonRole, Filter, InputAppearance, ToggleItem } from '@hypertrace/components';
 import { cloneDeep } from 'lodash-es';
-import { ExplorerVisualizationMetricDataSourceModel } from 'projects/observability/src/shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-metric-data-source.model';
 import { EMPTY, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+
+import { isEqualIgnoreFunctions, NavigationService } from '@hypertrace/common';
+import { ButtonRole, Filter, InputAppearance, ToggleItem } from '@hypertrace/components';
 import {
   ExploreRequestState,
   ExploreVisualizationRequest
 } from '../../../shared/components/explore-query-editor/explore-visualization-builder';
 import { LegendPosition } from '../../../shared/components/legend/legend.component';
 import { ExplorerVisualizationCartesianDataSourceModel } from '../../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-cartesian-data-source.model';
+import { ExplorerVisualizationMetricDataSourceModel } from '../../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-metric-data-source.model';
 import { AttributeMetadata } from '../../../shared/graphql/model/metadata/attribute-metadata';
 import { ObservabilityTraceType } from '../../../shared/graphql/model/schema/observability-traces';
 import { SPAN_SCOPE } from '../../../shared/graphql/model/schema/span';
@@ -187,7 +188,8 @@ export class CustomDashboardPanelEditComponent {
           children: request.series?.map(seriesObject => ({
             type: 'metric-display-widget',
             title: `${seriesObject.specification.name} ${seriesObject.specification.aggregation}`,
-            subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined
+            subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined,
+            'metric-key': seriesObject.specification.resultAlias()
           }))
         },
         onReady: dashboard => {

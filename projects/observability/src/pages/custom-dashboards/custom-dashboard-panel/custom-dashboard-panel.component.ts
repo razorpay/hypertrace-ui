@@ -102,7 +102,6 @@ export class CustomDashboardPanelComponent implements OnInit {
     this.panel!.series = this.tryDecodeExploreSeries(this.panel!.series);
 
     if (this.panel?.interval !== 'AUTO' && this.panel?.interval !== undefined) {
-      this.panel.interval = this.panel.interval;
       this.panel.interval = new TimeDuration(this.panel.interval.value, this.panel.interval.unit);
     }
 

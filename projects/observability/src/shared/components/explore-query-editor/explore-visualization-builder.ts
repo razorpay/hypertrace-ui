@@ -212,7 +212,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
     // Todo: Revisit default value
     return {
       context: context,
-      interval: 'AUTO',
+      interval: undefined,
       resultLimit: ExploreVisualizationBuilder.DEFAULT_LIMIT,
       series: [this.buildDefaultSeries(context)]
     };
@@ -237,7 +237,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
 export interface ExploreRequestState {
   series: ExploreSeries[];
   context: ExploreRequestContext;
-  interval?: TimeDuration | 'AUTO';
+  interval?: TimeDuration | 'AUTO' | undefined;
   filters?: Filter[];
   groupBy?: GraphQlGroupBy;
   orderBy?: GraphQlSortDirection;

@@ -254,6 +254,7 @@ export class CustomDashboardPanelEditComponent {
     if (this.isNewDashboard) {
       // In case of new dashboard, panel will also be new, so add a panel ID
       this.state.id = panelSlug;
+
       this.customDashboardService
         .createDashboard({
           id: this.dashboardId,
@@ -272,12 +273,15 @@ export class CustomDashboardPanelEditComponent {
       } else {
         this.customDashboardStoreService.updatePanel(this.dashboardId, this.state);
       }
+
       const dashboardData = this.customDashboardStoreService.get(this.dashboardId);
+
       this.customDashboardService.updateDashboard(this.dashboardId, dashboardData).subscribe(() => {
         this.redirectToDashboard();
       });
     }
   }
+
   public redirectToDashboard(): void {
     const dashboardId = this.isNewDashboard ? 'create' : this.dashboardId;
     this.navigationService.navigateWithinApp(['/custom-dashboards/', this.dashboardView, dashboardId]);

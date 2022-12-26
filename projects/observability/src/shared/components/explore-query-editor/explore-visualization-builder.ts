@@ -212,7 +212,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
     // Todo: Revisit default value
     return {
       context: context,
-      interval: undefined,
+      interval: undefined, // setting this to 'AUTO' will also affect edit panel of custom dashboards
       resultLimit: ExploreVisualizationBuilder.DEFAULT_LIMIT,
       series: [this.buildDefaultSeries(context)]
     };

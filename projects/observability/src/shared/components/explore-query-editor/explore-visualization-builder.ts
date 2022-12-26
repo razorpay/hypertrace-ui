@@ -229,7 +229,7 @@ export class ExploreVisualizationBuilder implements OnDestroy {
     };
   }
 
-  private resolveInterval(interval?: TimeDuration | 'AUTO'): TimeDuration | undefined {
+  private resolveInterval(interval?: TimeDuration | 'AUTO' | undefined): TimeDuration | undefined {
     return interval === 'AUTO' ? this.intervalDurationService.getAutoDuration() : interval;
   }
 }

@@ -63,7 +63,7 @@ describe('Explore visualization builder', () => {
   const expectedQuery = (queryPartial: Partial<ExploreVisualizationRequest> = {}): ExploreVisualizationRequest =>
     expect.objectContaining({
       context: ObservabilityTraceType.Api,
-      interval: 'AUTO',
+      interval: undefined,
       series: [matchSeriesWithName('calls')],
       ...queryPartial
     });

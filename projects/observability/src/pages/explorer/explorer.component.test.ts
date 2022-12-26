@@ -263,7 +263,7 @@ describe('Explorer component', () => {
         requestType: EXPLORE_GQL_REQUEST,
         context: SPAN_SCOPE,
         limit: 1000,
-        interval: new TimeDuration(15, TimeUnit.Second)
+        interval: undefined
       }),
       expect.objectContaining({})
     );
@@ -313,7 +313,7 @@ describe('Explorer component', () => {
         requestType: EXPLORE_GQL_REQUEST,
         context: SPAN_SCOPE,
         limit: 1000,
-        interval: new TimeDuration(15, TimeUnit.Second),
+        interval: undefined,
         filters: [new GraphQlFieldFilter({ key: 'first' }, GraphQlOperatorType.Equals, 'foo')]
       }),
       expect.objectContaining({})

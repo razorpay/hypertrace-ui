@@ -68,7 +68,6 @@ import { CustomDashboardService } from '../custom-dashboard.service';
         [interval]="state.interval"
         [groupBy]="state.groupBy"
         [series]="state.series"
-        [interval]="state.interval"
         [orderBy]="state.orderBy"
         (visualizationRequestChange)="this.onVisualizationRequestUpdated($event)"
       ></ht-explore-query-editor>
@@ -166,6 +165,8 @@ export class CustomDashboardPanelEditComponent {
     if (!this.isNewPanel) {
       const panelData = this.customDashboardStoreService.getPanel(this.dashboardId, this.panelId)!;
       this.state = panelData;
+      // @ts-ignore
+      this.state.interval = panelData.interval ?? 'NONE';
     }
 
     this.currentContext = this.contextItems.find(i => i.value === this.state.context)!;
@@ -213,6 +214,22 @@ export class CustomDashboardPanelEditComponent {
         }
       });
     }
+
+    this.state.json = {
+      type: 'cartesian-widget',
+      'selectable-interval': false,
+      'series-from-data': true,
+      'legend-position': LegendPosition.Bottom,
+      'selection-handler': {
+        type: 'custom-dashboard-selection-handler'
+      },
+      'show-y-axis': true,
+      'y-axis': {
+        type: 'cartesian-axis',
+        'show-grid-lines': true,
+        'min-upper-limit': 25
+      }
+    };
 
     return of({
       /*

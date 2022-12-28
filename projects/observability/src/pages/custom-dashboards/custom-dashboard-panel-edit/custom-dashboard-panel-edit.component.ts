@@ -22,6 +22,8 @@ import { getLayoutForElements } from '../../explorer/utils/get-layout-for-elemen
 import { CustomDashboardStoreService, PanelData } from '../custom-dashboard-store.service';
 import { CustomDashboardService } from '../custom-dashboard.service';
 
+import type { ModelJson } from '@hypertrace/hyperdash';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./custom-dashboard-edit.component.scss'],
@@ -83,6 +85,22 @@ export class CustomDashboardPanelEditComponent {
   public attributes$: Observable<AttributeMetadata[]> = EMPTY;
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
 
+  private readonly cartesianWidgetJson: ModelJson = {
+    type: 'cartesian-widget',
+    'selectable-interval': false,
+    'series-from-data': true,
+    'legend-position': LegendPosition.Bottom,
+    'selection-handler': {
+      type: 'custom-dashboard-selection-handler'
+    },
+    'show-y-axis': true,
+    'y-axis': {
+      type: 'cartesian-axis',
+      'show-grid-lines': true,
+      'min-upper-limit': 25
+    }
+  };
+
   public state: PanelData = {
     context: ObservabilityTraceType.Api,
     resultLimit: 15,
@@ -91,21 +109,7 @@ export class CustomDashboardPanelEditComponent {
     id: '',
     isRealtime: false,
     interval: 'AUTO',
-    json: {
-      type: 'cartesian-widget',
-      'selectable-interval': false,
-      'series-from-data': true,
-      'legend-position': LegendPosition.Bottom,
-      'selection-handler': {
-        type: 'custom-dashboard-selection-handler'
-      },
-      'show-y-axis': true,
-      'y-axis': {
-        type: 'cartesian-axis',
-        'show-grid-lines': true,
-        'min-upper-limit': 25
-      }
-    }
+    json: this.cartesianWidgetJson
   };
 
   public filters: Filter[] = [];
@@ -215,21 +219,7 @@ export class CustomDashboardPanelEditComponent {
       });
     }
 
-    this.state.json = {
-      type: 'cartesian-widget',
-      'selectable-interval': false,
-      'series-from-data': true,
-      'legend-position': LegendPosition.Bottom,
-      'selection-handler': {
-        type: 'custom-dashboard-selection-handler'
-      },
-      'show-y-axis': true,
-      'y-axis': {
-        type: 'cartesian-axis',
-        'show-grid-lines': true,
-        'min-upper-limit': 25
-      }
-    };
+    this.state.json = this.cartesianWidgetJson;
 
     return of({
       /*

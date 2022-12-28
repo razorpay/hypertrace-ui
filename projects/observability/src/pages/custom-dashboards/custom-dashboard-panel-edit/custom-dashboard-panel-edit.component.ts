@@ -19,10 +19,11 @@ import { SPAN_SCOPE } from '../../../shared/graphql/model/schema/span';
 import { MetadataService } from '../../../shared/services/metadata/metadata.service';
 import { ExplorerGeneratedDashboard } from '../../explorer/explorer-dashboard-builder';
 import { getLayoutForElements } from '../../explorer/utils/get-layout-for-elements';
-import { CustomDashboardStoreService, PanelData } from '../custom-dashboard-store.service';
+import { CustomDashboardStoreService } from '../custom-dashboard-store.service';
 import { CustomDashboardService } from '../custom-dashboard.service';
 
 import type { ModelJson } from '@hypertrace/hyperdash';
+import type { PanelData } from '../custom-dashboard-store.service'; // tslint:disable-line: no-duplicate-imports
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -169,8 +170,7 @@ export class CustomDashboardPanelEditComponent {
     if (!this.isNewPanel) {
       const panelData = this.customDashboardStoreService.getPanel(this.dashboardId, this.panelId)!;
       this.state = panelData;
-      // @ts-ignore
-      this.state.interval = panelData.interval ?? 'NONE';
+      this.state.interval = panelData.interval ?? ('NONE' as PanelData['interval']);
     }
 
     this.currentContext = this.contextItems.find(i => i.value === this.state.context)!;

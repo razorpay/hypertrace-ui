@@ -101,13 +101,6 @@
           "options": {
             "no-cache": true
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -132,13 +125,6 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/common/tsconfig.lib.json", "projects/common/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -163,13 +149,6 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/graphql-client/tsconfig.lib.json", "projects/graphql-client/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -194,13 +173,6 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/components/tsconfig.lib.json", "projects/components/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -225,13 +197,6 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/dashboards/tsconfig.lib.json", "projects/dashboards/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -251,13 +216,6 @@
             "production": {
               "tsConfig": "projects/test-utils/tsconfig.lib.prod.json"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/test-utils/tsconfig.lib.json", "projects/test-utils/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -283,13 +241,6 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/observability/tsconfig.lib.json", "projects/observability/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -315,13 +266,6 @@
           "builder": "@angular-builders/jest:run",
           "options": {
             "no-cache": true
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["projects/assets-library/tsconfig.lib.json", "projects/assets-library/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }

@@ -135,7 +135,7 @@ export interface RenderableTopologyNode<TNode extends TopologyNode = TopologyNod
 
 export interface RenderableTopologyNodeRenderedData {
   getAttachmentPoint(angleRad: number): TopologyCoordinates;
-  getBoudingBox(): ClientRect;
+  getBoudingBox(): DOMRect;
 }
 
 export interface RenderableTopologyEdge<

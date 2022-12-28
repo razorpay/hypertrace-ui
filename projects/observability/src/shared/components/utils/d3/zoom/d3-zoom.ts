@@ -1,10 +1,11 @@
-import { Key, MouseButton, throwIfNil } from '@hypertrace/common';
 import { brush, BrushBehavior, D3BrushEvent } from 'd3-brush';
 // tslint:disable-next-line: no-restricted-globals weird tslint error. Rename event so we can type it and not mistake it for other events
 import { event as _d3CurrentEvent, Selection } from 'd3-selection';
 import { D3ZoomEvent, zoom, ZoomBehavior, zoomIdentity, ZoomTransform } from 'd3-zoom';
 import { isEqual } from 'lodash-es';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { Key, MouseButton, throwIfNil } from '@hypertrace/common';
 
 export abstract class D3Zoom<TContainer extends Element = Element, TTarget extends Element = Element> {
   protected static readonly DEFAULT_MIN_ZOOM: number = 0.2;
@@ -81,7 +82,7 @@ export abstract class D3Zoom<TContainer extends Element = Element, TTarget exten
     return this.minScale < this.getZoomScale();
   }
 
-  public zoomToRect(requestedRect: ClientRect): void {
+  public zoomToRect(requestedRect: DOMRect): void {
     const availableRect = throwIfNil(this.config && this.config.container.node()).getBoundingClientRect();
     // Add a bit of padding to requested width/height for padding
     const requestedWidthScale = availableRect.width / (requestedRect.width + 24);
@@ -92,7 +93,7 @@ export abstract class D3Zoom<TContainer extends Element = Element, TTarget exten
     this.translateToRect(requestedRect);
   }
 
-  public panToRect(viewRect: ClientRect): void {
+  public panToRect(viewRect: DOMRect): void {
     const availableRect = throwIfNil(this.config && this.config.container.node()).getBoundingClientRect();
     // AvailableRect is used for width since we are always keeping scale as 1
     this.zoomBehavior.translateTo(
@@ -111,7 +112,7 @@ export abstract class D3Zoom<TContainer extends Element = Element, TTarget exten
     containerSelection.select(`.${D3Zoom.DATA_BRUSH_CONTEXT_CLASS}`).remove();
     const containerdBox = throwIfNil(containerSelection.node()).getBoundingClientRect();
 
-    const boundingBox: ClientRect = {
+    const boundingBox: Omit<DOMRect, 'x' | 'y' | 'toJSON'> = {
       bottom: containerdBox.bottom,
       top: containerdBox.height - D3Zoom.DATA_BRUSH_OVERLAY_HEIGHT,
       left: containerdBox.width - D3Zoom.DATA_BRUSH_OVERLAY_WIDTH,
@@ -179,10 +180,10 @@ export abstract class D3Zoom<TContainer extends Element = Element, TTarget exten
       height: end[1] * chartZoomScale - start[1] * chartZoomScale
     };
 
-    this.panToRect(viewRect);
+    this.panToRect(viewRect as DOMRect);
   }
 
-  public translateToRect(rect: ClientRect): void {
+  public translateToRect(rect: DOMRect): void {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     this.zoomBehavior.translateTo(this.getContainerSelectionOrThrow(), centerX, centerY);

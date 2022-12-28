@@ -113,7 +113,7 @@ export class TopologyNodeRendererService implements TopologyNodeRenderer {
     return this.rendererDelegates.find(delegate => delegate.matches(node));
   }
 
-  private getBoundingBox(node: RenderableTopologyNode, delegate: TopologyNodeRendererDelegate): ClientRect {
+  private getBoundingBox(node: RenderableTopologyNode, delegate: TopologyNodeRendererDelegate): DOMRect {
     const width = delegate.width(node.userNode);
     const height = delegate.height(node.userNode);
 
@@ -124,7 +124,7 @@ export class TopologyNodeRendererService implements TopologyNodeRenderer {
       bottom: node.y + height,
       width: width,
       height: height
-    };
+    } as DOMRect; // tslint:disable-line: no-object-literal-type-assertion
   }
 }
 

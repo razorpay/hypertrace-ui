@@ -49,7 +49,7 @@ export class TopologyZoom<TContainer extends Element = Element, TTarget extends 
     containerSelection.select(`.${TopologyZoom.DATA_BRUSH_CONTEXT_CLASS}`).remove();
     const containerdBox = throwIfNil(containerSelection.node()).getBoundingClientRect();
 
-    const boundingBox: ClientRect = {
+    const boundingBox: Omit<DOMRect, 'x' | 'y' | 'toJSON'> = {
       bottom: containerdBox.bottom,
       top: containerdBox.height - TopologyZoom.DATA_BRUSH_OVERLAY_HEIGHT,
       left: containerdBox.width - TopologyZoom.DATA_BRUSH_OVERLAY_WIDTH,
@@ -58,7 +58,7 @@ export class TopologyZoom<TContainer extends Element = Element, TTarget extends 
       height: TopologyZoom.DATA_BRUSH_OVERLAY_HEIGHT
     };
 
-    const overlayZoomScale = this.determineZoomScale(nodes, boundingBox);
+    const overlayZoomScale = this.determineZoomScale(nodes, boundingBox as DOMRect);
 
     this.showBrushOverlay(overlayZoomScale);
   }

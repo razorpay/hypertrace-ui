@@ -26,8 +26,8 @@ export const selector = (name: string, type: SelectorType = SelectorType.Class):
 // tslint:disable-next-line: no-unnecessary-callback-wrapper
 export const selectorAny = (...names: string[]): string => names.map(name => selector(name)).join(',');
 
-export const unionOfClientRects = (...rects: ClientRect[]): ClientRect => {
-  type ClientRectBounds = Omit<ClientRect, 'width' | 'height'>;
+export const unionOfClientRects = (...rects: DOMRect[]): DOMRect => {
+  type ClientRectBounds = Omit<DOMRect, 'width' | 'height' | 'x' | 'y' | 'toJSON'>;
   const bounds = (rects as ClientRectBounds[]).reduce((currentUnion, domRect) => ({
     left: Math.min(currentUnion.left, domRect.left),
     right: Math.max(currentUnion.right, domRect.right),
@@ -39,5 +39,5 @@ export const unionOfClientRects = (...rects: ClientRect[]): ClientRect => {
     ...bounds,
     width: bounds.right - bounds.left,
     height: bounds.bottom - bounds.top
-  };
+  } as DOMRect;
 };

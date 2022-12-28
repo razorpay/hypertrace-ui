@@ -17,7 +17,7 @@
     "noUnusedParameters": true,
     "downlevelIteration": true,
     "allowJs": true,
-    "lib": ["es2015", "es2016", "es2017", "esnext.string", "esnext.array", "esnext.asynciterable", "dom"],
+    "lib": ["es2015", "es2016", "es2017", "es2021.string", "es2019.array", "es2018.asynciterable", "dom"],
     "paths": {
       "@hypertrace/assets-library": ["projects/assets-library/src/public-api.ts"],
       "@hypertrace/common": ["projects/common/src/public-api.ts"],

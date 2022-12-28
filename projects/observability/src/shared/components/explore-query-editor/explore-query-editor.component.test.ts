@@ -104,7 +104,7 @@ describe('Explore query editor', () => {
 
   const expectedDefaultQuery = (): ExploreVisualizationRequest =>
     expect.objectContaining({
-      interval: undefined,
+      interval: 'AUTO',
       series: [defaultSeries]
     });
 
@@ -129,7 +129,6 @@ describe('Explore query editor', () => {
   }));
 
   test('onRequestChange emits the new query on series group change', fakeAsync(() => {
-    jest.setTimeout(10000);
     const onRequestChange = jest.fn();
 
     const spectator = hostBuilder(

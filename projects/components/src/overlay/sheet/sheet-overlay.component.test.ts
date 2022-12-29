@@ -14,8 +14,7 @@ import { SheetOverlayConfig, SheetSize, SHEET_DATA } from './sheet';
 import { SheetOverlayComponent } from './sheet-overlay.component';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'test-sheet-content',
+  selector: 'test-sheet-content', // eslint-disable-line @angular-eslint/component-selector
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="test-modal-content">Test Component Content</div> `
 })

@@ -5,8 +5,7 @@ import { DynamicComponentService } from './dynamic-component.service';
 describe('Dynamic component service', () => {
   const injectionToken = new InjectionToken<string>('test token');
   @Component({
-    // tslint:disable-next-line: component-selector
-    selector: 'dynamic-component',
+    selector: 'dynamic-component', // eslint-disable-line @angular-eslint/component-selector
     template: 'Dynamic component {{this.injected}}'
   })
   class DynamicComponent {

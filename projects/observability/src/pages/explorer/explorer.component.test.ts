@@ -378,7 +378,7 @@ describe('Explorer component', () => {
 
   test('updates URL with query param when query updated', fakeAsync(() => {
     init();
-    const queryParamChangeSpy = spyOn(spectator.inject(NavigationService), 'addQueryParametersToUrl');
+    const queryParamChangeSpy = jest.spyOn(spectator.inject(NavigationService), 'addQueryParametersToUrl');
     spectator.click(spectator.queryAll('ht-toggle-item')[1]);
     spectator.query(ExploreQueryEditorComponent)!.setSeries([buildSeries('second', MetricAggregationType.Average)]);
     spectator.query(ExploreQueryEditorComponent)!.setInterval(new TimeDuration(30, TimeUnit.Second));
@@ -435,7 +435,7 @@ describe('Explorer component', () => {
 
   test('shows notification when a query is saved successfully', fakeAsync(() => {
     init();
-    const notificationServiceSpy = spyOn(spectator.inject(NotificationService), 'createSuccessToast');
+    const notificationServiceSpy = jest.spyOn(spectator.inject(NotificationService), 'createSuccessToast');
 
     const saveQueryButton = spectator.query('.explorer-save-button');
     expect(saveQueryButton).toExist();
@@ -446,7 +446,7 @@ describe('Explorer component', () => {
 
   test('saves query with a default name when no input is provided', fakeAsync(() => {
     init();
-    const savedQueriesServiceSpy = spyOn(spectator.inject(SavedQueriesService), 'saveQuery');
+    const savedQueriesServiceSpy = jest.spyOn(spectator.inject(SavedQueriesService), 'saveQuery');
     window.prompt = jest.fn().mockReturnValue('My query');
 
     const saveQueryButton = spectator.query('.explorer-save-button');
@@ -462,7 +462,7 @@ describe('Explorer component', () => {
 
   test("doesn't save query if user cancels input dialog", fakeAsync(() => {
     init();
-    const preferenceServiceSpy = spyOn(spectator.inject(PreferenceService), 'set');
+    const preferenceServiceSpy = jest.spyOn(spectator.inject(PreferenceService), 'set');
     // tslint:disable-next-line: no-null-keyword
     window.prompt = jest.fn().mockReturnValue(null);
 

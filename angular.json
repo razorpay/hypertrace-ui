@@ -101,6 +101,12 @@
           "options": {
             "no-cache": true
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
         }
       }
     },
@@ -125,6 +131,12 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/common/**/*.ts", "projects/common/**/*.html"]
+          }
         }
       }
     },
@@ -149,6 +161,12 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/graphql-client/**/*.ts", "projects/graphql-client/**/*.html"]
+          }
         }
       }
     },
@@ -173,6 +191,12 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/components/**/*.ts", "projects/components/**/*.html"]
+          }
         }
       }
     },
@@ -197,6 +221,12 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/dashboards/**/*.ts", "projects/dashboards/**/*.html"]
+          }
         }
       }
     },
@@ -216,6 +246,12 @@
             "production": {
               "tsConfig": "projects/test-utils/tsconfig.lib.prod.json"
             }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/test-utils/**/*.ts", "projects/test-utils/**/*.html"]
           }
         }
       }
@@ -241,6 +277,12 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {}
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/observability/**/*.ts", "projects/observability/**/*.html"]
+          }
         }
       }
     },
@@ -266,6 +308,12 @@
           "builder": "@angular-builders/jest:run",
           "options": {
             "no-cache": true
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/assets-library/**/*.ts", "projects/assets-library/**/*.html"]
           }
         }
       }

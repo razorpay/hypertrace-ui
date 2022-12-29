@@ -1,5 +1,10 @@
 import { StaticProvider } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ModelJson } from '@hypertrace/hyperdash';
+import { DashboardManagerService, LoggerService, RENDERER_API } from '@hypertrace/hyperdash-angular';
+import { mockProvider, Spectator } from '@ngneat/spectator/jest';
+import { EMPTY, of } from 'rxjs';
+
 import {
   ColorService,
   LayoutChangeService,
@@ -10,12 +15,8 @@ import {
   TimeUnit
 } from '@hypertrace/common';
 import { GraphQlRequestService } from '@hypertrace/graphql-client';
-import { ModelJson } from '@hypertrace/hyperdash';
-import { DashboardManagerService, LoggerService, RENDERER_API } from '@hypertrace/hyperdash-angular';
 import { CustomDashboardService, GraphQlQueryEventService, MetadataService } from '@hypertrace/observability';
 import { getMockFlexLayoutProviders } from '@hypertrace/test-utils';
-import { mockProvider, Spectator } from '@ngneat/spectator/jest';
-import { EMPTY, of } from 'rxjs';
 
 export const isValidModelJson = (
   spectator: Spectator<unknown>,
@@ -30,6 +31,10 @@ export const isValidModelJson = (
     return false;
   }
 };
+
+function fail(reason = 'fail was called in a test.') {
+  throw new Error(reason);
+}
 
 export const mockDashboardProviders = [
   mockProvider(GraphQlRequestService),

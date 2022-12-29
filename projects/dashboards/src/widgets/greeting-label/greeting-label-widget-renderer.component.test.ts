@@ -1,5 +1,6 @@
-import { GreetingLabelComponent } from '@hypertrace/components';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
+import { GreetingLabelComponent } from '@hypertrace/components';
 import { mockDashboardWidgetProviders } from '../../test/dashboard-verification';
 import { GreetingLabelWidgetRendererComponent } from './greeting-label-widget-renderer.component';
 import { GreetingLabelWidgetModel } from './greeting-label-widget.model';
@@ -18,7 +19,7 @@ describe('Greeting label widget renderer component', () => {
   });
 
   test('should render greeting label correctly', () => {
-    spyOn(Date.prototype, 'getHours').and.returnValue(18);
+    jest.spyOn(Date.prototype, 'getHours').mockReturnValue(18);
     spectator = createComponent();
     expect(spectator.query('ht-greeting-label')).toHaveText('Good Evening, test');
   });

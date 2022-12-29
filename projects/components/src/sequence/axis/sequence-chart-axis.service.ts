@@ -39,6 +39,7 @@ export class SequenceChartAxisService {
     axisSelection.data([d3Axis]);
 
     axisSelection
+      // @ts-ignore
       .call(d3Axis)
       .classed('axis-line', true)
       .classed('divider-line', (_datum, index) => index === 0)
@@ -81,6 +82,7 @@ export class SequenceChartAxisService {
 
     axisSelection.data([xAxis]);
 
+    // @ts-ignore
     axisSelection.call(xAxis);
   }
 

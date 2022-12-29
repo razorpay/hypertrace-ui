@@ -370,6 +370,7 @@ export class DefaultCartesianChart<TData> implements CartesianChart<TData> {
       [width, height]
     ]);
 
+    // @ts-ignore
     select(this.mouseEventContainer!).append('g').attr('class', 'brush').call(brushBehaviour);
   }
 

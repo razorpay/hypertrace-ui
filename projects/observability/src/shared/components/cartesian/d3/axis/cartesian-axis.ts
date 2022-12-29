@@ -41,6 +41,7 @@ export class CartesianAxis<TData = {}> {
       .append('g')
       .classed(CartesianAxis.CSS_CLASS, true)
       .classed(CartesianNoDataMessage.NO_DATA_HIDABLE_CSS_CLASS, this.configuration.type === AxisType.Y)
+      // @ts-ignore
       .call(axis);
 
     this.axisElement = axisSvgSelection
@@ -209,6 +210,7 @@ export class CartesianAxis<TData = {}> {
       .append('g')
       .classed('grid-line', true)
       .classed(CartesianNoDataMessage.NO_DATA_HIDABLE_CSS_CLASS, true)
+      // @ts-ignore
       .call(gridLineAxis)
       .selectAll('.domain, .tick:first-of-type')
       .remove();

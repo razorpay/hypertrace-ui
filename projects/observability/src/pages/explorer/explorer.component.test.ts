@@ -167,6 +167,9 @@ describe('Explorer component', () => {
     querySpy = spectator.inject(GraphQlRequestService).query;
   };
 
+  window.prompt = jest.fn();
+  beforeEach(() => jest.clearAllMocks());
+
   test('fires query on init for traces', fakeAsync(() => {
     init(
       mockProvider(GraphQlRequestService, {
@@ -183,19 +186,17 @@ describe('Explorer component', () => {
         limit: 1000,
         interval: new TimeDuration(15, TimeUnit.Second)
       }),
-      expect.objectContaining({})
+      undefined
     );
 
-    // RunFakeRxjs(({ expectObservable }) => {
-    //   ExpectObservable(spectator.component.resultsDashboard$).toBe('x', { x: undefined });
-    // });
-    expect(querySpy).toHaveBeenCalledWith(
+    expect(querySpy).toHaveBeenNthCalledWith(
+      3,
       expect.objectContaining({
         requestType: TRACES_GQL_REQUEST,
         filters: [],
         limit: 100
       }),
-      expect.objectContaining({})
+      undefined
     );
   }));
 
@@ -231,7 +232,7 @@ describe('Explorer component', () => {
         limit: 1000,
         interval: new TimeDuration(15, TimeUnit.Second)
       }),
-      expect.objectContaining({})
+      undefined
     );
 
     expect(querySpy).toHaveBeenNthCalledWith(
@@ -241,7 +242,7 @@ describe('Explorer component', () => {
         filters: [new GraphQlFieldFilter({ key: 'first' }, GraphQlOperatorType.Equals, 'foo')],
         limit: 100
       }),
-      expect.objectContaining({})
+      undefined
     );
   }));
 
@@ -265,7 +266,7 @@ describe('Explorer component', () => {
         limit: 1000,
         interval: new TimeDuration(15, TimeUnit.Second)
       }),
-      expect.objectContaining({})
+      undefined
     );
 
     expect(querySpy).toHaveBeenNthCalledWith(
@@ -275,11 +276,11 @@ describe('Explorer component', () => {
         filters: [],
         limit: 100
       }),
-      expect.objectContaining({})
+      undefined
     );
   }));
 
-  test('fires query on init for traces', fakeAsync(() => {
+  test('fires query on init for spans with filters', fakeAsync(() => {
     init(
       mockProvider(GraphQlRequestService, {
         query: jest.fn().mockReturnValueOnce(of(mockAttributes)).mockReturnValue(EMPTY)
@@ -316,7 +317,7 @@ describe('Explorer component', () => {
         interval: new TimeDuration(15, TimeUnit.Second),
         filters: [new GraphQlFieldFilter({ key: 'first' }, GraphQlOperatorType.Equals, 'foo')]
       }),
-      expect.objectContaining({})
+      undefined
     );
 
     expect(querySpy).toHaveBeenNthCalledWith(
@@ -326,7 +327,7 @@ describe('Explorer component', () => {
         limit: 100,
         filters: [new GraphQlFieldFilter({ key: 'first' }, GraphQlOperatorType.Equals, 'foo')]
       }),
-      expect.objectContaining({})
+      undefined
     );
   }));
 

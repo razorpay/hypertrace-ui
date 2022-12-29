@@ -1,16 +1,15 @@
 import { fakeAsync } from '@angular/core/testing';
-import { ColorService, DomElementMeasurerService, FormattingModule } from '@hypertrace/common';
-import { LoadAsyncModule } from '@hypertrace/components';
 import { createHostFactory, mockProvider, Spectator } from '@ngneat/spectator/jest';
 import { MockProvider } from 'ng-mocks';
+
+import { ColorService, DomElementMeasurerService, FormattingModule } from '@hypertrace/common';
+import { LoadAsyncModule } from '@hypertrace/components';
 import { BarGaugeComponent } from './bar-gauge.component';
 
 describe('Bar Gauge component', () => {
   let spectator: Spectator<BarGaugeComponent>;
 
-  const setMeasureHtmlElement = (right: number = 33): ((element: HTMLElement) => ClientRect) => (
-    element: HTMLElement
-  ) => {
+  const setMeasureHtmlElement = (right: number = 33): ((element: HTMLElement) => DOMRect) => (element: HTMLElement) => {
     switch (element.getAttribute('class')) {
       case 'segment-bar':
         return {
@@ -20,7 +19,7 @@ describe('Bar Gauge component', () => {
           right: right,
           top: 0,
           width: 33
-        };
+        } as DOMRect;
       case 'max-value-bar':
       default:
         return {
@@ -30,7 +29,7 @@ describe('Bar Gauge component', () => {
           right: 100,
           top: 0,
           width: 100
-        };
+        } as DOMRect;
     }
   };
 

@@ -32,7 +32,7 @@ describe('Tree Layout', () => {
     domElementRenderer: domElementRenderer,
     renderedData: () => ({
       getAttachmentPoint: (_angleRad: number): TopologyCoordinates => ({ x: 0, y: 0 }),
-      getBoudingBox: () => ({ height: 10, width: 10, bottom: 0, left: 0, right: 0, top: 0 })
+      getBoudingBox: () => ({ height: 10, width: 10, bottom: 0, left: 0, right: 0, top: 0 } as DOMRect)
     })
   });
 

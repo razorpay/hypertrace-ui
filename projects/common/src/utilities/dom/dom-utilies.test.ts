@@ -16,7 +16,7 @@ describe('Dom Utilities', () => {
   });
 
   test('should convert to union of client rects', () => {
-    const clientRect1: ClientRect = {
+    const clientRect1: Omit<DOMRect, 'x' | 'y' | 'toJSON'> = {
       left: 20,
       right: 40,
       top: 10,
@@ -25,7 +25,7 @@ describe('Dom Utilities', () => {
       width: 20
     };
 
-    const clientRect2: ClientRect = {
+    const clientRect2: Omit<DOMRect, 'x' | 'y' | 'toJSON'> = {
       left: 0,
       right: 45,
       top: 5,
@@ -34,7 +34,7 @@ describe('Dom Utilities', () => {
       width: 45
     };
 
-    expect(unionOfClientRects(clientRect1, clientRect2)).toEqual({
+    expect(unionOfClientRects(clientRect1 as DOMRect, clientRect2 as DOMRect)).toEqual({
       left: 0,
       right: 45,
       top: 5,

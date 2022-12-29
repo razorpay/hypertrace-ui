@@ -18,7 +18,8 @@
     "test": "ng test hypertrace-ui --cache --maxWorkers=2",
     "lint": "ng lint hypertrace-ui",
     "lint:fix": "ng lint --fix hypertrace-ui",
-    "prettier:check": "prettier --check '**'",
+    "prettier:check": "prettier --check \"{projects,src}/**/*.{js,ts,tsx,json,html,scss}\"",
+    "prettier:fix": "prettier --write \"{projects,src}/**/*.{js,ts,tsx,json,html,scss}\"",
     "test:ci": "ng test hypertrace-ui --maxWorkers=2 --ci --coverage",
     "docs": "compodoc -p tsconfig.json",
     "prepare": "husky install"

@@ -67,13 +67,15 @@ export const mockDashboardProviders = [
   ...getMockFlexLayoutProviders()
 ];
 
-export const rendererApiFactoryBuilder = <TModel extends object>(model: TModel) => () => ({
-  getTimeRange: jest.fn(),
-  model: model,
-  change$: EMPTY,
-  dataRefresh$: EMPTY,
-  timeRangeChanged$: EMPTY
-});
+export const rendererApiFactoryBuilder =
+  <TModel extends object>(model: TModel) =>
+  () => ({
+    getTimeRange: jest.fn(),
+    model: model,
+    change$: EMPTY,
+    dataRefresh$: EMPTY,
+    timeRangeChanged$: EMPTY
+  });
 
 export const mockDashboardWidgetProviders: <T extends object>(model: T) => StaticProvider[] = model => [
   {

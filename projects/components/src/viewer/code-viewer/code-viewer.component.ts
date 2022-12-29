@@ -45,7 +45,7 @@ import { DownloadFileMetadata } from '../../download-file/download-file-metadata
           >
             <pre
               [innerHtml]="
-                this.searchText ? (codeLine | htHighlight: { text: this.searchText, highlightType: 'mark' }) : codeLine
+                this.searchText ? (codeLine | htHighlight : { text: this.searchText, highlightType: 'mark' }) : codeLine
               "
             ></pre>
           </div>

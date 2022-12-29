@@ -29,7 +29,7 @@ import { BehaviorSubject } from 'rxjs';
           [attr.stroke-dasharray]="this.dashLengthSubject | async"
         ></circle>
       </svg>
-      <div class="progress-text">{{ this.percent | number: '1.0-0' }}</div>
+      <div class="progress-text">{{ this.percent | number : '1.0-0' }}</div>
     </div>
   `
 })

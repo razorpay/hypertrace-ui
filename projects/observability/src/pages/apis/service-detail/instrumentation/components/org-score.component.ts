@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
       <div>
         <h5 class="heading">Organization Score</h5>
         <p class="score">
-          {{ this.orgScore | number: '1.0-0' }}
+          {{ this.orgScore | number : '1.0-0' }}
           <span class="label" [style.color]="this.getScoreComment().color">{{ this.getScoreComment().text }}</span>
         </p>
       </div>

@@ -72,9 +72,10 @@ describe('Feature Guard', () => {
     runFakeRxjs(({ expectObservable }) => {
       const spectator = buildService();
       expectObservable(spectator.service.canLoad({}, [])).toBe('(x|)', { x: true });
-      expectObservable(
-        spectator.service.canLoad(buildRouteForFeatures(['test-feature-1', 'test-feature-3']), [])
-      ).toBe('(x|)', { x: true });
+      expectObservable(spectator.service.canLoad(buildRouteForFeatures(['test-feature-1', 'test-feature-3']), [])).toBe(
+        '(x|)',
+        { x: true }
+      );
       expectObservable(spectator.service.canLoad(buildRouteForFeatures(['test-feature-1']), [])).toBe('(x|)', {
         x: true
       });

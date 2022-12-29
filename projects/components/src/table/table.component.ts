@@ -201,7 +201,8 @@ export class TableComponent
     TableDataSourceProvider,
     FiltersProvider,
     ColumnStateChangeProvider,
-    RowStateChangeProvider {
+    RowStateChangeProvider
+{
   private static readonly PAGE_INDEX_URL_PARAM: string = 'page';
   private static readonly PAGE_SIZE_URL_PARAM: string = 'page-size';
   private static readonly SORT_COLUMN_URL_PARAM: string = 'sort-by';
@@ -341,9 +342,8 @@ export class TableComponent
   private readonly columnStateSubject: BehaviorSubject<TableColumnConfigExtended | undefined> = new BehaviorSubject<
     TableColumnConfigExtended | undefined
   >(undefined);
-  public readonly columnState$: Observable<
-    TableColumnConfigExtended | undefined
-  > = this.columnStateSubject.asObservable();
+  public readonly columnState$: Observable<TableColumnConfigExtended | undefined> =
+    this.columnStateSubject.asObservable();
 
   /*
    * Row State

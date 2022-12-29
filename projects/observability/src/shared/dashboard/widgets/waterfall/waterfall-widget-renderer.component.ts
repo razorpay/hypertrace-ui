@@ -80,7 +80,7 @@ import { MarkerSelection, WaterfallChartComponent } from './waterfall/waterfall-
             ></ht-summary-value>
             <ht-explore-filter-link
               class="filter-link"
-              [paramsOrUrl]="getExploreNavigationParams | htMemoize: this.selectedData | async"
+              [paramsOrUrl]="getExploreNavigationParams | htMemoize : this.selectedData | async"
               htTooltip="See spans in Explorer"
             >
             </ht-explore-filter-link>
@@ -92,7 +92,8 @@ import { MarkerSelection, WaterfallChartComponent } from './waterfall/waterfall-
 })
 export class WaterfallWidgetRendererComponent
   extends WidgetRenderer<WaterfallWidgetModel, WaterfallData[]>
-  implements OnInit {
+  implements OnInit
+{
   @ViewChild('chart')
   private readonly waterfallChart!: WaterfallChartComponent;
 

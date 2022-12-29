@@ -67,7 +67,9 @@ import { SelectSize } from './select-size';
               [ngClass]="[this.justifyClass]"
             >
               <ng-container
-                [ngTemplateOutlet]="selected?.selectOptionRenderer?.getTemplateRef() ?? defaultMenuWithBorderTriggerTemplate"
+                [ngTemplateOutlet]="
+                  selected?.selectOptionRenderer?.getTemplateRef() ?? defaultMenuWithBorderTriggerTemplate
+                "
               ></ng-container>
               <ht-icon class="trigger-icon" icon="${IconType.ChevronDown}" size="${IconSize.ExtraSmall}"></ht-icon>
               <ng-template #defaultMenuWithBorderTriggerTemplate>
@@ -109,7 +111,9 @@ import { SelectSize } from './select-size';
               [ngClass]="[this.justifyClass]"
             >
               <ng-container
-                [ngTemplateOutlet]="selected?.selectOptionRenderer?.getTemplateRef() ?? defaultMenuWithBackgroundTriggerTemplate"
+                [ngTemplateOutlet]="
+                  selected?.selectOptionRenderer?.getTemplateRef() ?? defaultMenuWithBackgroundTriggerTemplate
+                "
               ></ng-container>
               <ng-template #defaultMenuWithBackgroundTriggerTemplate>
                 <ht-label
@@ -164,10 +168,13 @@ import { SelectSize } from './select-size';
               *ngFor="let item of items"
               (click)="this.onSelectionChange(item)"
               class="select-option"
-              [ngClass]="this.getStyleClassesForSelectItem | htMemoize: this.size:item"
+              [ngClass]="this.getStyleClassesForSelectItem | htMemoize : this.size : item"
             >
               <ng-container
-                *ngTemplateOutlet="item.selectOptionRenderer?.getTemplateRef() ?? defaultSelectOptionTemplate; context: {$implicit: item}"
+                *ngTemplateOutlet="
+                  item.selectOptionRenderer?.getTemplateRef() ?? defaultSelectOptionTemplate;
+                  context: { $implicit: item }
+                "
               ></ng-container>
               <ht-icon
                 class="status-icon"

@@ -24,7 +24,7 @@ export class ExplorerVisualizationMetricDataSourceModel extends ExploreCartesian
      * a method of the parent class with a different return type. The return
      * type of the parent can't be changed as it's fixed by Hyperdash.
      */
-    return (this.fetchResults() as unknown) as Observable<CartesianDataFetcher<ExplorerData>>;
+    return this.fetchResults() as unknown as Observable<CartesianDataFetcher<ExplorerData>>;
   }
 
   protected fetchResults(): Observable<CartesianResult<ExplorerData>> {

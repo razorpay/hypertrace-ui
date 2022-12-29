@@ -9,29 +9,31 @@ import { BarGaugeComponent } from './bar-gauge.component';
 describe('Bar Gauge component', () => {
   let spectator: Spectator<BarGaugeComponent>;
 
-  const setMeasureHtmlElement = (right: number = 33): ((element: HTMLElement) => DOMRect) => (element: HTMLElement) => {
-    switch (element.getAttribute('class')) {
-      case 'segment-bar':
-        return {
-          bottom: 1,
-          height: 1,
-          left: 0,
-          right: right,
-          top: 0,
-          width: 33
-        } as DOMRect;
-      case 'max-value-bar':
-      default:
-        return {
-          bottom: 1,
-          height: 1,
-          left: 0,
-          right: 100,
-          top: 0,
-          width: 100
-        } as DOMRect;
-    }
-  };
+  const setMeasureHtmlElement =
+    (right: number = 33): ((element: HTMLElement) => DOMRect) =>
+    (element: HTMLElement) => {
+      switch (element.getAttribute('class')) {
+        case 'segment-bar':
+          return {
+            bottom: 1,
+            height: 1,
+            left: 0,
+            right: right,
+            top: 0,
+            width: 33
+          } as DOMRect;
+        case 'max-value-bar':
+        default:
+          return {
+            bottom: 1,
+            height: 1,
+            left: 0,
+            right: 100,
+            top: 0,
+            width: 100
+          } as DOMRect;
+      }
+    };
 
   const createHost = createHostFactory({
     component: BarGaugeComponent,

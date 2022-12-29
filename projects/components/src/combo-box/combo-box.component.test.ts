@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { fakeAsync, flush } from '@angular/core/testing';
-import { IconLibraryTestingModule } from '@hypertrace/assets-library';
-import { DomElementScrollIntoViewService, NavigationService } from '@hypertrace/common';
 import { createHostFactory, mockProvider } from '@ngneat/spectator/jest';
 import { EMPTY } from 'rxjs';
+
+import { IconLibraryTestingModule } from '@hypertrace/assets-library';
+import { DomElementScrollIntoViewService, NavigationService } from '@hypertrace/common';
 import { ComboBoxOption } from './combo-box-api';
 import { ComboBoxComponent } from './combo-box.component';
 import { ComboBoxModule } from './combo-box.module';
@@ -42,7 +43,7 @@ describe('Combo Box component', () => {
     );
     spectator.tick();
 
-    spyOn(spectator.component.textChange, 'emit');
+    jest.spyOn(spectator.component.textChange, 'emit').mockImplementation(() => {});
     const element = spectator.query('.trigger-input');
 
     expect(element).toHaveValue('test-text');
@@ -63,7 +64,7 @@ describe('Combo Box component', () => {
     );
     spectator.tick();
 
-    spyOn(spectator.component.clear, 'emit');
+    jest.spyOn(spectator.component.clear, 'emit').mockImplementation(() => {});
     const element = spectator.query('.trigger-input');
     expect(element).toHaveValue('test-text');
 
@@ -90,7 +91,7 @@ describe('Combo Box component', () => {
     );
     spectator.tick();
 
-    spyOn(spectator.component.escape, 'emit');
+    jest.spyOn(spectator.component.escape, 'emit').mockImplementation(() => {});
     const trigger = spectator.query('.trigger-input');
     expect(trigger).toHaveValue('test-text');
 
@@ -120,7 +121,7 @@ describe('Combo Box component', () => {
     );
     spectator.tick();
 
-    spyOn(spectator.component.textChange, 'emit');
+    jest.spyOn(spectator.component.textChange, 'emit').mockImplementation(() => {});
     spectator.click('.popover-trigger');
     spectator.tick();
 
@@ -150,7 +151,7 @@ describe('Combo Box component', () => {
     );
     spectator.tick();
 
-    spyOn(spectator.component.textChange, 'emit');
+    jest.spyOn(spectator.component.textChange, 'emit').mockImplementation(() => {});
     spectator.click('.popover-trigger');
     spectator.tick();
 
@@ -179,8 +180,8 @@ describe('Combo Box component', () => {
       }
     );
 
-    spyOn(spectator.component.textChange, 'emit');
-    spyOn(spectator.component.enter, 'emit');
+    jest.spyOn(spectator.component.textChange, 'emit').mockImplementation(() => {});
+    jest.spyOn(spectator.component.enter, 'emit').mockImplementation(() => {});
     spectator.click('.trigger-clear-button'); // Need to clear the 'test-text' to unfilter all options
     spectator.click('.popover-trigger');
     spectator.tick();
@@ -218,8 +219,8 @@ describe('Combo Box component', () => {
       }
     );
 
-    spyOn(spectator.component.textChange, 'emit');
-    spyOn(spectator.component.enter, 'emit');
+    jest.spyOn(spectator.component.textChange, 'emit').mockImplementation(() => {});
+    jest.spyOn(spectator.component.enter, 'emit').mockImplementation(() => {});
     spectator.click('.trigger-clear-button'); // Need to clear the 'test-text' to unfilter all options
     spectator.click('.popover-trigger');
     spectator.tick();
@@ -257,8 +258,8 @@ describe('Combo Box component', () => {
       }
     );
 
-    spyOn(spectator.component.textChange, 'emit');
-    spyOn(spectator.component.selection, 'emit');
+    jest.spyOn(spectator.component.textChange, 'emit').mockImplementation(() => {});
+    jest.spyOn(spectator.component.selection, 'emit').mockImplementation(() => {});
     spectator.click('.trigger-clear-button'); // Need to clear the 'test-text' to unfilter all options
     spectator.click('.popover-trigger');
     spectator.tick();

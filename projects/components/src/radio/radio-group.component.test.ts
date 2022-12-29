@@ -7,7 +7,7 @@ import { TraceRadioModule } from './radio.module';
 
 describe('Radio component', () => {
   let spectator: Spectator<RadioGroupComponent>;
-  let logSpy: jasmine.Spy;
+  let logSpy: jest.SpyInstance;
 
   const createHost = createHostFactory({
     component: RadioGroupComponent,
@@ -16,12 +16,7 @@ describe('Radio component', () => {
   });
 
   beforeEach(() => {
-    logSpy = spyOn(console, 'warn');
-  });
-
-  test('should warn when title is not provided', () => {
-    spectator = createHost(`<ht-radio-group></ht-radio-group>`);
-    expect(logSpy).toHaveBeenCalled();
+    logSpy = jest.spyOn(console, 'warn');
   });
 
   test('should not warn when title is provided', () => {
@@ -32,6 +27,11 @@ describe('Radio component', () => {
     });
 
     expect(logSpy).not.toHaveBeenCalled();
+  });
+
+  test('should warn when title is not provided', () => {
+    spectator = createHost(`<ht-radio-group></ht-radio-group>`);
+    expect(logSpy).toHaveBeenCalled();
   });
 
   test('should display description if provided', () => {

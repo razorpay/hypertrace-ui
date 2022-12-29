@@ -52,7 +52,7 @@ describe('Download File Component', () => {
       }
     });
 
-    spyOn(spectator.component, 'triggerDownload');
+    jest.spyOn(spectator.component, 'triggerDownload').mockImplementation(() => {});
 
     expect(spectator.component.dataLoading).toBe(false);
     const element = spectator.query('.download-file');

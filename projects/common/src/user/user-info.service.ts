@@ -20,7 +20,6 @@ export class UserInfoService {
   ) {}
 
   public load(): Observable<UserTraits> {
-    // tslint:disable-next-line: ban-ts-ignore
     // @ts-ignore
     if (process.env.NODE_ENV === 'development') {
       return of({});

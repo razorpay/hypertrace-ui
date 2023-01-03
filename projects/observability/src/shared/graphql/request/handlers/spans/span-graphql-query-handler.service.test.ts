@@ -121,7 +121,7 @@ describe('SpanGraphQlQueryHandlerService', () => {
   });
 
   test('produces expected graphql with timestamp', () => {
-    const timestamp = new Date(new TimeDuration(30, TimeUnit.Second).toMillis());
+    const timestamp = new Date(new TimeDuration(60, TimeUnit.Second).toMillis());
 
     const spectator = createService();
     expect(spectator.service.convertRequest(buildRequest(timestamp))).toEqual({

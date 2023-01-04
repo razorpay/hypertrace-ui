@@ -28,7 +28,6 @@ export class TopologyWidgetModel {
   @ModelProperty({
     key: 'link',
     required: false,
-    // tslint:disable-next-line: no-object-literal-type-assertion
     type: {
       key: ModelPropertyType.TYPE,
       defaultModelClass: LinkWidgetModel

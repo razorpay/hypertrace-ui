@@ -9,7 +9,6 @@ import {
   TracingTableCellType
 } from '@hypertrace/observability';
 
-// tslint:disable: max-file-line-count
 export const homeDashboard: DashboardDefaultConfiguration = {
   location: 'HOME_DASHBOARD',
   json: {

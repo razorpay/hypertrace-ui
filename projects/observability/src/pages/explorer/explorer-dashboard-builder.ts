@@ -28,7 +28,6 @@ import { SPAN_SCOPE } from '../../shared/graphql/model/schema/span';
 import { MetadataService } from '../../shared/services/metadata/metadata.service';
 import { getLayoutForElements } from './utils/get-layout-for-elements';
 
-// tslint:disable: max-file-line-count
 export class ExplorerDashboardBuilder {
   private readonly requestSubject: Subject<ExploreVisualizationRequest> = new ReplaySubject(1);
 
@@ -165,7 +164,6 @@ export class ExplorerDashboardBuilder {
           type: 'span-detail-widget',
           data: {
             type: 'span-detail-data-source',
-            // tslint:disable-next-line: no-invalid-template-strings
             span: '${row}'
           }
         },
@@ -186,7 +184,6 @@ export class ExplorerDashboardBuilder {
         type: 'trace-detail-widget',
         data: {
           type: 'api-trace-detail-data-source',
-          // tslint:disable-next-line: no-invalid-template-strings
           trace: '${row}',
           attributes: ['requestUrl']
         }

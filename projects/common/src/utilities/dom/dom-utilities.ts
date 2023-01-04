@@ -23,7 +23,6 @@ export const selector = (name: string, type: SelectorType = SelectorType.Class):
  * Converts provided strings into the requested selector type
  */
 
-// tslint:disable-next-line: no-unnecessary-callback-wrapper
 export const selectorAny = (...names: string[]): string => names.map(name => selector(name)).join(',');
 
 export const unionOfClientRects = (...rects: DOMRect[]): DOMRect => {

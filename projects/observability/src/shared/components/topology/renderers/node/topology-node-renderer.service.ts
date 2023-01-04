@@ -124,7 +124,7 @@ export class TopologyNodeRendererService implements TopologyNodeRenderer {
       bottom: node.y + height,
       width: width,
       height: height
-    } as DOMRect; // tslint:disable-line: no-object-literal-type-assertion
+    } as DOMRect;
   }
 }
 

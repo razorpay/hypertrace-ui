@@ -7,7 +7,7 @@ import { startWith } from 'rxjs/operators';
 
 @Pipe({
   name: 'htFeature',
-  // tslint:disable-next-line: no-pipe-impure delegating to impure async pipe
+  // delegating to impure async pipe
   pure: false
 })
 export class FeaturePipe implements PipeTransform {

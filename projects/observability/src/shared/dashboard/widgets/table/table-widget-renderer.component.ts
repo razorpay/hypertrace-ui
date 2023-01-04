@@ -58,7 +58,6 @@ import { TableWidgetControlSelectOptionModel } from './table-widget-control-sele
 import { TableWidgetViewToggleModel } from './table-widget-view-toggle.model';
 import { TableWidgetModel } from './table-widget.model';
 
-// tslint:disable: max-file-line-count
 @Renderer({ modelClass: TableWidgetModel })
 @Renderer({ modelClass: TableWidgetViewToggleModel })
 @Component({

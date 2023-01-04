@@ -6,7 +6,7 @@ export const ENUM_TYPE: ModelPropertyTypeRegistrationInformation = {
   validator: enumValidator
 };
 
-// tslint:disable-next-line: only-arrow-functions required exported function for AOT
+// required exported function for AOT
 export function enumValidator(
   value: unknown,
   allowUndefinedOrNull: boolean,

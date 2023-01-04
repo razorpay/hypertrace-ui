@@ -97,7 +97,6 @@ const iconsRootPath = 'assets/icons';
     }
   ]
 })
-// tslint:disable-next-line: no-unnecessary-class
 export class IconLibraryModule {
   public constructor(
     iconRegistryService: IconRegistryService,

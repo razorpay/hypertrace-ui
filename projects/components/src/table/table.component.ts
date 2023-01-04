@@ -54,7 +54,7 @@ import {
 } from './table-api';
 import { TableColumnConfigExtended, TableService } from './table.service';
 
-// tslint:disable: template-cyclomatic-complexity component-max-inline-declarations max-file-line-count
+// component-max-inline-declarations max-file-line-count
 @Component({
   selector: 'ht-table',
   styleUrls: ['./table.component.scss'],

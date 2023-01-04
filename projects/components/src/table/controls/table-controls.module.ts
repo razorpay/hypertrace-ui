@@ -21,5 +21,4 @@ import { TableControlsComponent } from './table-controls.component';
   declarations: [TableControlsComponent],
   exports: [TableControlsComponent]
 })
-// tslint:disable-next-line: no-unnecessary-class
 export class TableControlsModule {}

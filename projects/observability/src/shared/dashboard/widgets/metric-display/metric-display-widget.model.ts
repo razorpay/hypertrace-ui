@@ -79,7 +79,6 @@ export class MetricDisplayWidgetModel {
 
   public getData(): Observable<MetricWidgetValueData> {
     return this.api.getData<unknown>().pipe(
-      // tslint:disable-next-line: no-any
       mergeMap((receivedValue: any) => {
         if (typeof receivedValue === 'object' && receivedValue.value === undefined) {
           return this.normalizeData(receivedValue[this.metricKey!].value);

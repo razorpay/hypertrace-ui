@@ -82,7 +82,6 @@ export class OpenInNewTabComponent {
             this.regexToMatchForWordReplacement.exec(textToDisplay)?.[this.matchIndexToUseWhenRegexMatches] ??
             textToDisplay;
         } catch (err) {
-          // tslint:disable:no-console
           console.error('regex match failed ', err);
         }
       }

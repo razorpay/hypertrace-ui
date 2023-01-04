@@ -5,7 +5,6 @@ import { apiObject, identify, load, page, track } from 'rudder-sdk-js';
 import { UserInfoService } from '../../../user/user-info.service';
 import { TelemetryProviderConfig, UserTelemetryProvider } from '../../telemetry';
 
-// tslint:disable-next-line: import-blacklist
 import type { CustomWindow } from '../../../../../../src/app/root.module';
 
 export interface RudderStackConfig extends TelemetryProviderConfig {
@@ -24,7 +23,6 @@ export class RudderStackTelemetry implements UserTelemetryProvider<RudderStackCo
        * Fail silently
        */
 
-      // tslint:disable-next-line: no-console
       console.error('Failed to load Rudderstack', error);
     }
   }

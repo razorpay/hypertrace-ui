@@ -10,7 +10,6 @@ import {
   TreeTableRow
 } from '../table-api';
 
-// tslint:disable-next-line:no-namespace
 export namespace TableCdkRowUtil {
   /****************************
    * State Creation

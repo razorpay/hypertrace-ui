@@ -5,7 +5,6 @@ import { DashboardDefaultConfiguration } from '../../../../shared/dashboard/dash
 import { MetricAggregationType } from '../../../../shared/graphql/model/metrics/metric-aggregation';
 import { ObservabilityEntityType } from '../../../../shared/graphql/model/schema/entity';
 
-// tslint:disable: max-file-line-count
 export const serviceOverviewDashboard: DashboardDefaultConfiguration = {
   location: 'SERVICE_OVERVIEW',
   json: {

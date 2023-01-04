@@ -9,5 +9,4 @@ import { SavedQueriesComponent } from './saved-queries.component';
   imports: [CommonModule, PageHeaderModule, LinkModule, IconModule],
   declarations: [SavedQueriesComponent]
 })
-// tslint:disable-next-line: no-unnecessary-class
 export class SavedQueriesModule {}

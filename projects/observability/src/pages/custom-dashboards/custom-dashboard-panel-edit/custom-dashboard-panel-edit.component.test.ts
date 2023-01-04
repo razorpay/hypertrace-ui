@@ -13,7 +13,7 @@ import {
   ExploreVisualizationRequest,
   MetadataService
 } from '@hypertrace/observability';
-import { entityMetadata } from '../../../../../../src/app/entity-metadata'; // tslint:disable-line: import-blacklist
+import { entityMetadata } from '../../../../../../src/app/entity-metadata';
 import { CustomDashboardStoreService } from '../custom-dashboard-store.service';
 import { CustomDashboardPanelEditComponent } from './custom-dashboard-panel-edit.component';
 import { CustomDashboardPanelEditModule } from './custom-dashboard-panel-edit.module';
@@ -65,7 +65,7 @@ describe('CustomDashboardPanelEditComponent', () => {
       series: [{}],
       exploreQuery$: of(),
       resultsQuery$: of()
-    } as ExploreVisualizationRequest); // tslint:disable-line: no-object-literal-type-assertion
+    } as ExploreVisualizationRequest);
   });
 
   test('should be created successfully', () => {

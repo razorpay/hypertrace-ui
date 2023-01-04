@@ -208,7 +208,6 @@ export class CustomDashboardDetailComponent {
     });
   }
   public hasPanels(panels: PanelData[]): boolean {
-    // tslint:disable-next-line: strict-boolean-expressions
     if (!panels) {
       return true;
     }

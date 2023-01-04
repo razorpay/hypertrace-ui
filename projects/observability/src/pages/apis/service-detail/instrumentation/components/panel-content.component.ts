@@ -54,7 +54,6 @@ export class PanelContentComponent {
 
     return explorerFiltersToApply
       .filter(
-        // tslint:disable-next-line: strict-type-predicates
         explorerFilter => explorerFilter.scope === undefined || explorerFilter.scope === this.heuristicScore?.sampleType
       )
       .reduce(

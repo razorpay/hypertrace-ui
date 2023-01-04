@@ -142,7 +142,7 @@ describe('GraphQl Request Service', () => {
     requestOptions?: GraphQlRequestOptions
   ): GraphQlMutationHandler<unknown, unknown> => ({
     type: GraphQlHandlerType.Mutation,
-    // tslint:disable-next-line: no-any TS won't accept a mock for a type predicate
+    // TS won't accept a mock for a type predicate
     matchesRequest: jest.fn(request => (request as { requestType: unknown }).requestType === TEST_REQUEST_ONE) as any,
     convertRequest: jest.fn((request: TestRequestOne) => request.select),
     convertResponse: jest.fn(response => response),

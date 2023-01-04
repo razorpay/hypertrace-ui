@@ -21,7 +21,7 @@ describe('CustomDashboardStoreService', () => {
     service.set('1', { id: '2', name: 'd1', panels: [] });
     expect(service.getPanel('1', '3')).toBeUndefined();
 
-    service.addPanel('1', { id: '3', name: 'panel1' } as PanelData); // tslint:disable-line: no-object-literal-type-assertion
+    service.addPanel('1', { id: '3', name: 'panel1' } as PanelData);
     expect(service.getPanel('1', '3')?.name).toBe('panel1');
   });
 });

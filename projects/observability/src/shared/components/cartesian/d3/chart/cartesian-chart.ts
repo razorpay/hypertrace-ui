@@ -2,7 +2,6 @@ import { Injector, Renderer2 } from '@angular/core';
 
 import { TimeRange, TimeRangeService } from '@hypertrace/common';
 import { BrushBehavior, brushX, D3BrushEvent } from 'd3-brush';
-// tslint:disable-next-line: no-restricted-globals
 import { ContainerElement, event as d3CurrentEvent, mouse, select } from 'd3-selection';
 import { Subscription } from 'rxjs';
 import { LegendPosition } from '../../../legend/legend.component';
@@ -37,7 +36,6 @@ import { CartesianLegend } from '../legend/cartesian-legend';
 import { ScaleBounds } from '../scale/cartesian-scale';
 import { CartesianScaleBuilder } from '../scale/cartesian-scale-builder';
 
-// tslint:disable:max-file-line-count
 export class DefaultCartesianChart<TData> implements CartesianChart<TData> {
   public static DATA_SERIES_CLASS: string = 'data-series';
   public static CHART_VISUALIZATION_CLASS: string = 'chart-visualization';

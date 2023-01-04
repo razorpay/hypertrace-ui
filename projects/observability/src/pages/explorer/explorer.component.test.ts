@@ -208,7 +208,6 @@ describe('Explorer component', () => {
     );
     const filterBar = spectator.query(FilterBarComponent)!;
 
-    // tslint:disable-next-line: no-object-literal-type-assertion
     filterBar.filtersChange.emit([
       {
         metadata: mockAttributes[0],
@@ -294,7 +293,6 @@ describe('Explorer component', () => {
 
     const filterBar = spectator.query(FilterBarComponent)!;
 
-    // tslint:disable-next-line: no-object-literal-type-assertion
     filterBar.filtersChange.emit([
       {
         metadata: mockAttributes[0],
@@ -464,7 +462,6 @@ describe('Explorer component', () => {
   test("doesn't save query if user cancels input dialog", fakeAsync(() => {
     init();
     const preferenceServiceSpy = jest.spyOn(spectator.inject(PreferenceService), 'set');
-    // tslint:disable-next-line: no-null-keyword
     window.prompt = jest.fn().mockReturnValue(null);
 
     const saveQueryButton = spectator.query('.explorer-save-button');

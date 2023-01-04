@@ -43,7 +43,6 @@ export class ExploreDonutDataSourceModel extends GraphQlDataSourceModel<DonutSer
 
   @ModelProperty({
     key: 'metric',
-    // tslint:disable-next-line: no-object-literal-type-assertion
     type: UNKNOWN_PROPERTY.type,
     required: true
   })

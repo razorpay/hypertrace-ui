@@ -1,4 +1,3 @@
-// tslint:disable-next-line: import-blacklist
 import { TableRow } from '../../../components/src/public-api';
 
 export interface DeploymentsResponse {
@@ -6,7 +5,6 @@ export interface DeploymentsResponse {
     service: string;
     deployments: DeploymentsResponseRow[];
   };
-  // tslint:disable-next-line: no-any
   errors: any;
   success: boolean;
 }

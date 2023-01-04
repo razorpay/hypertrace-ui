@@ -23,7 +23,7 @@ import { CustomDashboardStoreService } from '../custom-dashboard-store.service';
 import { CustomDashboardService } from '../custom-dashboard.service';
 
 import type { ModelJson } from '@hypertrace/hyperdash';
-import type { PanelData } from '../custom-dashboard-store.service'; // tslint:disable-line: no-duplicate-imports
+import type { PanelData } from '../custom-dashboard-store.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

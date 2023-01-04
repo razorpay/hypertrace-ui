@@ -9,7 +9,6 @@ import {
 } from '../../../../shared/dashboard/widgets/topology/metric/node-metric-category';
 import { MetricAggregationType } from '../../../../shared/graphql/model/metrics/metric-aggregation';
 
-// tslint:disable: max-file-line-count
 export const serviceDependencyGraphDashboard: DashboardDefaultConfiguration = {
   location: 'SERVICE_DEPENDENCY_GRAPH',
   json: {

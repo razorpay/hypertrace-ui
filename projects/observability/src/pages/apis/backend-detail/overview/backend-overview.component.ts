@@ -514,5 +514,4 @@ export class BackendOverviewComponent {
   public onDashboardReady(dashboard: Dashboard): void {
     this.subscriptionLifecycle.add(this.backendDetailService.applyFiltersToDashboard(dashboard));
   }
-  // tslint:disable-next-line: max-file-line-count
 }

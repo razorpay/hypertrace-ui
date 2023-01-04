@@ -2,10 +2,10 @@
   "name": "@hypertrace/assets-library",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^12.2.1",
-    "@angular/core": "^12.2.1",
-    "@angular/platform-browser": "^12.2.1",
-    "@angular/material": "^12.2.1",
+    "@angular/common": "^13.3.12",
+    "@angular/core": "^13.3.12",
+    "@angular/material": "^13.3.9",
+    "@angular/platform-browser": "^13.3.12",
     "rxjs": "~6.6.7",
     "lodash-es": "^4.17.21"
   },

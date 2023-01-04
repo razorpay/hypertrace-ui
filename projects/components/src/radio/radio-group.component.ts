@@ -68,7 +68,6 @@ export class RadioGroupComponent implements ControlValueAccessor, OnInit {
   public constructor(private readonly loggerService: LoggerService) {}
 
   public ngOnInit(): void {
-    // tslint:disable-next-line:strict-type-predicates
     if (this.title === undefined) {
       this.loggerService.warn('RadioGroupComponent requires "title" input');
     }

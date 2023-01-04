@@ -1,5 +1,3 @@
-/* tslint:disable:no-console */
-/* tslint:disable:no-any */
 import { Injectable } from '@angular/core';
 
 @Injectable({

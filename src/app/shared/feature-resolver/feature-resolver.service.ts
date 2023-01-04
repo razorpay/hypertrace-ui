@@ -35,7 +35,6 @@ export class FeatureResolverService extends FeatureStateResolver {
       }
     }
 
-    // tslint:disable-next-line: strict-boolean-expressions
     return this.dynamicConfigService.getValueForFeature(flag) ? FeatureState.Enabled : FeatureState.Disabled;
   }
 }

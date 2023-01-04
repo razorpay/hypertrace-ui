@@ -58,7 +58,6 @@ export class CartesianWidgetRendererComponent<TSeriesInterval, TData> extends In
 
   public selectedInterval?: IntervalValue;
   public intervalOptions?: IntervalValue[];
-  // tslint:disable:no-any
   public additionalSeries$?: Observable<any>;
   private fetcher?: CartesianDataFetcher<TSeriesInterval>;
 
@@ -81,7 +80,6 @@ export class CartesianWidgetRendererComponent<TSeriesInterval, TData> extends In
   }
 
   // There is no other way w/o any as type conflicting occurs
-  // tslint:disable-next-line: no-any
   public getAdditionalSeries(): Observable<any> {
     if (this.model.showDeploymentMarkers) {
       return this.breadCrumbsService.getLastBreadCrumbString().pipe(

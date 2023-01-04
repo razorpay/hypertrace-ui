@@ -1,4 +1,3 @@
-/* tslint:disable */
 import { DeploymentsResponse } from './deployment.types';
 
 export const mockResponse: DeploymentsResponse = {

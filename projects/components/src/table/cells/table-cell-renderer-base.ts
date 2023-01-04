@@ -14,7 +14,6 @@ import { CoreTableCellRendererType } from './types/core-table-cell-renderer-type
 import { TableCellAlignmentType } from './types/table-cell-alignment-type';
 
 @Directive() // Angular 9 Requires superclasses to be annotated as well in order to resolve injectables for constructor
-// tslint:disable-next-line:directive-class-suffix
 export abstract class TableCellRendererBase<TCellData, TValue = TCellData> implements OnInit {
   public static readonly type: CoreTableCellRendererType;
   public static readonly alignment: TableCellAlignmentType;
@@ -24,7 +23,6 @@ export abstract class TableCellRendererBase<TCellData, TValue = TCellData> imple
   private _units!: string;
   private _tooltip!: string;
   // This is required as any structure maybe passed for cell renderer config
-  // tslint:disable-next-line: no-any
   private _rendererConfiguration?: Dictionary<any>;
   public readonly clickable: boolean = false;
   public readonly isFirstColumn: boolean = false;
@@ -59,7 +57,6 @@ export abstract class TableCellRendererBase<TCellData, TValue = TCellData> imple
     return this._tooltip;
   }
 
-  // tslint:disable:no-any
   public get rendererConfiguration(): Dictionary<any> | undefined {
     return this?._rendererConfiguration;
   }

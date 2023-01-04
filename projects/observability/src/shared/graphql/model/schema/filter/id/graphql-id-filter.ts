@@ -22,7 +22,7 @@ export class GraphQlIdFilter implements GraphQlFilter {
   }
 }
 
-// tslint:disable-next-line: interface-over-type-literal https://github.com/Microsoft/TypeScript/issues/15300
+// https://github.com/Microsoft/TypeScript/issues/15300
 type GraphQlIdFilterArgument = {
   value: GraphQlArgumentValue;
   operator: GraphQlEnumArgument<GraphQlOperatorType>;

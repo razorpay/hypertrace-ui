@@ -1,5 +1,5 @@
 import { brush, BrushBehavior, D3BrushEvent } from 'd3-brush';
-// tslint:disable-next-line: no-restricted-globals weird tslint error. Rename event so we can type it and not mistake it for other events
+// Rename event so we can type it and not mistake it for other events
 import { event as _d3CurrentEvent, Selection } from 'd3-selection';
 import { D3ZoomEvent, zoom, ZoomBehavior, zoomIdentity, ZoomTransform } from 'd3-zoom';
 import { isEqual } from 'lodash-es';
@@ -50,10 +50,7 @@ export abstract class D3Zoom<TContainer extends Element = Element, TTarget exten
   public attachZoom(configuration: D3ZoomConfiguration<TContainer, TTarget>): this {
     this.config = { ...configuration };
     this.zoomBehavior.scaleExtent([this.minScale, this.maxScale]);
-    this.config.container
-      .call(this.zoomBehavior)
-      // tslint:disable-next-line: no-null-keyword
-      .on('dblclick.zoom', null); // Remove default double click handler
+    this.config.container.call(this.zoomBehavior).on('dblclick.zoom', null); // Remove default double click handler
 
     if (this.config.showBrush) {
       this.showBrushOverlay();
@@ -133,7 +130,6 @@ export abstract class D3Zoom<TContainer extends Element = Element, TTarget exten
       .attr('height', boundingBox.height)
       .attr('transform', `translate(${boundingBox.left - 20}, ${boundingBox.top - 40}) scale(${overlayZoomScale})`)
       .insert('g', ':first-child')
-      // tslint:disable-next-line: no-any
       .call(this.brushBehaviour as any);
 
     this.styleBrushSelection(this.config.brushOverlay, overlayZoomScale);

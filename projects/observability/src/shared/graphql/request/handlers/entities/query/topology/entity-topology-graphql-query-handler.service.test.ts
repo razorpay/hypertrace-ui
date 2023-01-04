@@ -16,7 +16,6 @@ import {
   TopologyNodeSpecification
 } from './entity-topology-graphql-query-handler.service';
 
-// tslint:disable: max-file-line-count
 describe('Entity topology graphql query handler', () => {
   const createService = createServiceFactory({ service: EntityTopologyGraphQlQueryHandlerService });
 
@@ -67,7 +66,7 @@ describe('Entity topology graphql query handler', () => {
     }
   });
 
-  // tslint:disable-next-line: no-any Using any here since the actual type isn't exposed
+  // Using any here since the actual type isn't exposed
   const buildTopologyResponse = (): any => ({
     results: [
       {

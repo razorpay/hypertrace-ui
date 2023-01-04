@@ -8,7 +8,6 @@ import { GRAPHQL_OPTIONS } from '@hypertrace/graphql-client';
 import { ENTITY_METADATA } from '@hypertrace/observability';
 
 import { NavigableTab } from '@hypertrace/components';
-// tslint:disable-next-line: import-blacklist
 import { entityMetadata } from '../../../../../../src/app/entity-metadata';
 import { ServiceDetailComponent } from './service-detail.component';
 import { ServiceDetailModule } from './service-detail.module';

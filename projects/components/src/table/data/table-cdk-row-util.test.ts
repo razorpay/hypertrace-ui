@@ -10,7 +10,6 @@ import {
 } from '../table-api';
 import { TableCdkRowUtil } from './table-cdk-row-util';
 
-// tslint:disable max-file-line-count
 describe('Table row util', () => {
   let parentTableRow: TableRow;
   let childTableRow: TableRow;
@@ -433,7 +432,6 @@ describe('Table row util', () => {
     };
 
     const row3: StatefulTableRow = {
-      // tslint:disable-next-line:no-object-literal-type-assertion
       $$state: {
         parent: undefined,
         expanded: false,

@@ -1,5 +1,3 @@
-// tslint:disable:no-any
-
 // Long story, but standard Omit does not distribute across union types.
 // Below code taken from https://github.com/Microsoft/TypeScript/issues/28339
 type UnionKeys<T> = T extends any ? keyof T : never;
@@ -15,7 +13,7 @@ export interface Dictionary<T> {
 
 export type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> };
 export type DeepReadonly<T> = T extends (infer R)[]
-  ? DeepReadonlyArray<R> // tslint:disable-next-line: ban-types
+  ? DeepReadonlyArray<R>
   : T extends Function
   ? T
   : T extends object

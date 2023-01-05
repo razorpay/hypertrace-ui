@@ -119,6 +119,7 @@ export class SequenceChartComponent implements OnChanges {
       id: segment.id,
       start: segment.start - minStart,
       end: segment.end - minStart,
+      duration: segment.duration,
       color: segment.color,
       markers: segment.markers
         .map((marker: Marker) => ({ ...marker, markerTime: marker.markerTime - minStart }))

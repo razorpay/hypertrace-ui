@@ -145,7 +145,7 @@ export class SequenceBarRendererService {
       )
       .attr('dy', '.82em')
       .style('font-size', '14px')
-      .text(dataRow => `${dataRow.end - dataRow.start}${options.unit !== undefined ? options.unit : ''}`);
+      .text(dataRow => `${dataRow.duration}${options.unit !== undefined ? options.unit : ''}`);
   }
 
   private drawPlotTopBorder(

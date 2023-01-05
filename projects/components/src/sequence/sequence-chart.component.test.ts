@@ -23,6 +23,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -31,6 +32,7 @@ describe('Sequence Chart component', () => {
         id: '2',
         start: 1569357461346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 2',
         color: 'green',
         markers: []
@@ -39,6 +41,7 @@ describe('Sequence Chart component', () => {
         id: '3',
         start: 1569357462346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 3',
         color: 'green',
         markers: []
@@ -47,6 +50,7 @@ describe('Sequence Chart component', () => {
         id: '4',
         start: 1569357463346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 4',
         color: 'green',
         markers: []
@@ -84,7 +88,7 @@ describe('Sequence Chart component', () => {
       // Test Bar text
       const barValueText = dataRow.querySelector('.bar-value-text');
       expect(barValueText).toExist();
-      expect(barValueText).toHaveText(`${segmentsData[index].end - segmentsData[index].start}`);
+      expect(barValueText).toHaveText(`${segmentsData[index].duration}`);
     });
   });
 
@@ -94,6 +98,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -112,7 +117,7 @@ describe('Sequence Chart component', () => {
     // Test Bar text
     const barValueText = dataRow!.querySelector('.bar-value-text');
     expect(barValueText).toExist();
-    expect(barValueText).toHaveText(`${segmentsData[0].end - segmentsData[0].start}ms`);
+    expect(barValueText).toHaveText(`${segmentsData[0].duration}ms`);
   });
 
   test('should render with correct row height', () => {
@@ -121,6 +126,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -144,6 +150,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: [
@@ -175,6 +182,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -201,6 +209,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -224,6 +233,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -232,6 +242,7 @@ describe('Sequence Chart component', () => {
         id: '2',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 2',
         color: 'green',
         markers: []
@@ -270,6 +281,7 @@ describe('Sequence Chart component', () => {
         id: '1',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 1',
         color: 'blue',
         markers: []
@@ -278,6 +290,7 @@ describe('Sequence Chart component', () => {
         id: '2',
         start: 1569357460346,
         end: 1569357465346,
+        duration: 5000.0,
         label: 'Segment 2',
         color: 'green',
         markers: []

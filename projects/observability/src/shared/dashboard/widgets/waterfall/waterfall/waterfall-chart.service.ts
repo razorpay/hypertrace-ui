@@ -91,6 +91,7 @@ export class WaterfallChartService {
           start: node.startTime,
           end: node.endTime,
           color: node.color!,
+          duration: node.duration.value,
           markers: node.logEvents.map((logEvent: LogEvent) => ({
             id: node.id,
             markerTime: this.dateCoercer.coerce(logEvent.timestamp)!.getTime(),

@@ -55,6 +55,7 @@ export class ApiTraceWaterfallDataSourceModel extends GraphQlDataSourceModel<Wat
       'displayEntityName',
       'displaySpanName',
       'duration',
+      'durationDouble',
       'endTime',
       'parentSpanId',
       'protocolName',
@@ -107,7 +108,7 @@ export class ApiTraceWaterfallDataSourceModel extends GraphQlDataSourceModel<Wat
       startTime: span.startTime as number,
       endTime: span.endTime as number,
       duration: {
-        value: span.duration as number,
+        value: span.durationDouble as number,
         units: duration.units
       },
       serviceName: span.displayEntityName as string,

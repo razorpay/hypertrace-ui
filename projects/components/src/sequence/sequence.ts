@@ -8,6 +8,7 @@ export interface SequenceSegment {
   end: number;
   color: string;
   markers: Marker[];
+  duration?: number;
 }
 
 export interface Marker {

@@ -54,6 +54,7 @@ export class TraceWaterfallDataSourceModel extends GraphQlDataSourceModel<Waterf
   protected readonly spanSpecifications: Specification[] = [
     this.specificationBuilder.attributeSpecificationForKey('displaySpanName'),
     this.specificationBuilder.attributeSpecificationForKey('duration'),
+    this.specificationBuilder.attributeSpecificationForKey('durationDouble'),
     this.specificationBuilder.attributeSpecificationForKey('endTime'),
     this.specificationBuilder.attributeSpecificationForKey('parentSpanId'),
     this.specificationBuilder.attributeSpecificationForKey('serviceName'),
@@ -105,7 +106,7 @@ export class TraceWaterfallDataSourceModel extends GraphQlDataSourceModel<Waterf
       startTime: span.startTime as number,
       endTime: span.endTime as number,
       duration: {
-        value: span.duration as number,
+        value: span.durationDouble as number,
         units: duration.units
       },
       serviceName: span.serviceName as string,

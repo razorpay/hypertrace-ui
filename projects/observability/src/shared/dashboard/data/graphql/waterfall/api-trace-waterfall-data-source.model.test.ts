@@ -81,6 +81,9 @@ describe('Api Trace Waterfall data source model', () => {
               name: 'duration'
             }),
             expect.objectContaining({
+              name: 'durationDouble'
+            }),
+            expect.objectContaining({
               name: 'endTime'
             }),
             expect.objectContaining({
@@ -153,6 +156,9 @@ describe('Api Trace Waterfall data source model', () => {
               name: 'duration'
             }),
             expect.objectContaining({
+              name: 'durationDouble'
+            }),
+            expect.objectContaining({
               name: 'endTime'
             }),
             expect.objectContaining({
@@ -212,6 +218,7 @@ describe('Api Trace Waterfall data source model', () => {
               startTime: 1571339873680,
               endTime: 1571339873680,
               duration: 1,
+              durationDouble: 1.0,
               displayEntityName: 'Entity Name 1',
               displaySpanName: 'Span Name 1',
               protocolName: 'Protocol Name 1',
@@ -225,6 +232,7 @@ describe('Api Trace Waterfall data source model', () => {
               startTime: 1571339873680,
               endTime: 1571339873680,
               duration: 2,
+              durationDouble: 2.0,
               displayEntityName: 'Entity Name 2',
               displaySpanName: 'Span Name 2',
               protocolName: 'Protocol Name 2',
@@ -243,7 +251,7 @@ describe('Api Trace Waterfall data source model', () => {
             startTime: 1571339873680,
             endTime: 1571339873680,
             duration: {
-              value: 1,
+              value: 1.0,
               units: 'ms'
             },
             serviceName: 'Entity Name 1',
@@ -260,7 +268,7 @@ describe('Api Trace Waterfall data source model', () => {
             startTime: 1571339873680,
             endTime: 1571339873680,
             duration: {
-              value: 2,
+              value: 2.0,
               units: 'ms'
             },
             serviceName: 'Entity Name 2',

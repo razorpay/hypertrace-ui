@@ -10,12 +10,12 @@ import {
 import { Dashboard, ModelJson } from '@hypertrace/hyperdash';
 import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { GraphQlFilterBuilderService } from '../../public-api';
 import { ExploreVisualizationRequest } from '../../shared/components/explore-query-editor/explore-visualization-builder';
 import { LegendPosition } from '../../shared/components/legend/legend.component';
 import { ObservabilityTableCellType } from '../../shared/components/table/observability-table-cell-type';
 import { TracingTableCellType } from '../../shared/components/table/tracing-table-cell-type';
 import { ExplorerVisualizationCartesianDataSourceModel } from '../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-cartesian-data-source.model';
-import { ExplorerVisualizationMetricDataSourceModel } from '../../shared/dashboard/data/graphql/explorer-visualization/explorer-visualization-metric-data-source.model';
 import { GraphQlFilterDataSourceModel } from '../../shared/dashboard/data/graphql/filter/graphql-filter-data-source.model';
 import {
   AttributeMetadata,
@@ -37,7 +37,8 @@ export class ExplorerDashboardBuilder {
 
   public constructor(
     private readonly metadataService: MetadataService,
-    private readonly filterBuilderLookupService: FilterBuilderLookupService
+    private readonly filterBuilderLookupService: FilterBuilderLookupService,
+    private readonly graphqlFilterBuilderService: GraphQlFilterBuilderService
   ) {
     // We only want to rebuild a dashboard if we actually have a meaningful request change
     const uniqueRequests$ = this.requestSubject.pipe(distinctUntilChanged(isEqualIgnoreFunctions));
@@ -68,32 +69,19 @@ export class ExplorerDashboardBuilder {
             type: 'metric-display-widget',
             title: `${seriesObject.specification.name} ${seriesObject.specification.aggregation}`,
             subscript: seriesObject.specification.name === 'duration' ? 'ms' : undefined,
-            /*
-             * TODO: Needs refactoring
-             * We shouldn't pass resultAlias directly to a model. A better approach is:
-             * -> Remove the 'metric-key' property from metric-display-widget.model
-             * -> Create a parent component 'metric-group-widget' that renders metric display widgets as children
-             * -> This parent uses the same data source as is being used now
-             * -> Parent receives array of 'titles' of widgets from seriesObject in the json passed here
-             * -> In the mapResponseData method of data source, extract the values from response using resultAlias from requestState
-             * -> Pass the array of these 'values' to the model of the parent
-             * -> Create parent's renderer that uses the 'titles' and 'values' arrays to render metric widgets
-             * -> Optional: Handle layout in the parent renderer so 'container-widget' can be removed
-             *
-             * Alternate approach:
-             * Try removing onReady and using data property instead to use 'metric-aggregation-data-source'
-             * Examples can be found in home.dashboard.ts
-             * If this works, ExplorerVisualizationMetricDataSourceModel can be deleted. Also, related "if" blocks in
-             * Metric Display Widget Model and ExploreCartesianDataSourceModel can be deleted.
-             */
-            'metric-key': seriesObject.specification.resultAlias()
+            data: {
+              type: 'metric-aggregation-data-source',
+              context: request.context,
+              metric: {
+                type: 'explore-selection',
+                metric: seriesObject.specification.name,
+                aggregation: seriesObject.specification.aggregation
+              },
+              filters: request.filters ? this.graphqlFilterBuilderService.buildGraphQlFieldFilters(request.filters) : []
+            }
           }))
         },
-        onReady: dashboard => {
-          dashboard.createAndSetRootDataFromModelClass(ExplorerVisualizationMetricDataSourceModel);
-          const dataSource = dashboard.getRootDataSource<ExplorerVisualizationMetricDataSourceModel>()!;
-          dataSource.request = request;
-        }
+        onReady: () => undefined
       });
     }
 

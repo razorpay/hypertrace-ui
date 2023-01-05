@@ -77,6 +77,9 @@ describe('Trace Waterfall data source model', () => {
               name: 'duration'
             }),
             expect.objectContaining({
+              name: 'durationDouble'
+            }),
+            expect.objectContaining({
               name: 'endTime'
             }),
             expect.objectContaining({
@@ -148,6 +151,9 @@ describe('Trace Waterfall data source model', () => {
               name: 'duration'
             }),
             expect.objectContaining({
+              name: 'durationDouble'
+            }),
+            expect.objectContaining({
               name: 'endTime'
             }),
             expect.objectContaining({
@@ -211,6 +217,7 @@ describe('Trace Waterfall data source model', () => {
               startTime: 1571339873680,
               endTime: 1571339873680,
               duration: 1,
+              durationDouble: 1.0,
               displaySpanName: 'Span Name 1',
               serviceName: 'Service Name 1',
               type: SpanType.Entry,
@@ -223,6 +230,7 @@ describe('Trace Waterfall data source model', () => {
               startTime: 1571339873680,
               endTime: 1571339873680,
               duration: 2,
+              durationDouble: 2.0,
               displaySpanName: 'Span Name 2',
               serviceName: 'Service Name 2',
               type: SpanType.Exit,
@@ -240,7 +248,7 @@ describe('Trace Waterfall data source model', () => {
             startTime: 1571339873680,
             endTime: 1571339873680,
             duration: {
-              value: 1,
+              value: 1.0,
               units: 'ms'
             },
             apiName: 'Span Name 1',
@@ -257,7 +265,7 @@ describe('Trace Waterfall data source model', () => {
             startTime: 1571339873680,
             endTime: 1571339873680,
             duration: {
-              value: 2,
+              value: 2.0,
               units: 'ms'
             },
             apiName: 'Span Name 2',

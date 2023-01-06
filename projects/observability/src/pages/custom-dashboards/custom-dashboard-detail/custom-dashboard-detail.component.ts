@@ -22,7 +22,6 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
     <div class="dashboard-viewer">
       <div class="header-container">
         <ht-input
-          [disabled]="!isMyDashboard"
           type="string"
           class="dashboard-name-input"
           appearance="${InputAppearance.Border}"
@@ -31,7 +30,7 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
         >
         </ht-input>
         <div class="actions">
-          <div class="button-container" *ngIf="isMyDashboard; else goBack">
+          <div class="button-container">
             <ht-button
               class="save-btn"
               [label]="'Save'"
@@ -41,11 +40,6 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
             </ht-button>
             <ht-button [label]="'Cancel'" role="${ButtonRole.Destructive}" (click)="redirectToListing()"> </ht-button>
           </div>
-          <ng-template #goBack>
-            <div>
-              <ht-button [label]="'Go Back'" role="${ButtonRole.Destructive}" (click)="navigateBack()"> </ht-button>
-            </div>
-          </ng-template>
           <ht-copy-to-clipboard
             size="${ButtonSize.Small}"
             icon="${IconType.Share}"
@@ -57,7 +51,6 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
       <div class="panels-list" *htLoadAsync="this.panels$ as panels">
         <ht-custom-dashboard-panel
           [panel]="panel"
-          [isOwner]="isMyDashboard"
           *ngFor="let panel of panels"
           (editPanel)="onPanelEdit($event)"
           (deletePanel)="onPanelDelete($event)"
@@ -75,7 +68,7 @@ import { DASHBOARD_VIEWS } from './../custom-dashboards-view.component';
           </ht-message-display>
         </div>
       </div>
-      <button *ngIf="isMyDashboard" class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
+      <button class="add-panel" (click)="redirectToCreatePanel()">Add Panel +</button>
     </div>
   `
 })
@@ -193,12 +186,11 @@ export class CustomDashboardDetailComponent {
       replaceCurrentHistory: false
     });
   }
+
   public redirectToListing(): void {
-    const confirmation = confirm(`Your unsaved changes will be lost! Discard them anyways?`);
-    if (confirmation) {
-      this.navigateBack();
-    }
+    this.navigateBack();
   }
+
   public navigateBack(): void {
     this.navigationService.navigate({
       navType: NavigationParamsType.InApp,
